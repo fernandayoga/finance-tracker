@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js'; // wajib pakai .js di ES Module
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -16,8 +17,8 @@ app.use(cors({
 
 app.use(express.json());
 
-// Routes — akan dibuka satu per satu di step berikutnya
-// app.use('/api/auth', authRoutes);
+
+app.use('/api/auth', authRoutes);
 // app.use('/api/transactions', transactionRoutes);
 
 app.get('/', (req, res) => {
