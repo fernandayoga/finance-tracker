@@ -1,5 +1,6 @@
 import Category from '../models/Category.js';
 
+
 // ---------------------------------------------------
 // @route   GET /api/categories
 // @access  Private
@@ -19,6 +20,7 @@ export const getCategories = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 // ---------------------------------------------------
 // @route   POST /api/categories
@@ -56,6 +58,7 @@ export const createCategory = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 // ---------------------------------------------------
 // @route   DELETE /api/categories/:id
