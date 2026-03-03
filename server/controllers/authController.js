@@ -22,10 +22,15 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
+    //valiadasi password minimal 6 karakter
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    }
+
     // 2. Cek apakah email sudah dipakai
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' });
+      return res.status(400).json({ message: 'Email   already registered' });
     }
 
     // 3. Hash password sebelum disimpan

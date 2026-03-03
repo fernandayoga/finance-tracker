@@ -45,7 +45,7 @@ const Login = () => {
             <i className="fa-solid fa-chart-line text-dark-900 text-lg" />
           </div>
           <h1 className="text-2xl font-bold text-text-primary">Finance Tracker</h1>
-          <p className="text-text-muted text-sm mt-1">Welcome back 👋</p>
+        
         </div>
 
         {/* Card */}

@@ -17,6 +17,11 @@ const Register = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    if (form.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      setLoading(false);
+      return;
+    }
     try {
       await register(form.name, form.email, form.password);
       navigate('/dashboard');
