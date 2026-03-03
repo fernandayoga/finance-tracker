@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './config/db.js'; // wajib pakai .js di ES Module
+import connectDB from './config/db.js'; 
 import authRoutes from './routes/authRoutes.js';
-
+import categoryRoutes from './routes/categoryRoutes.js';        
+import transactionRoutes from './routes/transactionRoutes.js';
 dotenv.config();
 connectDB();
 
@@ -19,7 +20,8 @@ app.use(express.json());
 
 
 app.use('/api/auth', authRoutes);
-// app.use('/api/transactions', transactionRoutes);
+app.use('/api/categories', categoryRoutes);           // tambah
+app.use('/api/transactions', transactionRoutes);  
 
 app.get('/', (req, res) => {
   res.json({ message: 'Finance Tracker API is running' });
