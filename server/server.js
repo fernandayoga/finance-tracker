@@ -10,12 +10,21 @@ connectDB();
 
 const app = express();
 
-// CORS — hanya izinkan request dari frontend kita
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
-}));
+// Daftarkan semua origin yang boleh akses
+const allowedOrigins = [
+  'http://localhost:5173',          // dev
+  process.env.CLIENT_URL,          // production (diisi nanti)
+];
 
+app.use(cors({
+  origin: (origin, callback) => {
+    // Izinkan request tanpa origin (Postman, mobile apps)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 

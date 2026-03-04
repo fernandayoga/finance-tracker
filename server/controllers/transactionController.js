@@ -180,3 +180,111 @@ export const deleteTransaction = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
+// ---------------------------------------------------
+// @route   GET /api/transactions/analytics/monthly
+// @access  Private
+// Data pengeluaran & pemasukan per bulan (12 bulan terakhir)
+// ---------------------------------------------------
+export const getMonthlyAnalytics = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const twelveMonthsAgo = new Date();
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 11);
+    twelveMonthsAgo.setDate(1);
+    twelveMonthsAgo.setHours(0, 0, 0, 0);
+
+    const result = await Transaction.aggregate([
+      {
+        $match: {
+          user: userId,
+          date: { $gte: twelveMonthsAgo },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year:  { $year: '$date' },
+            month: { $month: '$date' },
+            type:  '$type',
+          },
+          total: { $sum: '$amount' },
+        },
+      },
+      { $sort: { '_id.year': 1, '_id.month': 1 } },
+    ]);
+
+    // Susun jadi format { month, income, expense }
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const map = {};
+
+    result.forEach(({ _id, total }) => {
+      const key = `${_id.year}-${_id.month}`;
+      if (!map[key]) {
+        map[key] = {
+          month: `${monthNames[_id.month - 1]} ${_id.year}`,
+          income: 0,
+          expense: 0,
+        };
+      }
+      map[key][_id.type] = total;
+    });
+
+    res.status(200).json({ monthly: Object.values(map) });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// ---------------------------------------------------
+// @route   GET /api/transactions/analytics/category
+// @access  Private
+// Pengeluaran per kategori bulan ini
+// ---------------------------------------------------
+export const getCategoryAnalytics = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth   = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+
+    const result = await Transaction.aggregate([
+      {
+        $match: {
+          user: userId,
+          type: 'expense',
+          date: { $gte: startOfMonth, $lte: endOfMonth },
+        },
+      },
+      {
+        $group: {
+          _id: '$category',
+          total: { $sum: '$amount' },
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'category',
+        },
+      },
+      { $unwind: '$category' },
+      { $sort: { total: -1 } },
+    ]);
+
+    const data = result.map((item) => ({
+      name:  item.category.name,
+      icon:  item.category.icon,
+      value: item.total,
+    }));
+
+    res.status(200).json({ categories: data });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
