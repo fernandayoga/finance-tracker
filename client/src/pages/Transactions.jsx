@@ -1,17 +1,20 @@
-import { useState } from 'react';
-import useTransactions from '../hooks/useTransactions.js';
-import TransactionModal from '../components/TransactionModal.jsx';
-import { formatCurrency, formatDate } from '../utils/format.js';
+import { useState } from "react";
+import useTransactions from "../hooks/useTransactions.js";
+import TransactionModal from "../components/TransactionModal.jsx";
+import { formatCurrency, formatDate } from "../utils/format.js";
 
 const Transactions = () => {
-  const [filters, setFilters]   = useState({});
+  const [filters, setFilters] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
-  const [editData, setEditData]   = useState(null);
-  const [deleteId, setDeleteId]   = useState(null);
+  const [editData, setEditData] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const {
-    transactions, loading,
-    createTransaction, updateTransaction, deleteTransaction,
+    transactions,
+    loading,
+    createTransaction,
+    updateTransaction,
+    deleteTransaction,
   } = useTransactions(filters);
 
   const handleEdit = (tx) => {
@@ -39,15 +42,19 @@ const Transactions = () => {
 
   return (
     <div className="max-w-5xl mx-auto">
-
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 mt-8">
         <div>
           <h1 className="text-xl font-bold text-text-primary">Transactions</h1>
-          <p className="text-text-muted text-sm mt-0.5">{transactions.length} records</p>
+          <p className="text-text-muted text-sm mt-0.5">
+            {transactions.length} records
+          </p>
         </div>
         <button
-          onClick={() => { setEditData(null); setModalOpen(true); }}
+          onClick={() => {
+            setEditData(null);
+            setModalOpen(true);
+          }}
           className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
         >
           <i className="fa-solid fa-plus text-xs" />
@@ -56,12 +63,14 @@ const Transactions = () => {
       </div>
 
       {/* Filter Bar */}
-      <div className="card-sm mb-4 flex items-center gap-3 flex-wrap">
+      <div className="card-sm mb-4 flex items-center gap-2 sm:gap-3 flex-wrap">
         <i className="fa-solid fa-filter text-text-muted text-xs" />
 
         <select
           className="bg-dark-700 border border-dark-500 text-text-secondary text-xs rounded-lg px-3 py-1.5 outline-none focus:border-primary-500/60"
-          onChange={(e) => setFilters((p) => ({ ...p, type: e.target.value || undefined }))}
+          onChange={(e) =>
+            setFilters((p) => ({ ...p, type: e.target.value || undefined }))
+          }
         >
           <option value="">All Types</option>
           <option value="income">Income</option>
@@ -71,13 +80,20 @@ const Transactions = () => {
         <input
           type="date"
           className="bg-dark-700 border border-dark-500 text-text-secondary text-xs rounded-lg px-3 py-1.5 outline-none focus:border-primary-500/60"
-          onChange={(e) => setFilters((p) => ({ ...p, startDate: e.target.value || undefined }))}
+          onChange={(e) =>
+            setFilters((p) => ({
+              ...p,
+              startDate: e.target.value || undefined,
+            }))
+          }
         />
         <span className="text-text-muted text-xs">to</span>
         <input
           type="date"
           className="bg-dark-700 border border-dark-500 text-text-secondary text-xs rounded-lg px-3 py-1.5 outline-none focus:border-primary-500/60"
-          onChange={(e) => setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))}
+          onChange={(e) =>
+            setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))
+          }
         />
 
         {Object.keys(filters).some(Boolean) && (
@@ -92,11 +108,13 @@ const Transactions = () => {
 
       {/* Table */}
       <div className="card p-0 overflow-hidden">
-
-        {/* Table header */}
-        <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 px-5 py-3 border-b border-dark-600">
-          {['', 'Category', 'Date', 'Amount', ''].map((h, i) => (
-            <span key={i} className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+        {/* Table Header */}
+        <div className="hidden sm:grid grid-cols-[2fr_0.8fr_0.9fr_1fr_60px] px-3 py-2 mb-1">
+          {["Transaction", "Category", "Date", "Amount", "Actions"].map((h) => (
+            <span
+              key={h}
+              className="text-text-muted text-xs font-semibold uppercase tracking-wider"
+            >
               {h}
             </span>
           ))}
@@ -104,7 +122,7 @@ const Transactions = () => {
 
         {loading ? (
           <div className="p-5 space-y-3">
-            {[1,2,3,4,5].map(i => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="flex items-center gap-4 animate-pulse">
                 <div className="w-9 h-9 rounded-xl bg-dark-600" />
                 <div className="flex-1 h-4 bg-dark-600 rounded" />
@@ -124,41 +142,63 @@ const Transactions = () => {
             {transactions.map((tx) => (
               <div
                 key={tx._id}
-                className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 items-center px-5 py-3.5 border-b border-dark-700 hover:bg-dark-700/50 transition-colors"
+                className="flex sm:grid sm:grid-cols-[2fr_0.8fr_0.9fr_1fr_60px] items-center px-3 py-3 justify-between rounded-xl hover:bg-dark-700 transition-colors group"
               >
-                {/* Icon */}
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm
-                  ${tx.type === 'income' ? 'bg-income-500/15' : 'bg-expense-500/15'}`}>
-                  {tx.category?.icon || '💸'}
+                {/* Info */}
+                <div className="flex items-center gap-3 min-w-0">
+                  <div
+                    className={`w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0
+        ${tx.type === "income" ? "bg-income-500/15" : "bg-expense-500/15"}`}
+                  >
+                    {tx.category?.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-text-primary text-sm font-medium truncate">
+                      {tx.note || "—"}
+                    </p>
+                    <span
+                      className={
+                        tx.type === "income" ? "badge-income" : "badge-expense"
+                      }
+                    >
+                      {tx.type}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Name + note */}
-                <div>
-                  <p className="text-text-primary text-sm font-medium">{tx.category?.name}</p>
-                  {tx.note && <p className="text-text-muted text-xs mt-0.5">{tx.note}</p>}
-                </div>
+                {/* Category — hidden mobile */}
+                <span className="hidden sm:block text-text-secondary text-sm">
+                  {tx.category?.name}
+                </span>
 
-                {/* Date */}
-                <span className="text-text-muted text-xs">{formatDate(tx.date)}</span>
+                {/* Date — hidden mobile */}
+                <span className="hidden sm:block text-text-secondary text-sm">
+                  {formatDate(tx.date)}
+                </span>
 
                 {/* Amount */}
-                <span className={`text-sm font-semibold ${
-                  tx.type === 'income' ? 'text-income-400' : 'text-expense-400'
-                }`}>
-                  {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
+                <span
+                  className={`font-semibold flex-shrink-0 text-sm ${
+                    tx.type === "income"
+                      ? "text-income-400"
+                      : "text-expense-400"
+                  }`}
+                >
+                  {tx.type === "income" ? "+" : "-"}
+                  {formatCurrency(tx.amount)}
                 </span>
 
                 {/* Actions */}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 opacity-100 transition-opacity">
                   <button
                     onClick={() => handleEdit(tx)}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:bg-dark-600 hover:text-text-primary transition-all"
+                    className="w-7 h-7 rounded-lg bg-dark-600 hover:bg-dark-500 text-text-muted hover:text-primary-400 transition-colors flex items-center justify-center"
                   >
                     <i className="fa-solid fa-pen text-xs" />
                   </button>
                   <button
-                    onClick={() => setDeleteId(tx._id)}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:bg-expense-500/15 hover:text-expense-400 transition-all"
+                    onClick={() => deleteTransaction(tx._id)}
+                    className="w-7 h-7 rounded-lg bg-dark-600 hover:bg-expense-500/20 text-text-muted hover:text-expense-400 transition-colors flex items-center justify-center"
                   >
                     <i className="fa-solid fa-trash text-xs" />
                   </button>
@@ -172,13 +212,20 @@ const Transactions = () => {
       {/* Delete Confirm Modal */}
       {deleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-dark-950/80 backdrop-blur-sm" onClick={() => setDeleteId(null)} />
+          <div
+            className="absolute inset-0 bg-dark-950/80 backdrop-blur-sm"
+            onClick={() => setDeleteId(null)}
+          />
           <div className="relative card w-full max-w-sm z-10 text-center">
             <div className="w-12 h-12 rounded-full bg-expense-500/15 flex items-center justify-center mx-auto mb-4">
               <i className="fa-solid fa-trash text-expense-400" />
             </div>
-            <h3 className="text-text-primary font-semibold mb-1">Delete Transaction?</h3>
-            <p className="text-text-muted text-sm mb-5">This action cannot be undone.</p>
+            <h3 className="text-text-primary font-semibold mb-1">
+              Delete Transaction?
+            </h3>
+            <p className="text-text-muted text-sm mb-5">
+              This action cannot be undone.
+            </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setDeleteId(null)}

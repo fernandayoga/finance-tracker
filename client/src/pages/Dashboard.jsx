@@ -11,7 +11,7 @@ const StatCard = ({ label, value, icon, iconBg, trend }) => (
         <i className={`fa-solid fa-${icon} text-xs`} />
       </div>
     </div>
-    <p className="text-xl font-bold text-text-primary">{value}</p>
+    <p className={`text-xl font-bold text-text-primary `}>{value}</p>
     {trend && (
       <p className={`text-xs mt-1 ${trend > 0 ? 'text-income-400' : 'text-expense-400'}`}>
         <i className={`fa-solid fa-arrow-${trend > 0 ? 'up' : 'down'} mr-1`} />
@@ -28,7 +28,7 @@ const Dashboard = () => {
   const recent = transactions.slice(0, 8);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto mt-8">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -38,13 +38,7 @@ const Dashboard = () => {
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
         </div>
-        <button
-          onClick={() => setModalOpen(true)}
-          className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-        >
-          <i className="fa-solid fa-plus text-xs" />
-          Add Transaction
-        </button>
+       
       </div>
 
       {/* Stat Cards */}
@@ -58,7 +52,7 @@ const Dashboard = () => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <StatCard
             label="Total Balance"
             value={formatCurrency(summary.balance)}
@@ -114,35 +108,42 @@ const Dashboard = () => {
             </button>
           </div>
         ) : (
-          <div className="space-y-1">
-            {recent.map((tx) => (
-              <div key={tx._id} className="table-row grid-cols-[auto_1fr_auto] gap-3">
-                {/* Icon */}
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base
-                  ${tx.type === 'income' ? 'bg-income-500/15' : 'bg-expense-500/15'}`}>
-                  {tx.category?.icon || '💸'}
-                </div>
+         <div className="grid grid-cols-1 xs:flex xs:overflow-x-auto gap-3 pb-2 -mx-1 px-1"
+  style={{ scrollbarWidth: 'none' }}>
+  {recent.map((tx) => (
+    <div key={tx._id}
+      className="xs:flex-shrink-0 xs:w-48 bg-dark-700 border border-dark-600 rounded-xl p-3.5 hover:border-dark-400 transition-colors">
 
-                {/* Info */}
-                <div className="min-w-0">
-                  <p className="text-text-primary text-sm font-medium truncate">
-                    {tx.category?.name || 'Uncategorized'}
-                  </p>
-                  <p className="text-text-muted text-xs">
-                    {formatDate(tx.date)}
-                    {tx.note && <span className="ml-2 text-dark-400">· {tx.note}</span>}
-                  </p>
-                </div>
+      {/* Top: icon + badge */}
+      <div className="flex items-center justify-between mb-3">
+        <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base
+          ${tx.type === 'income' ? 'bg-income-500/15' : 'bg-expense-500/15'}`}>
+          {tx.category?.icon || '💸'}
+        </div>
+        <span className={tx.type === 'income' ? 'badge-income' : 'badge-expense'}>
+          {tx.type}
+        </span>
+      </div>
 
-                {/* Amount */}
-                <p className={`text-sm font-semibold ${
-                  tx.type === 'income' ? 'text-income-400' : 'text-expense-400'
-                }`}>
-                  {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
-                </p>
-              </div>
-            ))}
-          </div>
+      {/* Amount */}
+      <p className={`text-base font-bold mb-1 ${tx.type === 'income' ? 'text-income-400' : 'text-expense-400'}`}>
+        {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
+      </p>
+
+      {/* Category */}
+      <p className="text-text-primary text-xs font-medium truncate">
+        {tx.category?.name || 'Uncategorized'}
+      </p>
+
+      {/* Date + note */}
+      <p className="text-text-muted text-xs mt-0.5 truncate">
+        {formatDate(tx.date)}
+        {tx.note && <span> · {tx.note}</span>}
+      </p>
+
+    </div>
+  ))}
+</div>
         )}
       </div>
 

@@ -1,15 +1,34 @@
 import Sidebar from './Sidebar.jsx';
+import BottomNav from './BottomNav.jsx';
+import MobileHeader from './MobileHeader.jsx';
 
-const MainLayout = ({ children }) => {
+const AppLayout = ({ children }) => {
   return (
-    <div className="flex min-h-screen bg-dark-900">
+    <div className="min-h-screen bg-dark-900">
+
+      {/* Sidebar — desktop only */}
       <Sidebar />
-      {/* ml-56 = lebar sidebar */}
-      <main className="flex-1 ml-56 p-6 min-h-screen">
+
+      {/* Mobile Header — mobile only */}
+      <MobileHeader />
+
+      {/* Main content */}
+      <main className={`
+        lg:ml-56
+        pt-16 lg:pt-0
+        pb-24 lg:pb-0
+        px-4 lg:px-6
+        py-4 lg:py-6
+        min-h-screen
+      `}>
         {children}
       </main>
+
+      {/* Bottom Nav — mobile only */}
+      <BottomNav />
+
     </div>
   );
 };
 
-export default MainLayout;
+export default AppLayout;
