@@ -148,7 +148,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
               <option value="">Select category</option>
               {filteredCategories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
-                  {cat.icon} {cat.name}
+                  {cat.name}
                 </option>
               ))}
             </select>

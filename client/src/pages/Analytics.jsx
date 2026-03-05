@@ -14,6 +14,8 @@ const Analytics = () => {
   const { monthly, categories, loading } = useAnalytics();
   const { transactions, summary } = useTransactions();
 
+  console.log(categories)
+
   // Hitung total expense per kategori untuk list
   const totalExpense = categories.reduce((sum, c) => sum + c.value, 0);
 
@@ -175,7 +177,11 @@ const Analytics = () => {
                       <div key={i}>
                         <div className="flex items-center justify-between mb-1.5">
                           <div className="flex items-center gap-2">
-                            <span className="text-base">{cat.icon}</span>
+                            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-dark-600">
+                              <i
+                                className={`fa-solid ${cat.icon} text-xs text-text-secondary`}
+                              />
+                            </div>
                             <span className="text-text-primary text-sm font-medium">
                               {cat.name}
                             </span>

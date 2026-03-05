@@ -2,6 +2,7 @@ import { useState } from "react";
 import useTransactions from "../hooks/useTransactions.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
+import CategoryIcon from '../components/ui/CategoryIcon.jsx';
 
 const StatCard = ({ label, value, icon, iconBg, trend }) => {
   const isExpense = label === "Expenses This Month";
@@ -143,12 +144,7 @@ const Dashboard = () => {
               >
                 {/* Top: icon + badge */}
                 <div className="flex items-center justify-between mb-3">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center text-base
-          ${tx.type === "income" ? "bg-income-500/15" : "bg-expense-500/15"}`}
-                  >
-                    {tx.category?.icon || "💸"}
-                  </div>
+                  <CategoryIcon icon={tx.category?.icon} type={tx.type} />
                   <span
                     className={
                       tx.type === "income" ? "badge-income" : "badge-expense"

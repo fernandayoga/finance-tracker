@@ -6,6 +6,7 @@ import api from '../services/api.js';
 import Sidebar from "../components/layout/Sidebar.jsx";
 import BottomNav from "../components/layout/BottomNav.jsx";
 import MobileHeader from "../components/layout/MobileHeader.jsx";
+import CategoryIcon from '../components/ui/CategoryIcon.jsx';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -163,7 +164,7 @@ const Categories = () => {
                 {section.data.map((cat) => (
                   <div key={cat._id}
                     className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-dark-700 transition-colors group">
-                    <span className="text-xl w-8 text-center">{cat.icon}</span>
+                    <CategoryIcon icon={cat.icon} type={cat.type} size="sm" />
                     <span className="text-text-primary text-sm font-medium flex-1">{cat.name}</span>
 
                     {cat.isDefault ? (

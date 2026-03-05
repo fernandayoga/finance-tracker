@@ -2,6 +2,7 @@ import { useState } from "react";
 import useTransactions from "../hooks/useTransactions.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
+import CategoryIcon from '../components/ui/CategoryIcon.jsx';
 
 const Transactions = () => {
   const [filters, setFilters] = useState({});
@@ -146,12 +147,7 @@ const Transactions = () => {
               >
                 {/* Info */}
                 <div className="flex items-center gap-3 min-w-0">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center text-base flex-shrink-0
-        ${tx.type === "income" ? "bg-income-500/15" : "bg-expense-500/15"}`}
-                  >
-                    {tx.category?.icon}
-                  </div>
+                  <CategoryIcon icon={tx.category?.icon} type={tx.type} />
                   <div className="min-w-0">
                     <p className="text-text-primary text-sm font-medium truncate">
                       {tx.note || "—"}
