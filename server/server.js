@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';        
 import transactionRoutes from './routes/transactionRoutes.js';
+import chatRoutes from './routes/chatRoutes.js'
 dotenv.config();
 connectDB();
 
@@ -29,8 +30,9 @@ app.use(express.json());
 
 
 app.use('/api/auth', authRoutes);
-app.use('/api/categories', categoryRoutes);           // tambah
+app.use('/api/categories', categoryRoutes);          
 app.use('/api/transactions', transactionRoutes);  
+app.use('/api/chat', chatRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Finance Tracker API is running' });

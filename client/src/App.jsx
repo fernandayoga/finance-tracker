@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard.jsx';
 import Transactions from './pages/Transactions.jsx';
 import Analytics from './pages/Analytics.jsx';
 import Categories from './pages/Categories.jsx';
+import Chatbot from './components/Chatbot.jsx';
+import useAuth from './hooks/useAuth.js';
 
 // Wrapper biar tidak perlu tulis ProtectedRoute + MainLayout berulang
 const PrivatePage = ({ children }) => (
@@ -15,6 +17,11 @@ const PrivatePage = ({ children }) => (
     <MainLayout>{children}</MainLayout>
   </ProtectedRoute>
 );
+
+const ChatbotWrapper = () => {
+  const { user } = useAuth();
+  return user ? <Chatbot /> : null;
+};
 
 const App = () => {
   return (
@@ -32,6 +39,8 @@ const App = () => {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
+
+        <ChatbotWrapper />
       </AuthProvider>
     </BrowserRouter>
   );

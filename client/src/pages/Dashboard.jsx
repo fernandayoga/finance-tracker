@@ -133,13 +133,13 @@ const Dashboard = () => {
           </div>
         ) : (
           <div
-            className="grid grid-cols-1 xs:flex xs:overflow-x-auto gap-3 pb-2 -mx-1 px-1"
+            className="grid grid-cols-1  gap-3 pb-2 -mx-1 px-1"
             style={{ scrollbarWidth: "none" }}
           >
             {recent.map((tx) => (
               <div
                 key={tx._id}
-                className="xs:flex-shrink-0 xs:w-48 bg-dark-700 border border-dark-600 rounded-xl p-3.5 hover:border-dark-400 transition-colors"
+                className=" bg-dark-700 border border-dark-600 rounded-xl p-3.5 hover:border-dark-400 transition-colors"
               >
                 {/* Top: icon + badge */}
                 <div className="flex items-center justify-between mb-3">
