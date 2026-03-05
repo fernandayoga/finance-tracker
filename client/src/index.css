@@ -39,6 +39,15 @@
   --breakpoint-xs: 480px;
 
   --font-sans: 'DM Sans', system-ui, sans-serif;
+
+
+   /* Naikkan semua ukuran font sekaligus */
+  --text-xs:   0.8rem;    /* default 0.75rem */
+  --text-sm:   0.95rem;   /* default 0.875rem */
+  --text-base: 1.05rem;   /* default 1rem */
+  --text-lg:   1.2rem;    /* default 1.125rem */
+  --text-xl:   1.35rem;   /* default 1.25rem */
+  --text-2xl:  1.6rem;    /* default 1.5rem */
 }
 
 /* ================================

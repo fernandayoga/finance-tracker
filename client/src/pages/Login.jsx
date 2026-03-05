@@ -64,7 +64,7 @@ const Login = () => {
               label="Email"
               name="email"
               type="email"
-              placeholder="john@example.com"
+              placeholder="yourname@example.com"
               icon="envelope"
               value={form.email}
               onChange={handleChange}

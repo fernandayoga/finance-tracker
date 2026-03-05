@@ -222,7 +222,7 @@ const Analytics = () => {
                   Insights
                 </h2>
               </div>
-              <InsightCard monthly={monthly} />
+              <InsightCard transactions={transactions} />
             </div>
           </div>
         </div>

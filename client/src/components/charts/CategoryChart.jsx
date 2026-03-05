@@ -69,8 +69,20 @@ const CategoryChart = ({ data }) => {
         <Tooltip content={<CustomTooltip />} />
         <Legend
           formatter={(val, entry) => (
-            <span style={{ color: "#94a3b8", fontSize: "12px" }}>
-              {entry.payload.icon} {val}
+            <span
+              style={{
+                color: "#94a3b8",
+                fontSize: "12px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              <i
+                className={`fa-solid ${entry.payload.icon}`}
+                style={{ fontSize: "11px" }}
+              />
+              {val}
             </span>
           )}
         />

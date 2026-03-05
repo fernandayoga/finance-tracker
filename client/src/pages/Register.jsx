@@ -64,7 +64,7 @@ const Register = () => {
               label="Full Name"
               name="name"
               type="text"
-              placeholder="John Doe"
+              placeholder="your name"
               icon="user"
               value={form.name}
               onChange={handleChange}
@@ -74,7 +74,7 @@ const Register = () => {
               label="Email"
               name="email"
               type="email"
-              placeholder="john@example.com"
+              placeholder="yourname@example.com"
               icon="envelope"
               value={form.email}
               onChange={handleChange}

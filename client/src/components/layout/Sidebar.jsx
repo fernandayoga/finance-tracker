@@ -49,7 +49,7 @@ const Sidebar = () => {
 
       {/* Nav */}
       <nav className="flex-1 p-3 flex flex-col gap-0.5">
-        <p className="text-text-muted text-xs font-semibold uppercase tracking-widest px-2 py-2">
+        <p className="text-text-muted text-sm font-semibold uppercase tracking-widest px-2 py-2">
           Menu
         </p>
         {menuItems.map((item) => (
@@ -58,7 +58,7 @@ const Sidebar = () => {
             to={item.path}
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           >
-            <i className={`fa-solid fa-${item.icon} w-4 text-center text-xs`} />
+            <i className={`fa-solid fa-${item.icon} w-4 text-center text-sm`} />
             {item.label}
           </NavLink>
         ))}

@@ -168,20 +168,7 @@ const Chatbot = () => {
           </div>
 
           {/* Quick Questions — hanya tampil kalau baru 1 pesan */}
-          {messages.length === 1 && (
-            <div className="px-4 pb-2 flex flex-wrap gap-1.5">
-              {quickQuestions.map((q, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setInput(q); inputRef.current?.focus(); }}
-                  className="text-xs px-3 py-1.5 rounded-full border border-dark-500 text-text-secondary hover:border-primary-500/50 hover:text-primary-400 transition-all"
-                  style={{ backgroundColor: '#1c2333' }}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-          )}
+          
 
           {/* Input */}
           <div className="px-3 pb-3 pt-2 border-t border-dark-600">
