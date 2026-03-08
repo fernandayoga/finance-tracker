@@ -24,6 +24,20 @@ const Chatbot = () => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
+  // Disable scroll halaman saat chat terbuka 
+  useEffect(() => {
+  if (open) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+
+  // Cleanup saat komponen unmount
+  return () => {
+    document.body.style.overflow = '';
+  };
+}, [open]);
+
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
 
@@ -181,7 +195,7 @@ const Chatbot = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Tanya tentang keuangan kamu..."
                 rows={1}
-                className="flex-1 bg-transparent text-text-primary text-sm outline-none resize-none placeholder:text-text-muted"
+                className="flex-1 bg-transparent text-text-primary text-sm outline-none resize-none placeholder:text-text-muted "
                 style={{ maxHeight: '80px' }}
               />
               <button
