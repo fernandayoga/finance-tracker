@@ -1,9 +1,8 @@
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
 } from 'recharts';
 
-// Custom tooltip dark theme
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
 
@@ -26,24 +25,15 @@ const CustomTooltip = ({ active, payload, label }) => {
 const MonthlyChart = ({ data }) => {
   if (!data.length) return (
     <div className="flex flex-col items-center justify-center h-64 text-text-muted">
-      <i className="fa-solid fa-chart-area text-3xl mb-3" />
+      <i className="fa-solid fa-chart-bar text-3xl mb-3" />
       <p className="text-sm">No data yet</p>
     </div>
   );
 
   return (
     <ResponsiveContainer width="100%" height={280}>
-      <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-        <defs>
-          <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%"  stopColor="#22c55e" stopOpacity={0.3} />
-            <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
-          </linearGradient>
-          <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%"  stopColor="#f43f5e" stopOpacity={0.3} />
-            <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
-          </linearGradient>
-        </defs>
+      <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+        barCategoryGap="30%" barGap={4}>
 
         <CartesianGrid strokeDasharray="3 3" stroke="#232d42" vertical={false} />
 
@@ -52,7 +42,7 @@ const MonthlyChart = ({ data }) => {
           tick={{ fill: '#4b5d7a', fontSize: 11 }}
           axisLine={false}
           tickLine={false}
-          tickFormatter={(val) => val.split(' ')[0]} // tampilkan bulan saja
+          tickFormatter={(val) => val.split(' ')[0]}
         />
         <YAxis
           tick={{ fill: '#4b5d7a', fontSize: 11 }}
@@ -65,7 +55,7 @@ const MonthlyChart = ({ data }) => {
           }}
         />
 
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
         <Legend
           wrapperStyle={{ fontSize: '12px', paddingTop: '16px' }}
           formatter={(val) => (
@@ -75,14 +65,10 @@ const MonthlyChart = ({ data }) => {
           )}
         />
 
-        <Area type="monotone" dataKey="income"
-          stroke="#22c55e" strokeWidth={2}
-          fill="url(#colorIncome)" dot={false} activeDot={{ r: 4 }} />
+        <Bar dataKey="income"  fill="#22c55e" radius={[6, 6, 0, 0]} />
+        <Bar dataKey="expense" fill="#f43f5e" radius={[6, 6, 0, 0]} />
 
-        <Area type="monotone" dataKey="expense"
-          stroke="#f43f5e" strokeWidth={2}
-          fill="url(#colorExpense)" dot={false} activeDot={{ r: 4 }} />
-      </AreaChart>
+      </BarChart>
     </ResponsiveContainer>
   );
 };
