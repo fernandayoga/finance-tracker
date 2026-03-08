@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/* ================================
+   DARK GREEN THEME
+   ================================ */
+@theme {
+  /* Primary — Green */
+  --color-primary-300: #86efac;
+  --color-primary-400: #4ade80;
+  --color-primary-500: #22c55e;
+  --color-primary-600: #16a34a;
+
+  /* Income — sama dengan primary */
+  --color-income-400: #4ade80;
+  --color-income-500: #22c55e;
+
+  /* Expense — Red/Rose */
+  --color-expense-400: #fb7185;
+  --color-expense-500: #f43f5e;
+
+  /* Warning — Amber */
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+
+  /* Dark surfaces */
+  --color-dark-950: #0a0a0f;
+  --color-dark-900: #0f1117;
+  --color-dark-800: #161b26;
+  --color-dark-700: #1c2333;
+  --color-dark-600: #232d42;
+  --color-dark-500: #2d3a52;
+  --color-dark-400: #3d4f6e;
+
+  /* Text */
+  --color-text-primary:   #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted:     #4b5d7a;
+
+  --breakpoint-xs: 480px;
+
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+
+
+   /* Naikkan semua ukuran font sekaligus */
+  --text-xs:   0.8rem;    /* default 0.75rem */
+  --text-sm:   0.95rem;   /* default 0.875rem */
+  --text-base: 1.05rem;   /* default 1rem */
+  --text-lg:   1.2rem;    /* default 1.125rem */
+  --text-xl:   1.35rem;   /* default 1.25rem */
+  --text-2xl:  1.6rem;    /* default 1.5rem */
+}
+
+/* ================================
+   BASE
+   ================================ */
+@layer base {
+  body {
+    background-color: var(--color-dark-900);
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-dark-500);
+    border-radius: 9999px;
+  }
+}
+
+/* ================================
+   COMPONENTS
+   ================================ */
+@layer components {
+
+  .card {
+    background-color: var(--color-dark-800);
+    border: 1px solid var(--color-dark-600);
+    border-radius: 0.875rem;
+    padding: 1.5rem;
+  }
+
+  .card-sm {
+    background-color: var(--color-dark-800);
+    border: 1px solid var(--color-dark-600);
+    border-radius: 0.875rem;
+    padding: 1rem;
+  }
+
+  /* Green glow — untuk elemen highlight */
+  .glow-green {
+    box-shadow: 0 0 24px rgba(34, 197, 94, 0.25);
+  }
+
+  /* Gradient text hijau */
+  .gradient-text {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Primary button hijau */
+  .btn-primary {
+    background-color: var(--color-primary-500);
+    color: #0a0a0f;
+    font-weight: 600;
+    transition: background-color 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-primary-400);
+  }
+  .btn-primary:active {
+    transform: scale(0.97);
+  }
+
+  /* Sidebar nav item */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.875rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .nav-item:hover {
+    background-color: var(--color-dark-700);
+    color: var(--color-text-primary);
+  }
+  .nav-item.active {
+    background-color: var(--color-primary-500);
+    color: #0a0a0f;
+    font-weight: 600;
+  }
+  .nav-item.active i {
+    color: #0a0a0f;
+  }
+
+  /* Badge */
+  .badge-income {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background-color: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+
+  .badge-expense {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background-color: rgba(244, 63, 94, 0.12);
+    color: #fb7185;
+    border: 1px solid rgba(244, 63, 94, 0.2);
+  }
+
+  /* Stat card highlight */
+  .stat-card {
+    background-color: var(--color-dark-800);
+    border: 1px solid var(--color-dark-600);
+    border-radius: 0.875rem;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover {
+    border-color: var(--color-dark-400);
+  }
+
+  /* Table row */
+  .table-row {
+    display: grid;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.15s;
+  }
+  .table-row:hover {
+    background-color: var(--color-dark-700);
+  }
+}
