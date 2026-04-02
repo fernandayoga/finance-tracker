@@ -4,6 +4,7 @@ import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
 
+
 const StatCard = ({ label, value, icon, iconBg, trend }) => {
   const isExpense = label === "Expenses This Month";
   const isNegativeBalance = label === "Total Balance" && Number(value) < 0;
@@ -39,6 +40,7 @@ const StatCard = ({ label, value, icon, iconBg, trend }) => {
 };
 
 const Dashboard = () => {
+  console.log(useTransactions());
   const { transactions, summary, loading, createTransaction } =
     useTransactions();
   const [modalOpen, setModalOpen] = useState(false);

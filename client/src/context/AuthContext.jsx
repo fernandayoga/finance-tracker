@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import api from '../services/api.js';
 
+
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -27,6 +28,8 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
 
+    console.log(user);
+
     initAuth();
   }, []);
 
@@ -42,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     const { data } = await api.post('/auth/register', { name, email, password });
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
-    setUser(data.user);
+    // setUser(data.user);
     return data;
   };
 
