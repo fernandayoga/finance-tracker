@@ -27,7 +27,7 @@ export const getCategories = async (req, res) => {
 // @access  Private
 // ---------------------------------------------------
 export const createCategory = async (req, res) => {
-  try {
+  try { 
     const { name, type, icon } = req.body;
 
     if (!name || !type) {

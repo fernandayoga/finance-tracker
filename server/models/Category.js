@@ -6,7 +6,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Category name is required'],
       trim: true,
-    },
+    },    
     type: {
       type: String,
       enum: ['income', 'expense'], // hanya boleh dua nilai ini
