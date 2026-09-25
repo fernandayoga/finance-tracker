@@ -1,11 +1,19 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth.js';
+import {
+  LayoutDashboard,
+  ArrowLeftRight,
+  PieChart,
+  Tag,
+  Wallet,
+  LogOut,
+} from 'lucide-react';
 
 const menuItems = [
-  { path: '/dashboard',    icon: 'table-columns',          label: 'Overview' },
-  { path: '/transactions', icon: 'arrow-right-arrow-left', label: 'Transactions' },
-  { path: '/analytics',    icon: 'chart-pie',              label: 'Analytics' },
-  { path: '/categories',   icon: 'tags',                   label: 'Categories' },
+  { path: '/dashboard',    Icon: LayoutDashboard, label: 'Overview' },
+  { path: '/transactions', Icon: ArrowLeftRight,   label: 'Transactions' },
+  { path: '/analytics',    Icon: PieChart,         label: 'Analytics' },
+  { path: '/categories',   Icon: Tag,              label: 'Categories' },
 ];
 
 const Sidebar = () => {
@@ -24,7 +32,7 @@ const Sidebar = () => {
       <div className="p-5 border-b border-dark-600/60">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-sm shadow-primary-500/20">
-            <i className="fa-solid fa-wallet text-sm" />
+            <Wallet size={18} strokeWidth={2.2} />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -42,26 +50,28 @@ const Sidebar = () => {
           Navigation
         </p>
 
-        {menuItems.map((item) => (
+        {menuItems.map(({ path, Icon, label }) => (
           <NavLink
-            key={item.path}
-            to={item.path}
+            key={path}
+            to={path}
             className={({ isActive }) =>
               `group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
                 isActive
-                  ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 font-semibold'
+                  ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 font-semibold shadow-sm shadow-primary-500/5'
                   : 'text-text-secondary hover:text-text-primary hover:bg-dark-750/70'
               }`
             }
           >
             {({ isActive }) => (
               <>
-                <i
-                  className={`fa-solid fa-${item.icon} w-5 text-center text-sm transition-colors ${
+                <Icon
+                  size={18}
+                  strokeWidth={isActive ? 2.2 : 1.8}
+                  className={`transition-colors ${
                     isActive ? 'text-primary-400' : 'text-text-muted group-hover:text-text-secondary'
                   }`}
                 />
-                <span className="flex-1">{item.label}</span>
+                <span className="flex-1">{label}</span>
                 {isActive && (
                   <span className="w-1.5 h-1.5 rounded-full bg-primary-400 shadow-sm shadow-primary-400" />
                 )}
@@ -93,9 +103,9 @@ const Sidebar = () => {
             onClick={handleLogout}
             title="Sign out"
             aria-label="Sign out"
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-expense-400 hover:bg-expense-500/10 transition-colors"
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-expense-400 hover:bg-expense-500/10 transition-colors cursor-pointer"
           >
-            <i className="fa-solid fa-arrow-right-from-bracket text-xs" />
+            <LogOut size={16} strokeWidth={2} />
           </button>
         </div>
       </div>

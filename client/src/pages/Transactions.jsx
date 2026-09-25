@@ -3,6 +3,15 @@ import useTransactions from "../hooks/useTransactions.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
+import {
+  Plus,
+  Filter,
+  X,
+  RotateCcw,
+  Pen,
+  Trash2,
+  FilterX,
+} from 'lucide-react';
 
 const Transactions = () => {
   const [filters, setFilters] = useState({});
@@ -23,25 +32,25 @@ const Transactions = () => {
     setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleModalSubmit = async (formData) => {
+    if (editData) {
+      await updateTransaction(editData._id, formData);
+    } else {
+      await createTransaction(formData);
+    }
     setModalOpen(false);
-    setEditData(null);
   };
 
-  const handleSubmit = async (data) => {
-    if (editData) {
-      await updateTransaction(editData._id, data);
-    } else {
-      await createTransaction(data);
+  const confirmDelete = async () => {
+    if (deleteId) {
+      await deleteTransaction(deleteId);
+      setDeleteId(null);
     }
   };
 
-  const handleDelete = async (id) => {
-    await deleteTransaction(id);
-    setDeleteId(null);
-  };
-
-  const hasActiveFilters = Boolean(filters.type || filters.startDate || filters.endDate);
+  const hasActiveFilters = Boolean(
+    filters.type || filters.startDate || filters.endDate
+  );
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -60,9 +69,9 @@ const Transactions = () => {
             setEditData(null);
             setModalOpen(true);
           }}
-          className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold shadow-lg shadow-primary-500/10 active:scale-95"
+          className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold shadow-lg shadow-primary-500/10 active:scale-95 cursor-pointer"
         >
-          <i className="fa-solid fa-plus text-xs" />
+          <Plus size={16} strokeWidth={2.2} />
           <span>Add Transaction</span>
         </button>
       </div>
@@ -71,7 +80,7 @@ const Transactions = () => {
       <div className="card-sm flex items-center justify-between gap-3 flex-wrap bg-dark-800/90 border-dark-600/80">
         <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1">
           <div className="flex items-center gap-2 text-text-muted text-xs font-medium mr-1">
-            <i className="fa-solid fa-filter text-[11px]" />
+            <Filter size={13} strokeWidth={2} />
             <span className="hidden sm:inline">Filter:</span>
           </div>
 
@@ -89,13 +98,12 @@ const Transactions = () => {
           </select>
 
           {/* Date Range Start */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-text-muted hidden sm:inline">From</span>
+          <div className="flex items-center gap-1.5 text-xs text-text-muted">
+            <span className="text-[11px] hidden sm:inline">From:</span>
             <input
               type="date"
               value={filters.startDate || ""}
-              aria-label="Start date"
-              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-3 py-2 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
+              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
               onChange={(e) =>
                 setFilters((p) => ({
                   ...p,
@@ -106,15 +114,17 @@ const Transactions = () => {
           </div>
 
           {/* Date Range End */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] text-text-muted">to</span>
+          <div className="flex items-center gap-1.5 text-xs text-text-muted">
+            <span className="text-[11px] hidden sm:inline">To:</span>
             <input
               type="date"
               value={filters.endDate || ""}
-              aria-label="End date"
-              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-3 py-2 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
+              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
               onChange={(e) =>
-                setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))
+                setFilters((p) => ({
+                  ...p,
+                  endDate: e.target.value || undefined,
+                }))
               }
             />
           </div>
@@ -123,9 +133,9 @@ const Transactions = () => {
         {hasActiveFilters && (
           <button
             onClick={() => setFilters({})}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-expense-400 hover:bg-expense-500/10 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-expense-400 hover:bg-expense-500/10 transition-colors cursor-pointer"
           >
-            <i className="fa-solid fa-xmark text-[11px]" />
+            <X size={13} strokeWidth={2} />
             <span>Reset Filters</span>
           </button>
         )}
@@ -159,7 +169,7 @@ const Transactions = () => {
         ) : transactions.length === 0 ? (
           <div className="text-center py-16 px-4">
             <div className="w-12 h-12 rounded-2xl bg-dark-750 border border-dark-600 flex items-center justify-center mx-auto mb-3 text-text-muted">
-              <i className="fa-solid fa-filter-circle-xmark text-lg" />
+              <FilterX size={22} strokeWidth={1.8} />
             </div>
             <h3 className="text-sm font-semibold text-text-primary">No transactions found</h3>
             <p className="text-xs text-text-muted max-w-sm mx-auto mt-1 mb-4">
@@ -170,17 +180,17 @@ const Transactions = () => {
             {hasActiveFilters ? (
               <button
                 onClick={() => setFilters({})}
-                className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold"
+                className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold cursor-pointer"
               >
-                <i className="fa-solid fa-arrow-rotate-left text-[10px]" />
+                <RotateCcw size={12} strokeWidth={2} />
                 <span>Reset Filters</span>
               </button>
             ) : (
               <button
                 onClick={() => setModalOpen(true)}
-                className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold"
+                className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold cursor-pointer"
               >
-                <i className="fa-solid fa-plus text-[10px]" />
+                <Plus size={14} strokeWidth={2.2} />
                 <span>Add Transaction</span>
               </button>
             )}
@@ -190,48 +200,55 @@ const Transactions = () => {
             {transactions.map((tx) => (
               <div
                 key={tx._id}
-                className="flex sm:grid sm:grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center px-4 sm:px-5 py-3.5 justify-between hover:bg-dark-750/50 transition-colors group"
+                className="grid grid-cols-1 sm:grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center p-3.5 sm:px-5 hover:bg-dark-750/40 transition-colors gap-2 sm:gap-4"
               >
-                {/* 1. Transaction Description & Type */}
-                <div className="flex items-center gap-3.5 min-w-0 pr-2">
-                  <CategoryIcon icon={tx.category?.icon} type={tx.type} size="md" />
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate group-hover:text-primary-300 transition-colors">
+                {/* 1. Transaction Details (Icon + Note) */}
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <CategoryIcon
+                    icon={tx.category?.icon}
+                    type={tx.type}
+                    size="md"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-text-primary truncate">
                       {tx.note || tx.category?.name || "Uncategorized"}
                     </p>
-                    <div className="flex items-center gap-2 mt-0.5 sm:hidden">
-                      <span className="text-[11px] text-text-muted">{formatDate(tx.date)}</span>
-                      <span className="text-text-muted text-[10px]">•</span>
-                      <span className="text-[11px] text-text-secondary truncate">{tx.category?.name}</span>
+                    <div className="flex sm:hidden items-center gap-2 mt-0.5 text-xs text-text-muted">
+                      <span>{formatDate(tx.date)}</span>
+                      {tx.category?.name && (
+                        <>
+                          <span>•</span>
+                          <span className="truncate">{tx.category.name}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* 2. Category (Hidden on mobile) */}
+                {/* 2. Category (Desktop) */}
                 <div className="hidden sm:flex items-center min-w-0">
-                  <span className="text-xs text-text-secondary truncate bg-dark-750/70 border border-dark-600/40 px-2.5 py-1 rounded-lg">
-                    {tx.category?.name || "General"}
+                  <span className="text-xs text-text-secondary truncate bg-dark-750 px-2 py-0.5 rounded-md border border-dark-600/50">
+                    {tx.category?.name || "Uncategorized"}
                   </span>
                 </div>
 
-                {/* 3. Date (Hidden on mobile) */}
-                <div className="hidden sm:block">
-                  <span className="text-xs text-text-secondary tabular-nums">
-                    {formatDate(tx.date)}
-                  </span>
+                {/* 3. Date (Desktop) */}
+                <div className="hidden sm:block text-xs text-text-muted">
+                  {formatDate(tx.date)}
                 </div>
 
                 {/* 4. Amount */}
-                <div className="text-right sm:pr-2">
-                  <p
-                    className={`text-sm font-bold tabular-nums tracking-tight ${
-                      tx.type === "income" ? "text-income-400" : "text-text-primary"
+                <div className="flex items-center justify-between sm:justify-end gap-2 text-right">
+                  <span className="sm:hidden text-xs text-text-muted">Amount:</span>
+                  <span
+                    className={`text-sm font-bold tabular-nums ${
+                      tx.type === "income"
+                        ? "text-income-400"
+                        : "text-text-primary"
                     }`}
                   >
-                    {tx.type === "income" ? "+" : "-"}{formatCurrency(tx.amount)}
-                  </p>
-                  <span className={tx.type === "income" ? "badge-income text-[10px] py-0 px-2 mt-0.5" : "badge-expense text-[10px] py-0 px-2 mt-0.5"}>
-                    {tx.type}
+                    {tx.type === "income" ? "+" : "-"}
+                    {formatCurrency(tx.amount)}
                   </span>
                 </div>
 
@@ -240,16 +257,16 @@ const Transactions = () => {
                   <button
                     onClick={() => handleEdit(tx)}
                     title="Edit transaction"
-                    className="w-7 h-7 rounded-lg bg-dark-750/80 hover:bg-dark-700 text-text-muted hover:text-primary-400 transition-all flex items-center justify-center border border-dark-600/50"
+                    className="w-7 h-7 rounded-lg bg-dark-750/80 hover:bg-dark-700 text-text-muted hover:text-primary-400 transition-all flex items-center justify-center border border-dark-600/50 cursor-pointer"
                   >
-                    <i className="fa-solid fa-pen text-[11px]" />
+                    <Pen size={12} strokeWidth={2} />
                   </button>
                   <button
                     onClick={() => setDeleteId(tx._id)}
                     title="Delete transaction"
-                    className="w-7 h-7 rounded-lg bg-dark-750/80 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center border border-dark-600/50"
+                    className="w-7 h-7 rounded-lg bg-dark-750/80 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center border border-dark-600/50 cursor-pointer"
                   >
-                    <i className="fa-solid fa-trash text-[11px]" />
+                    <Trash2 size={12} strokeWidth={2} />
                   </button>
                 </div>
               </div>
@@ -267,7 +284,7 @@ const Transactions = () => {
           />
           <div className="relative card w-full max-w-sm z-10 text-center border-dark-600/80 shadow-2xl p-6">
             <div className="w-12 h-12 rounded-2xl bg-expense-500/15 border border-expense-500/20 flex items-center justify-center mx-auto mb-4 text-expense-400">
-              <i className="fa-solid fa-trash text-base" />
+              <Trash2 size={20} strokeWidth={2} />
             </div>
             <h3 className="text-base font-bold text-text-primary mb-1">
               Delete Transaction?
@@ -278,15 +295,15 @@ const Transactions = () => {
             <div className="flex gap-2.5">
               <button
                 onClick={() => setDeleteId(null)}
-                className="btn-secondary flex-1 py-2.5 text-xs font-semibold"
+                className="btn-secondary flex-1 py-2.5 text-xs font-semibold cursor-pointer"
               >
                 Cancel
               </button>
               <button
-                onClick={() => handleDelete(deleteId)}
-                className="flex-1 py-2.5 rounded-xl text-xs font-semibold bg-expense-500 hover:bg-expense-600 text-white transition-all shadow-md shadow-expense-500/20 active:scale-95"
+                onClick={confirmDelete}
+                className="btn-danger flex-1 py-2.5 text-xs font-semibold bg-expense-500 text-white hover:bg-expense-600 cursor-pointer"
               >
-                Yes, Delete
+                Delete
               </button>
             </div>
           </div>
@@ -296,8 +313,11 @@ const Transactions = () => {
       {/* Transaction Modal */}
       <TransactionModal
         isOpen={modalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleSubmit}
+        onClose={() => {
+          setModalOpen(false);
+          setEditData(null);
+        }}
+        onSubmit={handleModalSubmit}
         editData={editData}
       />
     </div>

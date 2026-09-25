@@ -3,6 +3,14 @@ import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
 import api from '../services/api.js';
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
+import {
+  Plus,
+  X,
+  AlertCircle,
+  ArrowDown,
+  ArrowUp,
+  Trash2,
+} from 'lucide-react';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -68,9 +76,9 @@ const Categories = () => {
 
         <button
           onClick={() => setShowForm((p) => !p)}
-          className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold shadow-lg shadow-primary-500/10 active:scale-95"
+          className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold shadow-lg shadow-primary-500/10 active:scale-95 cursor-pointer"
         >
-          <i className={`fa-solid fa-${showForm ? 'xmark' : 'plus'} text-[11px]`} />
+          {showForm ? <X size={14} strokeWidth={2.2} /> : <Plus size={14} strokeWidth={2.2} />}
           <span>{showForm ? 'Close Form' : 'New Category'}</span>
         </button>
       </div>
@@ -87,7 +95,7 @@ const Categories = () => {
 
           {error && (
             <div className="mb-4 p-3 rounded-xl text-expense-400 text-xs flex items-center gap-2 bg-expense-500/10 border border-expense-500/25">
-              <i className="fa-solid fa-triangle-exclamation text-xs" />
+              <AlertCircle size={14} strokeWidth={2} />
               <span>{error}</span>
             </div>
           )}
@@ -104,7 +112,7 @@ const Categories = () => {
                     key={t}
                     type="button"
                     onClick={() => setForm((p) => ({ ...p, type: t }))}
-                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all capitalize ${
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all capitalize cursor-pointer ${
                       form.type === t
                         ? t === 'income'
                           ? 'bg-income-500/20 text-income-400 border border-income-500/30'
@@ -122,7 +130,7 @@ const Categories = () => {
             <div className="w-full sm:w-28 flex-shrink-0">
               <Input
                 label="Icon / Emoji"
-                placeholder="📦 or fa-car"
+                placeholder="📦 or car"
                 value={form.icon}
                 onChange={(e) => setForm((p) => ({ ...p, icon: e.target.value }))}
                 className="text-center"
@@ -159,7 +167,7 @@ const Categories = () => {
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
-                  <i className="fa-solid fa-arrow-down-left text-xs" />
+                  <ArrowDown size={14} strokeWidth={2.5} />
                 </div>
                 <div>
                   <h2 className="text-sm font-bold text-text-primary">Income Categories</h2>
@@ -191,9 +199,9 @@ const Categories = () => {
                       <button
                         onClick={() => handleDelete(cat._id)}
                         title="Delete custom category"
-                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-700 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center"
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-700 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center cursor-pointer"
                       >
-                        <i className="fa-solid fa-trash text-xs" />
+                        <Trash2 size={13} strokeWidth={2} />
                       </button>
                     )}
                   </div>
@@ -207,7 +215,7 @@ const Categories = () => {
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400">
-                  <i className="fa-solid fa-arrow-up-right text-xs" />
+                  <ArrowUp size={14} strokeWidth={2.5} />
                 </div>
                 <div>
                   <h2 className="text-sm font-bold text-text-primary">Expense Categories</h2>
@@ -239,9 +247,9 @@ const Categories = () => {
                       <button
                         onClick={() => handleDelete(cat._id)}
                         title="Delete custom category"
-                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-700 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center"
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-700 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center cursor-pointer"
                       >
-                        <i className="fa-solid fa-trash text-xs" />
+                        <Trash2 size={13} strokeWidth={2} />
                       </button>
                     )}
                   </div>

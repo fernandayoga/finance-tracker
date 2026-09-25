@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import api from '../services/api.js';
+import { Bot, X, ArrowUp, ArrowRight } from 'lucide-react';
 
 const quickPrompts = [
   'Berapa pengeluaran aku bulan ini?',
@@ -91,14 +92,14 @@ const Chatbot = () => {
       <button
         onClick={() => setOpen((p) => !p)}
         aria-label="Toggle Financial AI Assistant"
-        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 w-13 h-13 rounded-2xl flex items-center justify-center shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 bg-primary-500 hover:bg-primary-600 text-white font-bold"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 w-13 h-13 rounded-2xl flex items-center justify-center shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 bg-primary-500 hover:bg-primary-600 text-white font-bold cursor-pointer"
         style={{
           width: '52px',
           height: '52px',
           boxShadow: '0 8px 24px -4px rgba(99, 102, 241, 0.4)',
         }}
       >
-        <i className={`fa-solid fa-${open ? 'xmark' : 'robot'} text-lg`} />
+        {open ? <X size={22} strokeWidth={2.2} /> : <Bot size={22} strokeWidth={2.2} />}
       </button>
 
       {/* Chat Window Panel */}
@@ -115,7 +116,7 @@ const Chatbot = () => {
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-dark-600/70 bg-dark-900/60">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-sm shadow-primary-500/20">
-              <i className="fa-solid fa-robot text-xs" />
+              <Bot size={16} strokeWidth={2.2} />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
@@ -126,9 +127,9 @@ const Chatbot = () => {
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-750 transition-colors"
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-750 transition-colors cursor-pointer"
             >
-              <i className="fa-solid fa-xmark text-xs" />
+              <X size={15} strokeWidth={2} />
             </button>
           </div>
 
@@ -162,10 +163,10 @@ const Chatbot = () => {
                     <button
                       key={idx}
                       onClick={() => handleSend(prompt)}
-                      className="text-left px-3 py-2 rounded-xl bg-dark-750/50 hover:bg-dark-700/80 border border-dark-600/50 text-text-secondary hover:text-text-primary text-xs transition-all flex items-center justify-between group"
+                      className="text-left px-3 py-2 rounded-xl bg-dark-750/50 hover:bg-dark-700/80 border border-dark-600/50 text-text-secondary hover:text-text-primary text-xs transition-all flex items-center justify-between group cursor-pointer"
                     >
                       <span className="truncate">{prompt}</span>
-                      <i className="fa-solid fa-arrow-right text-[10px] text-text-muted group-hover:text-primary-400 group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight size={13} strokeWidth={2} className="text-text-muted group-hover:text-primary-400 group-hover:translate-x-0.5 transition-all" />
                     </button>
                   ))}
                 </div>
@@ -202,9 +203,9 @@ const Chatbot = () => {
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || loading}
-                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all bg-primary-500 hover:bg-primary-400 text-white disabled:opacity-30 disabled:hover:bg-primary-500"
+                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all bg-primary-500 hover:bg-primary-400 text-white disabled:opacity-30 disabled:hover:bg-primary-500 cursor-pointer"
               >
-                <i className="fa-solid fa-arrow-up text-xs" />
+                <ArrowUp size={14} strokeWidth={2.5} />
               </button>
             </div>
             <p className="text-[10px] text-text-muted text-center mt-1.5">

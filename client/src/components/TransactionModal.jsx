@@ -3,6 +3,7 @@ import useCategories from '../hooks/useCategories.js';
 import Button from './ui/Button.jsx';
 import Input from './ui/Input.jsx';
 import { toInputDate } from '../utils/format.js';
+import { Plus, SquarePen, X, AlertCircle, ArrowDown, ArrowUp } from 'lucide-react';
 
 const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultType = 'expense' }) => {
   const { categories } = useCategories();
@@ -84,7 +85,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
               form.type === 'income' ? 'bg-income-500/15 text-income-400' : 'bg-expense-500/15 text-expense-400'
             }`}>
-              <i className={`fa-solid fa-${editData ? 'pen-to-square' : 'plus'} text-xs`} />
+              {editData ? <SquarePen size={15} strokeWidth={2} /> : <Plus size={16} strokeWidth={2.2} />}
             </div>
             <div>
               <h2 className="text-base font-bold text-text-primary tracking-tight">
@@ -95,15 +96,15 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
           </div>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-700 transition-colors"
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-700 transition-colors cursor-pointer"
           >
-            <i className="fa-solid fa-xmark text-xs" />
+            <X size={15} strokeWidth={2} />
           </button>
         </div>
 
         {error && (
           <div className="mb-4 p-3 rounded-xl text-expense-400 text-xs flex items-center gap-2 bg-expense-500/10 border border-expense-500/25">
-            <i className="fa-solid fa-triangle-exclamation text-xs" />
+            <AlertCircle size={14} strokeWidth={2} />
             <span>{error}</span>
           </div>
         )}
@@ -121,7 +122,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
                   key={t}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, type: t, category: '' }))}
-                  className={`py-2 rounded-lg text-xs font-semibold capitalize transition-all flex items-center justify-center gap-1.5 ${
+                  className={`py-2 rounded-lg text-xs font-semibold capitalize transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     form.type === t
                       ? t === 'income'
                         ? 'bg-income-500/20 text-income-400 border border-income-500/30 shadow-sm'
@@ -129,7 +130,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
                       : 'text-text-muted hover:text-text-secondary'
                   }`}
                 >
-                  <i className={`fa-solid fa-${t === 'income' ? 'arrow-down' : 'arrow-up'} text-[10px]`} />
+                  {t === 'income' ? <ArrowDown size={13} strokeWidth={2.5} /> : <ArrowUp size={13} strokeWidth={2.5} />}
                   <span>{t}</span>
                 </button>
               ))}

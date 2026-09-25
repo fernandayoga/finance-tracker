@@ -1,32 +1,34 @@
 import { useMemo } from 'react';
+import {
+  TrendingUp,
+  TrendingDown,
+  Receipt,
+  PiggyBank,
+  AlertTriangle,
+  Flame,
+  Calendar,
+  Info,
+} from 'lucide-react';
 
 const InsightCard = ({ transactions = [] }) => {
   const insights = useMemo(() => {
-    if (!transactions.length) return [];
+    const now   = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
 
-    const now       = new Date();
-    const result    = [];
+    const startOfLastWeek = new Date(startOfWeek);
+    startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
 
-    // Rentang minggu ini & minggu lalu
-    const dayOfWeek     = now.getDay();
-    const startThisWeek = new Date(now);
-    startThisWeek.setDate(now.getDate() - dayOfWeek);
-    startThisWeek.setHours(0, 0, 0, 0);
+    const thisWeekTx = transactions.filter((t) => new Date(t.date) >= startOfWeek);
+    const lastWeekTx = transactions.filter(
+      (t) => new Date(t.date) >= startOfLastWeek && new Date(t.date) < startOfWeek
+    );
 
-    const startLastWeek = new Date(startThisWeek);
-    startLastWeek.setDate(startThisWeek.getDate() - 7);
-    const endLastWeek = new Date(startThisWeek);
-    endLastWeek.setMilliseconds(-1);
-
-    // Filter transaksi per minggu
-    const thisWeekTx = transactions.filter(t => new Date(t.date) >= startThisWeek);
-    const lastWeekTx = transactions.filter(t => {
-      const d = new Date(t.date);
-      return d >= startLastWeek && d <= endLastWeek;
-    });
+    const result = [];
 
     const calcTotal = (txList, type) =>
-      txList.filter(t => t.type === type).reduce((s, t) => s + t.amount, 0);
+      txList.filter((t) => t.type === type).reduce((s, t) => s + t.amount, 0);
 
     const thisExpense = calcTotal(thisWeekTx, 'expense');
     const lastExpense = calcTotal(lastWeekTx, 'expense');
@@ -41,7 +43,7 @@ const InsightCard = ({ transactions = [] }) => {
       const isUp    = diff > 0;
 
       result.push({
-        icon:   isUp ? 'arrow-trend-up' : 'arrow-trend-down',
+        Icon:   isUp ? TrendingUp : TrendingDown,
         color:  isUp ? 'text-expense-400' : 'text-income-400',
         badgeBg: isUp ? 'bg-expense-500/15' : 'bg-income-500/15',
         title:  isUp ? 'Spending Increased' : 'Spending Decreased',
@@ -51,7 +53,7 @@ const InsightCard = ({ transactions = [] }) => {
       });
     } else if (thisExpense > 0) {
       result.push({
-        icon:   'receipt',
+        Icon:   Receipt,
         color:  'text-text-secondary',
         badgeBg: 'bg-dark-700',
         title:  'Weekly Expenses',
@@ -66,7 +68,7 @@ const InsightCard = ({ transactions = [] }) => {
       const isGood = saving >= 0;
 
       result.push({
-        icon:   isGood ? 'piggy-bank' : 'triangle-exclamation',
+        Icon:   isGood ? PiggyBank : AlertTriangle,
         color:  isGood ? 'text-income-400' : 'text-warning-400',
         badgeBg: isGood ? 'bg-income-500/15' : 'bg-warning-500/15',
         title:  isGood ? 'Positive Savings' : 'Cashflow Warning',
@@ -90,7 +92,7 @@ const InsightCard = ({ transactions = [] }) => {
 
     if (topCategory) {
       result.push({
-        icon:   'fire-flame-curved',
+        Icon:   Flame,
         color:  'text-warning-400',
         badgeBg: 'bg-warning-500/15',
         title:  'Top Expense Category',
@@ -111,7 +113,7 @@ const InsightCard = ({ transactions = [] }) => {
     const highestDay = Object.entries(dayMap).sort((a, b) => b[1] - a[1])[0];
     if (highestDay) {
       result.push({
-        icon:   'calendar-day',
+        Icon:   Calendar,
         color:  'text-primary-400',
         badgeBg: 'bg-primary-500/15',
         title:  'Peak Spending Day',
@@ -122,7 +124,7 @@ const InsightCard = ({ transactions = [] }) => {
     // ── Fallback
     if (result.length === 0) {
       result.push({
-        icon:   'circle-info',
+        Icon:   Info,
         color:  'text-text-muted',
         badgeBg: 'bg-dark-700',
         title:  'Getting Started',
@@ -141,7 +143,7 @@ const InsightCard = ({ transactions = [] }) => {
           className="flex items-start gap-3 p-3.5 rounded-xl bg-dark-750/50 border border-dark-600/50 hover:border-dark-500/70 transition-colors"
         >
           <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${ins.badgeBg} ${ins.color}`}>
-            <i className={`fa-solid fa-${ins.icon} text-xs`} />
+            <ins.Icon size={15} strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-text-primary mb-0.5">{ins.title}</p>

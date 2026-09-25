@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.js';
 import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
+import { Wallet, AlertCircle, ShieldCheck } from 'lucide-react';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Register = () => {
         {/* Brand Logo & Title */}
         <div className="text-center space-y-2">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-md shadow-primary-500/20 mb-2">
-            <i className="fa-solid fa-wallet text-xl" />
+            <Wallet size={24} strokeWidth={2.2} />
           </div>
           <h1 className="text-2xl font-extrabold text-text-primary tracking-tight">
             Create an Account
@@ -53,7 +54,7 @@ const Register = () => {
         <div className="card bg-dark-800/90 border-dark-600/80 shadow-2xl p-6 sm:p-7">
           {error && (
             <div className="mb-4 p-3 rounded-xl text-expense-400 text-xs flex items-center gap-2 bg-expense-500/10 border border-expense-500/25">
-              <i className="fa-solid fa-circle-exclamation text-xs" />
+              <AlertCircle size={14} strokeWidth={2} />
               <span>{error}</span>
             </div>
           )}
@@ -63,36 +64,46 @@ const Register = () => {
               label="Full Name"
               name="name"
               type="text"
-              placeholder="Alex Johnson"
               icon="user"
+              placeholder="Yoga Pratama"
               value={form.name}
               onChange={handleChange}
               required
+              autoComplete="name"
             />
+
             <Input
               label="Email Address"
               name="email"
               type="email"
-              placeholder="alex@example.com"
               icon="envelope"
+              placeholder="you@example.com"
               value={form.email}
               onChange={handleChange}
               required
+              autoComplete="email"
             />
+
             <Input
               label="Password"
               name="password"
               type="password"
-              placeholder="Min. 6 characters"
               icon="lock"
+              placeholder="Minimum 6 characters"
               value={form.password}
               onChange={handleChange}
-              hint="Must be at least 6 characters"
               required
+              autoComplete="new-password"
             />
 
-            <Button type="submit" loading={loading} className="w-full py-2.5 text-xs font-semibold shadow-md shadow-primary-500/10">
-              Create Account
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              loading={loading}
+              className="w-full mt-2"
+            >
+              Get Started
             </Button>
           </form>
 
@@ -100,16 +111,16 @@ const Register = () => {
             <p className="text-xs text-text-muted">
               Already have an account?{' '}
               <Link to="/login" className="text-primary-400 hover:text-primary-300 font-semibold transition-colors">
-                Sign in
+                Sign in instead
               </Link>
             </p>
           </div>
         </div>
 
-        {/* Trust Note */}
+        {/* Security Trust Note */}
         <div className="text-center flex items-center justify-center gap-1.5 text-[11px] text-text-muted">
-          <i className="fa-solid fa-shield-halved text-[10px] text-primary-400" />
-          <span>Encrypted Session • Privacy First</span>
+          <ShieldCheck size={13} strokeWidth={2} className="text-primary-400" />
+          <span>No credit card required • Free forever</span>
         </div>
 
       </div>

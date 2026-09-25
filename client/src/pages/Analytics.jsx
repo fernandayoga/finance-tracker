@@ -5,6 +5,16 @@ import useAnalytics from "../hooks/useAnalytics.js";
 import useTransactions from "../hooks/useTransactions.js";
 import { exportToCSV } from "../utils/exportCSV.js";
 import { formatCurrency } from "../utils/format.js";
+import {
+  Download,
+  Wallet,
+  ArrowDown,
+  ArrowUp,
+  BarChart3,
+  PieChart,
+  Receipt,
+  Lightbulb,
+} from 'lucide-react';
 
 const Analytics = () => {
   const { monthly, categories, loading } = useAnalytics();
@@ -49,9 +59,9 @@ const Analytics = () => {
         <button
           onClick={() => exportToCSV(transactions)}
           disabled={!transactions?.length}
-          className="btn-secondary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold shadow-sm disabled:opacity-40"
+          className="btn-secondary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold shadow-sm disabled:opacity-40 cursor-pointer"
         >
-          <i className="fa-solid fa-file-csv text-income-400 text-sm" />
+          <Download size={14} strokeWidth={2} className="text-income-400" />
           <span>Export CSV</span>
         </button>
       </div>
@@ -63,7 +73,7 @@ const Analytics = () => {
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">All-Time Balance</span>
             <div className="w-7 h-7 rounded-lg bg-dark-750 flex items-center justify-center text-primary-400">
-              <i className="fa-solid fa-wallet text-xs" />
+              <Wallet size={14} strokeWidth={2} />
             </div>
           </div>
           <p className="text-2xl font-bold text-text-primary tabular-nums">
@@ -76,7 +86,7 @@ const Analytics = () => {
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Monthly Inflow</span>
             <div className="w-7 h-7 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
-              <i className="fa-solid fa-arrow-down-left text-xs" />
+              <ArrowDown size={14} strokeWidth={2.5} />
             </div>
           </div>
           <p className="text-2xl font-bold text-income-400 tabular-nums">
@@ -89,7 +99,7 @@ const Analytics = () => {
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Monthly Outflow</span>
             <div className="w-7 h-7 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400">
-              <i className="fa-solid fa-arrow-up-right text-xs" />
+              <ArrowUp size={14} strokeWidth={2.5} />
             </div>
           </div>
           <p className="text-2xl font-bold text-expense-400 tabular-nums">
@@ -112,7 +122,7 @@ const Analytics = () => {
               </p>
             </div>
             <div className="w-8 h-8 rounded-lg bg-dark-750 border border-dark-600/60 flex items-center justify-center text-text-muted">
-              <i className="fa-solid fa-chart-column text-xs" />
+              <BarChart3 size={15} strokeWidth={2} />
             </div>
           </div>
           <MonthlyChart data={monthly} />
@@ -130,7 +140,7 @@ const Analytics = () => {
               </p>
             </div>
             <div className="w-8 h-8 rounded-lg bg-dark-750 border border-dark-600/60 flex items-center justify-center text-text-muted">
-              <i className="fa-solid fa-chart-pie text-xs" />
+              <PieChart size={15} strokeWidth={2} />
             </div>
           </div>
           <CategoryChart data={categories} />
@@ -157,7 +167,7 @@ const Analytics = () => {
 
           {categories.length === 0 ? (
             <div className="text-center py-12 text-text-muted">
-              <i className="fa-solid fa-receipt text-2xl text-dark-500 mb-2" />
+              <Receipt size={24} strokeWidth={1.8} className="text-dark-500 mx-auto mb-2" />
               <p className="text-xs">No expense data recorded this month</p>
             </div>
           ) : (
@@ -215,7 +225,7 @@ const Analytics = () => {
               </p>
             </div>
             <div className="w-8 h-8 rounded-lg bg-dark-750 border border-dark-600/60 flex items-center justify-center text-primary-400">
-              <i className="fa-solid fa-lightbulb text-xs" />
+              <Lightbulb size={15} strokeWidth={2} />
             </div>
           </div>
 

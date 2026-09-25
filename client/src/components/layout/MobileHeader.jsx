@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.js";
+import { Wallet, LogOut } from "lucide-react";
 
 const pageTitles = {
   "/dashboard": "Overview",
@@ -39,7 +40,7 @@ const MobileHeader = () => {
       {/* Brand & Page Title */}
       <div className="flex items-center gap-2.5">
         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-sm shadow-primary-500/20">
-          <i className="fa-solid fa-wallet text-xs" />
+          <Wallet size={16} strokeWidth={2.2} />
         </div>
         <div>
           <span className="font-bold text-text-primary text-sm tracking-tight">{title}</span>
@@ -73,7 +74,7 @@ const MobileHeader = () => {
               onClick={handleLogout}
               className="w-full flex items-center gap-2.5 px-4 py-2.5 text-expense-400 hover:bg-expense-500/10 transition-colors text-xs font-medium text-left"
             >
-              <i className="fa-solid fa-arrow-right-from-bracket text-xs" />
+              <LogOut size={14} strokeWidth={2} />
               Sign out
             </button>
           </div>

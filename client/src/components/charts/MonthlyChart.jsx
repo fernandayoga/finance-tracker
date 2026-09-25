@@ -2,6 +2,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
 } from 'recharts';
+import { BarChart3 } from 'lucide-react';
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -33,7 +34,7 @@ const MonthlyChart = ({ data }) => {
   if (!data?.length) return (
     <div className="flex flex-col items-center justify-center h-64 text-text-muted text-center p-4">
       <div className="w-10 h-10 rounded-xl bg-dark-750 border border-dark-600 flex items-center justify-center mb-2">
-        <i className="fa-solid fa-chart-simple text-sm text-text-muted" />
+        <BarChart3 size={18} strokeWidth={2} className="text-text-muted" />
       </div>
       <p className="text-xs font-medium text-text-secondary">No transaction history yet</p>
       <p className="text-[11px] text-text-muted mt-0.5">Transactions across months will visualize here</p>

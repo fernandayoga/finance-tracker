@@ -5,6 +5,21 @@ import useAuth from "../hooks/useAuth.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
+import {
+  Plus,
+  Eye,
+  EyeOff,
+  PiggyBank,
+  ArrowDown,
+  ArrowUp,
+  TrendingUp,
+  TrendingDown,
+  Gauge,
+  Receipt,
+  ArrowRight,
+  Bot,
+  Sparkles,
+} from 'lucide-react';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -78,9 +93,9 @@ const Dashboard = () => {
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => handleOpenModal('expense')}
-            className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary-500/20 active:scale-95 transition-transform"
+            className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary-500/20 active:scale-95 transition-transform cursor-pointer"
           >
-            <i className="fa-solid fa-plus text-xs" />
+            <Plus size={16} strokeWidth={2.2} />
             <span>Add Transaction</span>
           </button>
         </div>
@@ -113,9 +128,13 @@ const Dashboard = () => {
                 <button
                   onClick={() => setShowBalance(!showBalance)}
                   title={showBalance ? "Hide balance" : "Show balance"}
-                  className="w-6 h-6 rounded-md flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-700/60 transition-colors"
+                  className="w-6 h-6 rounded-md flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-700/60 transition-colors cursor-pointer"
                 >
-                  <i className={`fa-solid fa-${showBalance ? 'eye' : 'eye-slash'} text-xs`} />
+                  {showBalance ? (
+                    <Eye size={14} strokeWidth={2} />
+                  ) : (
+                    <EyeOff size={14} strokeWidth={2} />
+                  )}
                 </button>
                 <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-dark-750 border border-dark-600 text-text-muted">
                   Live Accounts
@@ -136,7 +155,7 @@ const Dashboard = () => {
               {thisMonthIncome > 0 && (
                 <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-xl bg-dark-750/90 border border-dark-600/70 text-xs shadow-sm">
                   <div className="w-7 h-7 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
-                    <i className="fa-solid fa-piggy-bank text-xs" />
+                    <PiggyBank size={15} strokeWidth={2} />
                   </div>
                   <div>
                     <p className="text-[11px] text-text-muted font-medium">Monthly Savings</p>
@@ -159,7 +178,7 @@ const Dashboard = () => {
             <div className="relative z-10 mb-6 p-3.5 rounded-xl bg-dark-900/50 border border-dark-600/40">
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="text-text-muted flex items-center gap-1.5">
-                  <i className="fa-solid fa-gauge-high text-[11px] text-primary-400" />
+                  <Gauge size={13} strokeWidth={2} className="text-primary-400" />
                   <span>Monthly Budget Utilization</span>
                 </span>
                 <span className="font-semibold text-text-primary tabular-nums">
@@ -182,7 +201,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-text-muted">Income this month</span>
                 <div className="w-7 h-7 rounded-lg bg-income-500/15 group-hover:bg-income-500/25 flex items-center justify-center text-income-400 transition-colors">
-                  <i className="fa-solid fa-arrow-down text-xs" />
+                  <ArrowDown size={14} strokeWidth={2.5} />
                 </div>
               </div>
               <p className="text-lg sm:text-xl font-bold text-income-400 tabular-nums">
@@ -196,7 +215,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-text-muted">Expenses this month</span>
                 <div className="w-7 h-7 rounded-lg bg-expense-500/15 group-hover:bg-expense-500/25 flex items-center justify-center text-expense-400 transition-colors">
-                  <i className="fa-solid fa-arrow-up text-xs" />
+                  <ArrowUp size={14} strokeWidth={2.5} />
                 </div>
               </div>
               <p className="text-lg sm:text-xl font-bold text-expense-400 tabular-nums">
@@ -214,7 +233,11 @@ const Dashboard = () => {
                     ? 'bg-income-500/15 text-income-400 group-hover:bg-income-500/25'
                     : 'bg-expense-500/15 text-expense-400 group-hover:bg-expense-500/25'
                 }`}>
-                  <i className={`fa-solid fa-${netMonthly >= 0 ? 'arrow-trend-up' : 'arrow-trend-down'} text-xs`} />
+                  {netMonthly >= 0 ? (
+                    <TrendingUp size={14} strokeWidth={2.5} />
+                  ) : (
+                    <TrendingDown size={14} strokeWidth={2.5} />
+                  )}
                 </div>
               </div>
               <p className={`text-lg sm:text-xl font-bold tabular-nums ${
@@ -258,7 +281,7 @@ const Dashboard = () => {
                 <button
                   key={tab.key}
                   onClick={() => setFilterType(tab.key)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${
                     filterType === tab.key
                       ? 'bg-dark-600 text-text-primary shadow-sm'
                       : 'text-text-muted hover:text-text-secondary'
@@ -287,7 +310,7 @@ const Dashboard = () => {
           ) : recent.length === 0 ? (
             <div className="text-center py-12 px-4 rounded-xl border border-dashed border-dark-600/70 bg-dark-850/50">
               <div className="w-12 h-12 rounded-2xl bg-dark-750 border border-dark-600 flex items-center justify-center mx-auto mb-3 text-text-muted">
-                <i className="fa-solid fa-receipt text-lg" />
+                <Receipt size={22} strokeWidth={1.8} />
               </div>
               <h3 className="text-sm font-semibold text-text-primary">No transactions found</h3>
               <p className="text-xs text-text-muted max-w-xs mx-auto mt-1 mb-4">
@@ -297,9 +320,9 @@ const Dashboard = () => {
               </p>
               <button
                 onClick={() => handleOpenModal(filterType === 'income' ? 'income' : 'expense')}
-                className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold"
+                className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold cursor-pointer"
               >
-                <i className="fa-solid fa-plus text-[10px]" />
+                <Plus size={14} strokeWidth={2.2} />
                 <span>Add {filterType === 'income' ? 'Income' : 'Expense'}</span>
               </button>
             </div>
@@ -357,7 +380,7 @@ const Dashboard = () => {
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-400 hover:text-primary-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-dark-750"
               >
                 <span>View all {transactions.length} transactions</span>
-                <i className="fa-solid fa-arrow-right text-[10px]" />
+                <ArrowRight size={13} strokeWidth={2} />
               </Link>
             </div>
           )}
@@ -405,11 +428,11 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Widget 3: AI Financial Co-pilot Teaser */}
+          {/* Widget 2: AI Financial Co-pilot Teaser */}
           <div className="card relative overflow-hidden bg-gradient-to-br from-primary-950/30 via-dark-800 to-dark-800 border-primary-500/30">
             <div className="flex items-start gap-3 mb-3">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white flex-shrink-0 shadow-md shadow-primary-500/20">
-                <i className="fa-solid fa-robot text-xs" />
+                <Bot size={16} strokeWidth={2.2} />
               </div>
               <div>
                 <h3 className="text-xs font-bold text-text-primary">Finance AI Co-pilot</h3>
@@ -425,8 +448,9 @@ const Dashboard = () => {
               onClick={handleOpenChatbot}
               className="w-full py-2 px-3 rounded-xl bg-primary-500/15 hover:bg-primary-500/25 border border-primary-500/30 text-primary-300 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
+              <Sparkles size={13} strokeWidth={2} />
               <span>Ask AI Assistant</span>
-              <i className="fa-solid fa-arrow-right text-[10px]" />
+              <ArrowRight size={13} strokeWidth={2} />
             </button>
           </div>
 
