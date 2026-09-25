@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import useTransactions from "../hooks/useTransactions.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
@@ -26,6 +26,17 @@ const Transactions = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+  const dateMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dateMenuRef.current && !dateMenuRef.current.contains(e.target)) {
+        setDateMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const {
     transactions,
@@ -158,7 +169,7 @@ const Transactions = () => {
       </div>
 
       {/* Fluid Floating Filter & Control Toolbar */}
-      <div className="bg-dark-800/80 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-dark-600/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="relative z-30 bg-dark-800/80 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-dark-600/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
         {/* Left Side: Live Search Bar (Swapped to Left) */}
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search size={14} strokeWidth={2} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
@@ -222,7 +233,7 @@ const Transactions = () => {
           </div>
 
           {/* Intuitive Date Range Popover Button */}
-          <div className="relative">
+          <div className="relative" ref={dateMenuRef}>
             <button
               type="button"
               onClick={() => setDateMenuOpen(!dateMenuOpen)}
@@ -252,14 +263,10 @@ const Transactions = () => {
 
             {/* Date Range Dropdown Popover */}
             {dateMenuOpen && (
-              <>
-                {/* Backdrop overlay */}
-                <div className="fixed inset-0 z-40" onClick={() => setDateMenuOpen(false)} />
-
-                <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-dark-800 border border-dark-600/80 shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2 px-1">
-                    Quick Presets
-                  </div>
+              <div className="absolute right-0 mt-2 w-72 max-w-[calc(100vw-2rem)] rounded-2xl bg-dark-800 border border-dark-600/80 shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2 px-1">
+                  Quick Presets
+                </div>
 
                   {/* Presets Grid */}
                   <div className="grid grid-cols-2 gap-1.5 mb-3">
@@ -333,7 +340,6 @@ const Transactions = () => {
                     </button>
                   </div>
                 </div>
-              </>
             )}
           </div>
 
