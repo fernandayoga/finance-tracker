@@ -13,6 +13,7 @@ import {
   FilterX,
   Search,
   Calendar,
+  ChevronDown,
   ArrowDown,
   ArrowUp,
 } from 'lucide-react';
@@ -20,6 +21,8 @@ import {
 const Transactions = () => {
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [dateMenuOpen, setDateMenuOpen] = useState(false);
+  const [activePreset, setActivePreset] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
@@ -65,6 +68,67 @@ const Transactions = () => {
     return note.includes(q) || catName.includes(q);
   });
 
+  const datePresets = [
+    { id: 'all', label: 'All Time' },
+    { id: 'this_month', label: 'This Month' },
+    { id: 'last_month', label: 'Last Month' },
+    { id: 'last_30_days', label: 'Last 30 Days' },
+    { id: 'this_year', label: 'This Year' },
+  ];
+
+  const applyDatePreset = (presetId) => {
+    setActivePreset(presetId);
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const pad = (n) => String(n).padStart(2, '0');
+    const fmtYMD = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+    if (presetId === 'this_month') {
+      const start = new Date(year, month, 1);
+      const end = new Date(year, month + 1, 0);
+      setFilters((p) => ({ ...p, startDate: fmtYMD(start), endDate: fmtYMD(end) }));
+    } else if (presetId === 'last_month') {
+      const start = new Date(year, month - 1, 1);
+      const end = new Date(year, month, 0);
+      setFilters((p) => ({ ...p, startDate: fmtYMD(start), endDate: fmtYMD(end) }));
+    } else if (presetId === 'last_30_days') {
+      const start = new Date();
+      start.setDate(now.getDate() - 30);
+      setFilters((p) => ({ ...p, startDate: fmtYMD(start), endDate: fmtYMD(now) }));
+    } else if (presetId === 'this_year') {
+      const start = new Date(year, 0, 1);
+      setFilters((p) => ({ ...p, startDate: fmtYMD(start), endDate: fmtYMD(now) }));
+    } else {
+      setFilters((p) => ({ ...p, startDate: undefined, endDate: undefined }));
+    }
+    setDateMenuOpen(false);
+  };
+
+  const getDateLabel = () => {
+    if (!filters.startDate && !filters.endDate) return "All Time";
+    if (activePreset === "this_month") return "This Month";
+    if (activePreset === "last_month") return "Last Month";
+    if (activePreset === "last_30_days") return "Last 30 Days";
+    if (activePreset === "this_year") return "This Year";
+
+    if (filters.startDate && filters.endDate) {
+      if (filters.startDate === filters.endDate) {
+        return formatDate(filters.startDate);
+      }
+      return `${formatDate(filters.startDate)} - ${formatDate(filters.endDate)}`;
+    }
+    if (filters.startDate) return `From ${formatDate(filters.startDate)}`;
+    if (filters.endDate) return `Until ${formatDate(filters.endDate)}`;
+    return "Custom Date";
+  };
+
+  const clearDateRange = (e) => {
+    e.stopPropagation();
+    setActivePreset('all');
+    setFilters((p) => ({ ...p, startDate: undefined, endDate: undefined }));
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
 
@@ -95,8 +159,29 @@ const Transactions = () => {
 
       {/* Fluid Floating Filter & Control Toolbar */}
       <div className="bg-dark-800/80 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-dark-600/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
-        {/* Left Side: Type Pills & Date Range */}
-        <div className="flex items-center gap-2.5 flex-wrap flex-1">
+        {/* Left Side: Live Search Bar (Swapped to Left) */}
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
+          <Search size={14} strokeWidth={2} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search notes / category..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-dark-900/70 border border-dark-600/50 rounded-xl pl-9.5 pr-8 py-2 text-xs text-text-primary placeholder:text-text-muted outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary cursor-pointer p-0.5"
+            >
+              <X size={13} strokeWidth={2} />
+            </button>
+          )}
+        </div>
+
+        {/* Right Side: Filters (Type Pills + Date Range Popover + Reset) */}
+        <div className="flex items-center gap-2 flex-wrap">
           {/* Segmented Type Toggle Pills */}
           <div className="flex items-center bg-dark-900/70 p-1 rounded-xl border border-dark-600/50">
             <button
@@ -136,57 +221,119 @@ const Transactions = () => {
             </button>
           </div>
 
-          {/* Integrated Date Range Pill */}
-          <div className="flex items-center gap-1.5 bg-dark-900/70 px-3 py-1.5 rounded-xl border border-dark-600/50 text-xs">
-            <Calendar size={13} strokeWidth={2} className="text-text-muted flex-shrink-0" />
-            <input
-              type="date"
-              aria-label="Start date"
-              value={filters.startDate || ""}
-              onChange={(e) => setFilters((p) => ({ ...p, startDate: e.target.value || undefined }))}
-              className="bg-transparent text-xs text-text-primary outline-none cursor-pointer [color-scheme:dark] w-28"
-            />
-            <span className="text-text-muted text-xs select-none">→</span>
-            <input
-              type="date"
-              aria-label="End date"
-              value={filters.endDate || ""}
-              onChange={(e) => setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))}
-              className="bg-transparent text-xs text-text-primary outline-none cursor-pointer [color-scheme:dark] w-28"
-            />
-            {(filters.startDate || filters.endDate) && (
-              <button
-                type="button"
-                onClick={() => setFilters((p) => ({ ...p, startDate: undefined, endDate: undefined }))}
-                className="text-text-muted hover:text-expense-400 transition-colors p-0.5 cursor-pointer"
-                title="Clear date range"
-              >
-                <X size={12} strokeWidth={2} />
-              </button>
-            )}
-          </div>
-        </div>
+          {/* Intuitive Date Range Popover Button */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setDateMenuOpen(!dateMenuOpen)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium border transition-all duration-150 cursor-pointer ${
+                filters.startDate || filters.endDate
+                  ? 'bg-primary-500/15 border-primary-500/40 text-primary-300 shadow-xs'
+                  : 'bg-dark-900/70 border-dark-600/50 text-text-secondary hover:text-text-primary hover:border-dark-500'
+              }`}
+            >
+              <Calendar size={13} strokeWidth={2} className={filters.startDate || filters.endDate ? "text-primary-400" : "text-text-muted"} />
+              <span className="font-semibold">{getDateLabel()}</span>
+              
+              {(filters.startDate || filters.endDate) ? (
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={clearDateRange}
+                  className="p-0.5 rounded-md hover:bg-primary-500/20 text-primary-400 hover:text-white cursor-pointer ml-0.5"
+                  title="Clear date filter"
+                >
+                  <X size={12} strokeWidth={2.2} />
+                </span>
+              ) : (
+                <ChevronDown size={12} strokeWidth={2} className={`text-text-muted transition-transform duration-200 ${dateMenuOpen ? 'rotate-180' : ''}`} />
+              )}
+            </button>
 
-        {/* Right Side: Live Search & Reset */}
-        <div className="flex items-center gap-2">
-          {/* Live Search Bar */}
-          <div className="relative flex-1 sm:w-56">
-            <Search size={13} strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search notes / category..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-dark-900/70 border border-dark-600/50 rounded-xl pl-8.5 pr-7 py-1.5 text-xs text-text-primary placeholder:text-text-muted outline-none focus:border-primary-500/50 transition-all"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary cursor-pointer"
-              >
-                <X size={12} strokeWidth={2} />
-              </button>
+            {/* Date Range Dropdown Popover */}
+            {dateMenuOpen && (
+              <>
+                {/* Backdrop overlay */}
+                <div className="fixed inset-0 z-40" onClick={() => setDateMenuOpen(false)} />
+
+                <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-dark-800 border border-dark-600/80 shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2 px-1">
+                    Quick Presets
+                  </div>
+
+                  {/* Presets Grid */}
+                  <div className="grid grid-cols-2 gap-1.5 mb-3">
+                    {datePresets.map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => applyDatePreset(p.id)}
+                        className={`px-2.5 py-1.5 rounded-lg text-xs font-medium text-left transition-all cursor-pointer ${
+                          activePreset === p.id && (p.id === 'all' || filters.startDate)
+                            ? 'bg-primary-500/20 text-primary-300 border border-primary-500/30 font-semibold'
+                            : 'text-text-secondary hover:bg-dark-750 hover:text-text-primary'
+                        }`}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Custom Date Inputs with Clean Labels */}
+                  <div className="pt-2.5 border-t border-dark-600/60">
+                    <div className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2 px-1">
+                      Custom Date Range
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <span className="text-[10px] text-text-muted block mb-1">From Date</span>
+                        <input
+                          type="date"
+                          value={filters.startDate || ""}
+                          onChange={(e) => {
+                            setActivePreset('custom');
+                            setFilters((prev) => ({ ...prev, startDate: e.target.value || undefined }));
+                          }}
+                          className="w-full bg-dark-750 border border-dark-600/80 rounded-xl px-2 py-1.5 text-xs text-text-primary outline-none focus:border-primary-500/50 [color-scheme:dark] cursor-pointer"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-text-muted block mb-1">To Date</span>
+                        <input
+                          type="date"
+                          value={filters.endDate || ""}
+                          onChange={(e) => {
+                            setActivePreset('custom');
+                            setFilters((prev) => ({ ...prev, endDate: e.target.value || undefined }));
+                          }}
+                          className="w-full bg-dark-750 border border-dark-600/80 rounded-xl px-2 py-1.5 text-xs text-text-primary outline-none focus:border-primary-500/50 [color-scheme:dark] cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Popover Actions */}
+                  <div className="flex items-center justify-between pt-2.5 mt-2.5 border-t border-dark-600/60">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActivePreset('all');
+                        setFilters((prev) => ({ ...prev, startDate: undefined, endDate: undefined }));
+                      }}
+                      className="text-[11px] text-text-muted hover:text-expense-400 font-medium cursor-pointer"
+                    >
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDateMenuOpen(false)}
+                      className="btn-primary py-1 px-3 text-[11px] font-semibold cursor-pointer"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
           </div>
 
@@ -197,8 +344,9 @@ const Transactions = () => {
               onClick={() => {
                 setFilters({});
                 setSearchQuery('');
+                setActivePreset('all');
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-expense-400 bg-expense-500/10 hover:bg-expense-500/20 border border-expense-500/25 transition-all cursor-pointer flex-shrink-0"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-expense-400 bg-expense-500/10 hover:bg-expense-500/20 border border-expense-500/25 transition-all cursor-pointer flex-shrink-0"
               title="Reset all filters"
             >
               <RotateCcw size={12} strokeWidth={2.2} />
