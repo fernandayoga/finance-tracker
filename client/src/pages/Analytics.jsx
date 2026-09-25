@@ -1,4 +1,3 @@
-import MainLayout from "../components/layout/MainLayout.jsx";
 import MonthlyChart from "../components/charts/MonthlyChart.jsx";
 import CategoryChart from "../components/charts/CategoryChart.jsx";
 import InsightCard from "../components/InsightCard.jsx";
@@ -6,42 +5,23 @@ import useAnalytics from "../hooks/useAnalytics.js";
 import useTransactions from "../hooks/useTransactions.js";
 import { exportToCSV } from "../utils/exportCSV.js";
 import { formatCurrency } from "../utils/format.js";
-import Sidebar from "../components/layout/Sidebar.jsx";
-import BottomNav from "../components/layout/BottomNav.jsx";
-import MobileHeader from "../components/layout/MobileHeader.jsx";
 
 const Analytics = () => {
   const { monthly, categories, loading } = useAnalytics();
   const { transactions, summary } = useTransactions();
-
-  console.log(categories)
 
   // Hitung total expense per kategori untuk list
   const totalExpense = categories.reduce((sum, c) => sum + c.value, 0);
 
   if (loading)
     return (
-      <MainLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <span className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      </MainLayout>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <span className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+      </div>
     );
 
   return (
-    <div className="min-h-screen bg-dark-900">
-      <Sidebar />
-      <MobileHeader />
-
-      <div
-        style={{ marginLeft: "0" }}
-        className="lg:ml-[224px] pt-16 lg:pt-0 pb-24 lg:pb-0"
-      >
-        <div
-          style={{ maxWidth: "900px", margin: "0 auto" }}
-          className="px-4 lg:px-8 py-6"
-        >
-          {/* semua konten analytics di sini, tidak ada yang berubah */}
+    <div className="max-w-5xl mx-auto mt-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -225,10 +205,6 @@ const Analytics = () => {
               <InsightCard transactions={transactions} />
             </div>
           </div>
-        </div>
-      </div>
-
-      <BottomNav />
     </div>
   );
 };

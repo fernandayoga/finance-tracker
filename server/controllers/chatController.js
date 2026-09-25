@@ -158,7 +158,7 @@ export const chat = async (req, res) => {
 
     // 4. Kirim ke Groq
     const completion = await groq.chat.completions.create({
-      model:       'qwen/qwen3.8-27b',
+      model:       process.env.GROQ_MODEL || 'qwen/qwen3.8-27b',
       messages,
       max_tokens:  1024,
       temperature: 0.7,
@@ -166,8 +166,6 @@ export const chat = async (req, res) => {
 
     const reply = completion.choices[0]?.message?.content
       ?? 'Maaf, aku tidak bisa memproses pertanyaan kamu saat ini. Coba lagi ya!';
-
-      console.log(reply)
 
     res.status(200).json({ reply });
 

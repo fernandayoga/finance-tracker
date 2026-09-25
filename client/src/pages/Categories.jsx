@@ -1,11 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import AppLayout from '../components/layout/MainLayout.jsx';
 import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
 import api from '../services/api.js';
-import Sidebar from "../components/layout/Sidebar.jsx";
-import BottomNav from "../components/layout/BottomNav.jsx";
-import MobileHeader from "../components/layout/MobileHeader.jsx";
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
 
 const Categories = () => {
@@ -59,14 +55,7 @@ const Categories = () => {
   const expense = categories.filter((c) => c.type === 'expense');
 
   return (
-    <div className="min-h-screen bg-dark-900">
-  <Sidebar />
-  <MobileHeader />
-
-  {/* Geser konten manual sejauh lebar sidebar */}
-  <div style={{ marginLeft: '0' }} className="lg:ml-[224px] pt-16 lg:pt-0 pb-24 lg:pb-0">
-    <div style={{ maxWidth: '900px', margin: '0 auto' }} className="px-4 lg:px-8 py-6">
-      {/* konten */}
+    <div className="max-w-5xl mx-auto mt-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -187,15 +176,6 @@ const Categories = () => {
         </div>
       )}
     </div>
-  </div>
-
-  <BottomNav />
-</div>
-
-      
-      
-
-    
   );
 };
 

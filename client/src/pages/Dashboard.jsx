@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useTransactions from "../hooks/useTransactions.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
@@ -40,7 +41,6 @@ const StatCard = ({ label, value, icon, iconBg, trend }) => {
 };
 
 const Dashboard = () => {
-  console.log(useTransactions());
   const { transactions, summary, loading, createTransaction } =
     useTransactions();
   const [modalOpen, setModalOpen] = useState(false);
@@ -104,12 +104,12 @@ const Dashboard = () => {
           <h2 className="text-sm font-semibold text-text-primary">
             Recent Transactions
           </h2>
-          <a
-            href="/transactions"
+          <Link
+            to="/transactions"
             className="text-primary-400 text-xs hover:text-primary-300"
           >
             View all →
-          </a>
+          </Link>
         </div>
 
         {loading ? (

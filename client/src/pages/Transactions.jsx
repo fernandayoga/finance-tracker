@@ -193,7 +193,7 @@ const Transactions = () => {
                     <i className="fa-solid fa-pen text-xs" />
                   </button>
                   <button
-                    onClick={() => deleteTransaction(tx._id)}
+                    onClick={() => setDeleteId(tx._id)}
                     className="w-7 h-7 rounded-lg bg-dark-600 hover:bg-expense-500/20 text-text-muted hover:text-expense-400 transition-colors flex items-center justify-center"
                   >
                     <i className="fa-solid fa-trash text-xs" />

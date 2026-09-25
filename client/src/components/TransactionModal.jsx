@@ -22,7 +22,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
       setForm({
         type:     editData.type,
         amount:   editData.amount,
-        category: editData.category._id,
+        category: editData.category?._id || editData.category || '',
         date:     toInputDate(editData.date),
         note:     editData.note || '',
       });

@@ -18,6 +18,19 @@ const COLORS = [
   "#10b981",
 ];
 
+const renderChartIcon = (icon) => {
+  if (!icon) return null;
+  const isFontAwesome = typeof icon === 'string' && (icon.startsWith('fa-') || icon.startsWith('fa '));
+  const isPlainIconName = typeof icon === 'string' && /^[a-z0-9-]+$/i.test(icon) && !icon.includes(' ');
+  if (isFontAwesome) {
+    return <i className={`fa-solid ${icon} text-xs`} />;
+  }
+  if (isPlainIconName) {
+    return <i className={`fa-solid fa-${icon} text-xs`} />;
+  }
+  return <span style={{ fontSize: '12px', lineHeight: 1 }}>{icon}</span>;
+};
+
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const fmt = (val) =>
@@ -33,7 +46,7 @@ const CustomTooltip = ({ active, payload }) => {
       style={{ backgroundColor: "#1c2333" }}
     >
       <p className="text-text-primary font-semibold flex items-center gap-2">
-        <i className={`fa-solid ${payload[0].payload.icon} text-xs`} />
+        {renderChartIcon(payload[0].payload.icon)}
         {payload[0].name}
       </p>
       <p className="text-text-secondary mt-1">{fmt(payload[0].value)}</p>
@@ -78,10 +91,7 @@ const CategoryChart = ({ data }) => {
                 gap: "6px",
               }}
             >
-              <i
-                className={`fa-solid ${entry.payload.icon}`}
-                style={{ fontSize: "11px" }}
-              />
+              {renderChartIcon(entry.payload.icon)}
               {val}
             </span>
           )}
