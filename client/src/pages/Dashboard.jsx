@@ -363,78 +363,10 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Right Column (4 cols): Quick Actions & Financial Pulse Widgets */}
+        {/* Right Column (4 cols): Financial Pulse & Assistant Widgets */}
         <div className="lg:col-span-4 space-y-6">
 
-          {/* Widget 1: Quick Actions Shortcuts */}
-          <div className="card">
-            <h2 className="text-sm font-bold text-text-primary tracking-tight mb-1">
-              Quick Shortcuts
-            </h2>
-            <p className="text-xs text-text-muted mb-4">
-              Fast actions to log cashflow or analyze data
-            </p>
-
-            <div className="grid grid-cols-2 gap-2.5">
-              {/* Add Expense shortcut */}
-              <button
-                onClick={() => handleOpenModal('expense')}
-                className="p-3 rounded-xl bg-dark-750/70 hover:bg-dark-700 border border-dark-600/60 hover:border-expense-500/40 text-left transition-all group cursor-pointer"
-              >
-                <div className="w-8 h-8 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400 mb-2 group-hover:scale-105 transition-transform">
-                  <i className="fa-solid fa-arrow-up text-xs" />
-                </div>
-                <p className="text-xs font-bold text-text-primary group-hover:text-expense-400 transition-colors">
-                  Add Expense
-                </p>
-                <p className="text-[10px] text-text-muted">Record spending</p>
-              </button>
-
-              {/* Add Income shortcut */}
-              <button
-                onClick={() => handleOpenModal('income')}
-                className="p-3 rounded-xl bg-dark-750/70 hover:bg-dark-700 border border-dark-600/60 hover:border-income-500/40 text-left transition-all group cursor-pointer"
-              >
-                <div className="w-8 h-8 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400 mb-2 group-hover:scale-105 transition-transform">
-                  <i className="fa-solid fa-arrow-down text-xs" />
-                </div>
-                <p className="text-xs font-bold text-text-primary group-hover:text-income-400 transition-colors">
-                  Add Income
-                </p>
-                <p className="text-[10px] text-text-muted">Record earnings</p>
-              </button>
-
-              {/* Deep Analytics */}
-              <Link
-                to="/analytics"
-                className="p-3 rounded-xl bg-dark-750/70 hover:bg-dark-700 border border-dark-600/60 hover:border-primary-500/40 text-left transition-all group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-primary-500/15 flex items-center justify-center text-primary-400 mb-2 group-hover:scale-105 transition-transform">
-                  <i className="fa-solid fa-chart-pie text-xs" />
-                </div>
-                <p className="text-xs font-bold text-text-primary group-hover:text-primary-300 transition-colors">
-                  Analytics
-                </p>
-                <p className="text-[10px] text-text-muted">Breakdown trends</p>
-              </Link>
-
-              {/* Manage Categories */}
-              <Link
-                to="/categories"
-                className="p-3 rounded-xl bg-dark-750/70 hover:bg-dark-700 border border-dark-600/60 hover:border-primary-500/40 text-left transition-all group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-dark-600/60 flex items-center justify-center text-text-secondary mb-2 group-hover:scale-105 transition-transform">
-                  <i className="fa-solid fa-tags text-xs" />
-                </div>
-                <p className="text-xs font-bold text-text-primary group-hover:text-primary-300 transition-colors">
-                  Categories
-                </p>
-                <p className="text-[10px] text-text-muted">Manage labels</p>
-              </Link>
-            </div>
-          </div>
-
-          {/* Widget 2: Financial Pulse Summary */}
+          {/* Widget: Financial Pulse Summary */}
           <div className="card bg-gradient-to-br from-dark-800 to-dark-850">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-bold text-text-primary tracking-tight">
