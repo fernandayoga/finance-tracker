@@ -91,11 +91,11 @@ const Chatbot = () => {
       <button
         onClick={() => setOpen((p) => !p)}
         aria-label="Toggle Financial AI Assistant"
-        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 w-13 h-13 rounded-2xl flex items-center justify-center shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 bg-primary-500 hover:bg-primary-400 text-dark-950 font-bold"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 w-13 h-13 rounded-2xl flex items-center justify-center shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 bg-primary-500 hover:bg-primary-600 text-white font-bold"
         style={{
           width: '52px',
           height: '52px',
-          boxShadow: '0 8px 24px -4px rgba(16, 185, 129, 0.4)',
+          boxShadow: '0 8px 24px -4px rgba(99, 102, 241, 0.4)',
         }}
       >
         <i className={`fa-solid fa-${open ? 'xmark' : 'robot'} text-lg`} />
@@ -114,7 +114,7 @@ const Chatbot = () => {
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-dark-600/70 bg-dark-900/60">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-dark-950 shadow-sm shadow-primary-500/20">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-sm shadow-primary-500/20">
               <i className="fa-solid fa-robot text-xs" />
             </div>
             <div className="flex-1 min-w-0">
@@ -142,7 +142,7 @@ const Chatbot = () => {
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 whitespace-pre-wrap ${
                     msg.role === 'user'
-                      ? 'bg-primary-500 text-dark-950 font-semibold rounded-tr-xs shadow-sm shadow-primary-500/10'
+                      ? 'bg-primary-500 text-white font-medium rounded-tr-xs shadow-sm shadow-primary-500/10'
                       : 'bg-dark-750/90 text-text-primary border border-dark-600/60 rounded-tl-xs'
                   }`}
                 >
@@ -202,7 +202,7 @@ const Chatbot = () => {
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || loading}
-                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all bg-primary-500 hover:bg-primary-400 text-dark-950 disabled:opacity-30 disabled:hover:bg-primary-500"
+                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all bg-primary-500 hover:bg-primary-400 text-white disabled:opacity-30 disabled:hover:bg-primary-500"
               >
                 <i className="fa-solid fa-arrow-up text-xs" />
               </button>

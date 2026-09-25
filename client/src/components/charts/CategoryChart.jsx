@@ -8,14 +8,14 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#22c55e",
-  "#06b6d4",
-  "#8b5cf6",
-  "#f59e0b",
-  "#f43f5e",
-  "#3b82f6",
-  "#ec4899",
-  "#10b981",
+  "#6366f1", // Indigo
+  "#2dd4bf", // Soft Mint
+  "#38bdf8", // Sky Blue
+  "#fb7185", // Warm Coral
+  "#a78bfa", // Soft Violet
+  "#fbbf24", // Warm Amber
+  "#34d399", // Mint Green
+  "#818cf8", // Periwinkle
 ];
 
 const renderChartIcon = (icon) => {
@@ -42,8 +42,8 @@ const CustomTooltip = ({ active, payload }) => {
 
   return (
     <div
-      className="rounded-xl border border-dark-500 px-4 py-3 text-xs"
-      style={{ backgroundColor: "#1c2333" }}
+      className="rounded-xl border border-dark-600/70 px-4 py-3 text-xs shadow-xl"
+      style={{ backgroundColor: "#171d2c" }}
     >
       <p className="text-text-primary font-semibold flex items-center gap-2">
         {renderChartIcon(payload[0].payload.icon)}

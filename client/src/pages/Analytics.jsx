@@ -24,14 +24,14 @@ const Analytics = () => {
     );
 
   const categoryBarColors = [
-    "#10b981", // Emerald
-    "#06b6d4", // Cyan
-    "#8b5cf6", // Violet
-    "#f59e0b", // Amber
-    "#f43f5e", // Rose
-    "#3b82f6", // Blue
-    "#ec4899", // Pink
-    "#14b8a6", // Teal
+    "#6366f1", // Indigo
+    "#2dd4bf", // Soft Mint
+    "#38bdf8", // Sky Blue
+    "#fb7185", // Warm Coral
+    "#a78bfa", // Soft Violet
+    "#fbbf24", // Warm Amber
+    "#34d399", // Mint Green
+    "#818cf8", // Periwinkle
   ];
 
   return (

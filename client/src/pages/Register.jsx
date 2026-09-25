@@ -38,7 +38,7 @@ const Register = () => {
 
         {/* Brand Logo & Title */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-dark-950 shadow-md shadow-primary-500/20 mb-2">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-md shadow-primary-500/20 mb-2">
             <i className="fa-solid fa-wallet text-xl" />
           </div>
           <h1 className="text-2xl font-extrabold text-text-primary tracking-tight">

@@ -23,7 +23,7 @@ const Sidebar = () => {
       {/* Brand Header */}
       <div className="p-5 border-b border-dark-600/60">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-dark-950 shadow-sm shadow-primary-500/20">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-sm shadow-primary-500/20">
             <i className="fa-solid fa-wallet text-sm" />
           </div>
           <div>

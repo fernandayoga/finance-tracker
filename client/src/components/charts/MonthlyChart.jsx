@@ -80,8 +80,8 @@ const MonthlyChart = ({ data }) => {
             )}
           />
 
-          <Bar dataKey="income" name="Income" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={32} />
-          <Bar dataKey="expense" name="Expense" fill="#f43f5e" radius={[4, 4, 0, 0]} maxBarSize={32} />
+          <Bar dataKey="income" name="Income" fill="#2dd4bf" radius={[4, 4, 0, 0]} maxBarSize={32} />
+          <Bar dataKey="expense" name="Expense" fill="#fb7185" radius={[4, 4, 0, 0]} maxBarSize={32} />
         </BarChart>
       </ResponsiveContainer>
     </div>

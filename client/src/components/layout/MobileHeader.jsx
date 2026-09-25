@@ -38,7 +38,7 @@ const MobileHeader = () => {
     <header className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-dark-850/90 backdrop-blur-md border-b border-dark-600/70 px-4 py-3 flex items-center justify-between">
       {/* Brand & Page Title */}
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-dark-950 shadow-sm shadow-primary-500/20">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-sm shadow-primary-500/20">
           <i className="fa-solid fa-wallet text-xs" />
         </div>
         <div>

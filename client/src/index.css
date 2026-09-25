@@ -1,41 +1,42 @@
 @import "tailwindcss";
 
 /* ================================================================
-   FINTECH DESIGN SYSTEM — REFINED DARK THEME
-   Inspired by modern financial tools (Linear, Stripe, Mercury)
+   MIDNIGHT INDIGO & SOFT MINT FINTECH PALETTE
+   Inspired by Linear & Stripe — modern, refined, calm on the eyes
    ================================================================ */
 
 @theme {
-  /* Primary Accent — Refined Emerald */
-  --color-primary-300: #6ee7b7;
-  --color-primary-400: #34d399;
-  --color-primary-500: #10b981;
-  --color-primary-600: #059669;
+  /* Primary Accent — Electric Indigo */
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
 
-  /* Financial Inflow — Emerald */
-  --color-income-300: #6ee7b7;
-  --color-income-400: #34d399;
-  --color-income-500: #10b981;
+  /* Financial Inflow — Soft Mint / Clean Teal */
+  --color-income-300: #5eead4;
+  --color-income-400: #2dd4bf;
+  --color-income-500: #14b8a6;
 
-  /* Financial Outflow — Crimson Rose */
+  /* Financial Outflow — Warm Coral / Soft Rose */
   --color-expense-300: #fda4af;
   --color-expense-400: #fb7185;
   --color-expense-500: #f43f5e;
 
-  /* Warning / Caution — Amber */
+  /* Warning / Caution — Warm Amber */
   --color-warning-400: #fbbf24;
   --color-warning-500: #f59e0b;
 
-  /* Surface Depth Palette */
-  --color-dark-950: #07090e;
-  --color-dark-900: #0b0e14;
-  --color-dark-850: #10141d;
-  --color-dark-800: #141924;
-  --color-dark-750: #181f2d;
-  --color-dark-700: #1d2537;
-  --color-dark-600: #263148;
-  --color-dark-500: #33415e;
-  --color-dark-400: #475a80;
+  /* Midnight Slate Surface Depth Palette */
+  --color-dark-950: #080b11;
+  --color-dark-900: #0d111a;
+  --color-dark-850: #121723;
+  --color-dark-800: #171d2c;
+  --color-dark-750: #1e2638;
+  --color-dark-700: #252f46;
+  --color-dark-600: #2b3752;
+  --color-dark-500: #384768;
+  --color-dark-400: #4e618d;
 
   /* Text & Contrast */
   --color-text-primary:   #f8fafc;
@@ -107,7 +108,7 @@
     border-radius: 1rem;
     padding: 1.5rem;
     position: relative;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .card:hover {
@@ -128,33 +129,33 @@
 
   /* Highlight Hero Panel */
   .card-hero {
-    background: linear-gradient(180deg, #161c29 0%, #121622 100%);
+    background: linear-gradient(180deg, #1a2233 0%, #151b29 100%);
     border: 1px solid var(--color-dark-600);
     border-radius: 1.25rem;
     padding: 1.75rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.4);
   }
 
   /* Subtle border glow */
   .glow-subtle {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
   }
 
-  /* Button Primary — Refined Emerald */
+  /* Button Primary — Electric Indigo */
   .btn-primary {
     background-color: var(--color-primary-500);
-    color: #07090e;
+    color: #ffffff;
     font-weight: 600;
     border-radius: 0.75rem;
     transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
   }
   .btn-primary:hover {
     background-color: var(--color-primary-400);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
   }
   .btn-primary:active {
     transform: translateY(0);
@@ -162,7 +163,7 @@
 
   /* Button Secondary — Ghost Surface */
   .btn-secondary {
-    background-color: var(--color-dark-700);
+    background-color: var(--color-dark-750);
     color: var(--color-text-primary);
     border: 1px solid var(--color-dark-600);
     font-weight: 500;
@@ -170,7 +171,7 @@
     transition: all 0.15s ease;
   }
   .btn-secondary:hover {
-    background-color: var(--color-dark-600);
+    background-color: var(--color-dark-700);
     border-color: var(--color-dark-500);
     color: #ffffff;
   }
@@ -193,9 +194,9 @@
     color: var(--color-text-primary);
   }
   .nav-item.active {
-    background-color: rgba(16, 185, 129, 0.12);
-    color: var(--color-primary-400);
-    border: 1px solid rgba(16, 185, 129, 0.24);
+    background-color: rgba(99, 102, 241, 0.12);
+    color: var(--color-primary-300);
+    border: 1px solid rgba(99, 102, 241, 0.25);
     font-weight: 600;
   }
   .nav-item.active i {
@@ -211,9 +212,9 @@
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
-    background-color: rgba(16, 185, 129, 0.1);
+    background-color: rgba(45, 212, 191, 0.12);
     color: var(--color-income-400);
-    border: 1px solid rgba(16, 185, 129, 0.22);
+    border: 1px solid rgba(45, 212, 191, 0.25);
     font-variant-numeric: tabular-nums;
   }
 
@@ -225,9 +226,9 @@
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
-    background-color: rgba(244, 63, 94, 0.1);
+    background-color: rgba(251, 113, 133, 0.12);
     color: var(--color-expense-400);
-    border: 1px solid rgba(244, 63, 94, 0.22);
+    border: 1px solid rgba(251, 113, 133, 0.25);
     font-variant-numeric: tabular-nums;
   }
 
