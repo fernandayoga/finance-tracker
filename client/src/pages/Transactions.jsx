@@ -41,162 +41,215 @@ const Transactions = () => {
     setDeleteId(null);
   };
 
+  const hasActiveFilters = Boolean(filters.type || filters.startDate || filters.endDate);
+
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-6xl mx-auto space-y-6">
+
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 mt-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-text-primary">Transactions</h1>
-          <p className="text-text-muted text-sm mt-0.5">
-            {transactions.length} records
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">Transactions</h1>
+          <p className="text-xs text-text-muted mt-1">
+            {loading ? "Loading records..." : `${transactions.length} total transaction${transactions.length === 1 ? '' : 's'} recorded`}
           </p>
         </div>
+
         <button
           onClick={() => {
             setEditData(null);
             setModalOpen(true);
           }}
-          className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
+          className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold shadow-lg shadow-primary-500/10 active:scale-95"
         >
           <i className="fa-solid fa-plus text-xs" />
-          Add Transaction
+          <span>Add Transaction</span>
         </button>
       </div>
 
-      {/* Filter Bar */}
-      <div className="card-sm mb-4 flex items-center gap-2 sm:gap-3 flex-wrap">
-        <i className="fa-solid fa-filter text-text-muted text-xs" />
+      {/* Filter Toolbar */}
+      <div className="card-sm flex items-center justify-between gap-3 flex-wrap bg-dark-800/90 border-dark-600/80">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1">
+          <div className="flex items-center gap-2 text-text-muted text-xs font-medium mr-1">
+            <i className="fa-solid fa-filter text-[11px]" />
+            <span className="hidden sm:inline">Filter:</span>
+          </div>
 
-        <select
-          className="bg-dark-700 border border-dark-500 text-text-secondary text-xs rounded-lg px-3 py-1.5 outline-none focus:border-primary-500/60"
-          onChange={(e) =>
-            setFilters((p) => ({ ...p, type: e.target.value || undefined }))
-          }
-        >
-          <option value="">All Types</option>
-          <option value="income">Income</option>
-          <option value="expense">Expense</option>
-        </select>
+          {/* Type Filter */}
+          <select
+            value={filters.type || ""}
+            className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-3 py-2 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
+            onChange={(e) =>
+              setFilters((p) => ({ ...p, type: e.target.value || undefined }))
+            }
+          >
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
 
-        <input
-          type="date"
-          className="bg-dark-700 border border-dark-500 text-text-secondary text-xs rounded-lg px-3 py-1.5 outline-none focus:border-primary-500/60"
-          onChange={(e) =>
-            setFilters((p) => ({
-              ...p,
-              startDate: e.target.value || undefined,
-            }))
-          }
-        />
-        <span className="text-text-muted text-xs">to</span>
-        <input
-          type="date"
-          className="bg-dark-700 border border-dark-500 text-text-secondary text-xs rounded-lg px-3 py-1.5 outline-none focus:border-primary-500/60"
-          onChange={(e) =>
-            setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))
-          }
-        />
+          {/* Date Range Start */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] text-text-muted hidden sm:inline">From</span>
+            <input
+              type="date"
+              value={filters.startDate || ""}
+              aria-label="Start date"
+              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-3 py-2 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
+              onChange={(e) =>
+                setFilters((p) => ({
+                  ...p,
+                  startDate: e.target.value || undefined,
+                }))
+              }
+            />
+          </div>
 
-        {Object.keys(filters).some(Boolean) && (
+          {/* Date Range End */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] text-text-muted">to</span>
+            <input
+              type="date"
+              value={filters.endDate || ""}
+              aria-label="End date"
+              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-3 py-2 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
+              onChange={(e) =>
+                setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))
+              }
+            />
+          </div>
+        </div>
+
+        {hasActiveFilters && (
           <button
             onClick={() => setFilters({})}
-            className="text-expense-400 text-xs hover:text-expense-300 ml-auto"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-expense-400 hover:bg-expense-500/10 transition-colors"
           >
-            <i className="fa-solid fa-xmark mr-1" /> Clear
+            <i className="fa-solid fa-xmark text-[11px]" />
+            <span>Reset Filters</span>
           </button>
         )}
       </div>
 
-      {/* Table */}
-      <div className="card p-0 overflow-hidden">
-        {/* Table Header */}
-        <div className="hidden sm:grid grid-cols-[2fr_0.8fr_0.9fr_1fr_60px] px-3 py-2 mb-1">
-          {["Transaction", "Category", "Date", "Amount", "Actions"].map((h) => (
-            <span
-              key={h}
-              className="text-text-muted text-xs font-semibold uppercase tracking-wider"
-            >
-              {h}
-            </span>
-          ))}
+      {/* Transactions Table / List Container */}
+      <div className="card p-0 overflow-hidden border-dark-600/80 shadow-xl">
+        {/* Table Column Headers (Desktop) */}
+        <div className="hidden sm:grid grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center px-5 py-3 border-b border-dark-600/60 bg-dark-850/60 text-[11px] font-semibold text-text-muted uppercase tracking-wider">
+          <span>Transaction</span>
+          <span>Category</span>
+          <span>Date</span>
+          <span className="text-right">Amount</span>
+          <span className="text-right">Actions</span>
         </div>
 
         {loading ? (
-          <div className="p-5 space-y-3">
+          <div className="p-4 space-y-3">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center gap-4 animate-pulse">
-                <div className="w-9 h-9 rounded-xl bg-dark-600" />
-                <div className="flex-1 h-4 bg-dark-600 rounded" />
+              <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-dark-750/30 animate-pulse">
+                <div className="w-10 h-10 rounded-xl bg-dark-600" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="h-3.5 bg-dark-600 rounded w-1/4" />
+                  <div className="h-2.5 bg-dark-600 rounded w-1/6" />
+                </div>
                 <div className="w-24 h-4 bg-dark-600 rounded" />
-                <div className="w-28 h-4 bg-dark-600 rounded" />
-                <div className="w-16 h-4 bg-dark-600 rounded" />
+                <div className="w-20 h-4 bg-dark-600 rounded" />
               </div>
             ))}
           </div>
         ) : transactions.length === 0 ? (
-          <div className="text-center py-16">
-            <i className="fa-solid fa-inbox text-dark-500 text-4xl mb-3" />
-            <p className="text-text-muted text-sm">No transactions found</p>
+          <div className="text-center py-16 px-4">
+            <div className="w-12 h-12 rounded-2xl bg-dark-750 border border-dark-600 flex items-center justify-center mx-auto mb-3 text-text-muted">
+              <i className="fa-solid fa-filter-circle-xmark text-lg" />
+            </div>
+            <h3 className="text-sm font-semibold text-text-primary">No transactions found</h3>
+            <p className="text-xs text-text-muted max-w-sm mx-auto mt-1 mb-4">
+              {hasActiveFilters
+                ? "No records match your selected filters. Try broadening your date range or reset filters."
+                : "You haven't recorded any transactions yet. Click below to add your first one."}
+            </p>
+            {hasActiveFilters ? (
+              <button
+                onClick={() => setFilters({})}
+                className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold"
+              >
+                <i className="fa-solid fa-arrow-rotate-left text-[10px]" />
+                <span>Reset Filters</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setModalOpen(true)}
+                className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold"
+              >
+                <i className="fa-solid fa-plus text-[10px]" />
+                <span>Add Transaction</span>
+              </button>
+            )}
           </div>
         ) : (
-          <div>
+          <div className="divide-y divide-dark-600/40">
             {transactions.map((tx) => (
               <div
                 key={tx._id}
-                className="flex sm:grid sm:grid-cols-[2fr_0.8fr_0.9fr_1fr_60px] items-center px-3 py-3 justify-between rounded-xl hover:bg-dark-700 transition-colors group"
+                className="flex sm:grid sm:grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center px-4 sm:px-5 py-3.5 justify-between hover:bg-dark-750/50 transition-colors group"
               >
-                {/* Info */}
-                <div className="flex items-center gap-3 min-w-0">
-                  <CategoryIcon icon={tx.category?.icon} type={tx.type} />
+                {/* 1. Transaction Description & Type */}
+                <div className="flex items-center gap-3.5 min-w-0 pr-2">
+                  <CategoryIcon icon={tx.category?.icon} type={tx.type} size="md" />
                   <div className="min-w-0">
-                    <p className="text-text-primary text-sm font-medium truncate">
-                      {tx.note || "—"}
+                    <p className="text-sm font-medium text-text-primary truncate group-hover:text-primary-300 transition-colors">
+                      {tx.note || tx.category?.name || "Uncategorized"}
                     </p>
-                    <span
-                      className={
-                        tx.type === "income" ? "badge-income" : "badge-expense"
-                      }
-                    >
-                      {tx.type}
-                    </span>
+                    <div className="flex items-center gap-2 mt-0.5 sm:hidden">
+                      <span className="text-[11px] text-text-muted">{formatDate(tx.date)}</span>
+                      <span className="text-text-muted text-[10px]">•</span>
+                      <span className="text-[11px] text-text-secondary truncate">{tx.category?.name}</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Category — hidden mobile */}
-                <span className="hidden sm:block text-text-secondary text-sm">
-                  {tx.category?.name}
-                </span>
+                {/* 2. Category (Hidden on mobile) */}
+                <div className="hidden sm:flex items-center min-w-0">
+                  <span className="text-xs text-text-secondary truncate bg-dark-750/70 border border-dark-600/40 px-2.5 py-1 rounded-lg">
+                    {tx.category?.name || "General"}
+                  </span>
+                </div>
 
-                {/* Date — hidden mobile */}
-                <span className="hidden sm:block text-text-secondary text-sm">
-                  {formatDate(tx.date)}
-                </span>
+                {/* 3. Date (Hidden on mobile) */}
+                <div className="hidden sm:block">
+                  <span className="text-xs text-text-secondary tabular-nums">
+                    {formatDate(tx.date)}
+                  </span>
+                </div>
 
-                {/* Amount */}
-                <span
-                  className={`font-semibold flex-shrink-0 text-sm ${
-                    tx.type === "income"
-                      ? "text-income-400"
-                      : "text-expense-400"
-                  }`}
-                >
-                  {tx.type === "income" ? "+" : "-"}
-                  {formatCurrency(tx.amount)}
-                </span>
+                {/* 4. Amount */}
+                <div className="text-right sm:pr-2">
+                  <p
+                    className={`text-sm font-bold tabular-nums tracking-tight ${
+                      tx.type === "income" ? "text-income-400" : "text-text-primary"
+                    }`}
+                  >
+                    {tx.type === "income" ? "+" : "-"}{formatCurrency(tx.amount)}
+                  </p>
+                  <span className={tx.type === "income" ? "badge-income text-[10px] py-0 px-2 mt-0.5" : "badge-expense text-[10px] py-0 px-2 mt-0.5"}>
+                    {tx.type}
+                  </span>
+                </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-1 opacity-100 transition-opacity">
+                {/* 5. Actions */}
+                <div className="flex items-center justify-end gap-1.5 pl-2 sm:pl-0">
                   <button
                     onClick={() => handleEdit(tx)}
-                    className="w-7 h-7 rounded-lg bg-dark-600 hover:bg-dark-500 text-text-muted hover:text-primary-400 transition-colors flex items-center justify-center"
+                    title="Edit transaction"
+                    className="w-7 h-7 rounded-lg bg-dark-750/80 hover:bg-dark-700 text-text-muted hover:text-primary-400 transition-all flex items-center justify-center border border-dark-600/50"
                   >
-                    <i className="fa-solid fa-pen text-xs" />
+                    <i className="fa-solid fa-pen text-[11px]" />
                   </button>
                   <button
                     onClick={() => setDeleteId(tx._id)}
-                    className="w-7 h-7 rounded-lg bg-dark-600 hover:bg-expense-500/20 text-text-muted hover:text-expense-400 transition-colors flex items-center justify-center"
+                    title="Delete transaction"
+                    className="w-7 h-7 rounded-lg bg-dark-750/80 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center border border-dark-600/50"
                   >
-                    <i className="fa-solid fa-trash text-xs" />
+                    <i className="fa-solid fa-trash text-[11px]" />
                   </button>
                 </div>
               </div>
@@ -205,35 +258,35 @@ const Transactions = () => {
         )}
       </div>
 
-      {/* Delete Confirm Modal */}
+      {/* Delete Confirmation Modal */}
       {deleteId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-150">
           <div
             className="absolute inset-0 bg-dark-950/80 backdrop-blur-sm"
             onClick={() => setDeleteId(null)}
           />
-          <div className="relative card w-full max-w-sm z-10 text-center">
-            <div className="w-12 h-12 rounded-full bg-expense-500/15 flex items-center justify-center mx-auto mb-4">
-              <i className="fa-solid fa-trash text-expense-400" />
+          <div className="relative card w-full max-w-sm z-10 text-center border-dark-600/80 shadow-2xl p-6">
+            <div className="w-12 h-12 rounded-2xl bg-expense-500/15 border border-expense-500/20 flex items-center justify-center mx-auto mb-4 text-expense-400">
+              <i className="fa-solid fa-trash text-base" />
             </div>
-            <h3 className="text-text-primary font-semibold mb-1">
+            <h3 className="text-base font-bold text-text-primary mb-1">
               Delete Transaction?
             </h3>
-            <p className="text-text-muted text-sm mb-5">
-              This action cannot be undone.
+            <p className="text-xs text-text-muted mb-5 leading-relaxed">
+              This action cannot be undone and will permanently remove this record from your account balance.
             </p>
-            <div className="flex gap-2">
+            <div className="flex gap-2.5">
               <button
                 onClick={() => setDeleteId(null)}
-                className="flex-1 py-2 rounded-xl text-sm font-medium bg-dark-700 border border-dark-500 text-text-secondary hover:bg-dark-600"
+                className="btn-secondary flex-1 py-2.5 text-xs font-semibold"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDelete(deleteId)}
-                className="flex-1 py-2 rounded-xl text-sm font-semibold bg-expense-500 text-white hover:bg-expense-600"
+                className="flex-1 py-2.5 rounded-xl text-xs font-semibold bg-expense-500 hover:bg-expense-600 text-white transition-all shadow-md shadow-expense-500/20 active:scale-95"
               >
-                Delete
+                Yes, Delete
               </button>
             </div>
           </div>

@@ -2,10 +2,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth.js';
 
 const menuItems = [
-  { path: '/dashboard',    icon: 'gauge',                  label: 'Overview' },
+  { path: '/dashboard',    icon: 'table-columns',          label: 'Overview' },
   { path: '/transactions', icon: 'arrow-right-arrow-left', label: 'Transactions' },
   { path: '/analytics',    icon: 'chart-pie',              label: 'Analytics' },
-  { path: '/categories',   icon: 'tag',                    label: 'Categories' },
+  { path: '/categories',   icon: 'tags',                   label: 'Categories' },
 ];
 
 const Sidebar = () => {
@@ -18,61 +18,86 @@ const Sidebar = () => {
   };
 
   return (
-    // hidden di mobile, flex di lg ke atas
-    <aside className="hidden lg:flex w-56 h-screen bg-dark-800 border-r border-dark-600 flex-col fixed left-0 top-0 z-20">
+    <aside className="hidden lg:flex w-64 h-screen bg-dark-850 border-r border-dark-600/70 flex-col fixed left-0 top-0 z-20 select-none">
 
-      {/* Logo */}
-      <div className="p-5 border-b border-dark-600">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center glow-green"
-            style={{ backgroundColor: '#22c55e' }}>
-            <i className="fa-solid fa-chart-line text-dark-900 text-sm" />
+      {/* Brand Header */}
+      <div className="p-5 border-b border-dark-600/60">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-dark-950 shadow-sm shadow-primary-500/20">
+            <i className="fa-solid fa-wallet text-sm" />
           </div>
-          <span className="font-bold text-text-primary text-sm">Finance Tracker</span>
-        </div>
-      </div>
-
-      {/* User info */}
-      <div className="px-4 py-3 border-b border-dark-600">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-primary-500/20 border border-primary-500/30 flex items-center justify-center flex-shrink-0">
-            <span className="text-primary-400 text-xs font-bold">
-              {user?.name?.charAt(0).toUpperCase()}
-            </span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-text-primary text-xs font-semibold truncate">{user?.name}</p>
-            <p className="text-text-muted text-xs truncate">{user?.email}</p>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-text-primary text-sm tracking-tight">Finance</span>
+              <span className="font-semibold text-primary-400 text-sm tracking-tight">Tracker</span>
+            </div>
+            <p className="text-[11px] text-text-muted font-medium tracking-wide uppercase">Workspace</p>
           </div>
         </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 p-3 flex flex-col gap-0.5">
-        <p className="text-text-muted text-sm font-semibold uppercase tracking-widest px-2 py-2">
-          Menu
+      {/* Navigation */}
+      <nav className="flex-1 px-3 py-4 flex flex-col gap-1 overflow-y-auto">
+        <p className="text-text-muted text-[11px] font-semibold uppercase tracking-wider px-3 py-2">
+          Navigation
         </p>
+
         {menuItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
-            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+            className={({ isActive }) =>
+              `group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+                isActive
+                  ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 font-semibold'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-dark-750/70'
+              }`
+            }
           >
-            <i className={`fa-solid fa-${item.icon} w-4 text-center text-sm`} />
-            {item.label}
+            {({ isActive }) => (
+              <>
+                <i
+                  className={`fa-solid fa-${item.icon} w-5 text-center text-sm transition-colors ${
+                    isActive ? 'text-primary-400' : 'text-text-muted group-hover:text-text-secondary'
+                  }`}
+                />
+                <span className="flex-1">{item.label}</span>
+                {isActive && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary-400 shadow-sm shadow-primary-400" />
+                )}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
-      {/* Logout */}
-      <div className="p-3 border-t border-dark-600">
-        <button
-          onClick={handleLogout}
-          className="nav-item w-full text-expense-400 hover:bg-expense-500/10 hover:text-expense-400"
-        >
-          <i className="fa-solid fa-right-from-bracket w-4 text-center text-xs" />
-          Logout
-        </button>
+      {/* User info & Logout */}
+      <div className="p-3 border-t border-dark-600/60 bg-dark-900/40">
+        <div className="flex items-center gap-3 p-2 rounded-xl bg-dark-800/80 border border-dark-600/50">
+          <div className="w-9 h-9 rounded-lg bg-primary-500/15 border border-primary-500/25 flex items-center justify-center flex-shrink-0">
+            <span className="text-primary-400 text-xs font-bold tracking-tight">
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+            </span>
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <p className="text-text-primary text-xs font-semibold truncate leading-tight">
+              {user?.name || 'Account'}
+            </p>
+            <p className="text-text-muted text-[11px] truncate leading-tight mt-0.5">
+              {user?.email || 'Logged in'}
+            </p>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            title="Sign out"
+            aria-label="Sign out"
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted hover:text-expense-400 hover:bg-expense-500/10 transition-colors"
+          >
+            <i className="fa-solid fa-arrow-right-from-bracket text-xs" />
+          </button>
+        </div>
       </div>
 
     </aside>

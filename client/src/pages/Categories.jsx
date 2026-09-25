@@ -55,124 +55,200 @@ const Categories = () => {
   const expense = categories.filter((c) => c.type === 'expense');
 
   return (
-    <div className="max-w-5xl mx-auto mt-8">
+    <div className="max-w-6xl mx-auto space-y-6">
+
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-text-primary">Categories</h1>
-          <p className="text-text-muted text-sm mt-0.5">Manage your transaction categories</p>
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">Categories</h1>
+          <p className="text-xs text-text-muted mt-1">
+            Organize transactions with default system classifications or custom categories
+          </p>
         </div>
+
         <button
           onClick={() => setShowForm((p) => !p)}
-          className="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold glow-green"
+          className="btn-primary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold shadow-lg shadow-primary-500/10 active:scale-95"
         >
-          <i className={`fa-solid fa-${showForm ? 'xmark' : 'plus'} text-xs`} />
-          {showForm ? 'Cancel' : 'Add Category'}
+          <i className={`fa-solid fa-${showForm ? 'xmark' : 'plus'} text-[11px]`} />
+          <span>{showForm ? 'Close Form' : 'New Category'}</span>
         </button>
       </div>
 
-      {/* Add Form */}
+      {/* Add Category Form */}
       {showForm && (
-        <div className="card mb-6">
-          <h2 className="text-sm font-semibold text-text-primary mb-4">New Category</h2>
+        <div className="card border-primary-500/30 bg-dark-800/95 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
+            <div>
+              <h2 className="text-sm font-bold text-text-primary">Create Custom Category</h2>
+              <p className="text-xs text-text-muted mt-0.5">Define category type, visual icon (emoji or icon name), and label</p>
+            </div>
+          </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg text-expense-400 text-sm flex items-center gap-2"
-              style={{ background: 'rgba(244,63,94,0.08)', border: '1px solid rgba(244,63,94,0.15)' }}>
-              <i className="fa-solid fa-triangle-exclamation text-xs" /> {error}
+            <div className="mb-4 p-3 rounded-xl text-expense-400 text-xs flex items-center gap-2 bg-expense-500/10 border border-expense-500/25">
+              <i className="fa-solid fa-triangle-exclamation text-xs" />
+              <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-end gap-3">
             {/* Type toggle */}
-            <div className="flex rounded-xl overflow-hidden border border-dark-500 flex-shrink-0">
-              {['income', 'expense'].map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => setForm((p) => ({ ...p, type: t }))}
-                  className={`px-4 py-2 text-xs font-semibold transition-all ${
-                    form.type === t
-                      ? t === 'income'
-                        ? 'bg-income-500/20 text-income-400'
-                        : 'bg-expense-500/20 text-expense-400'
-                      : 'text-text-muted hover:text-text-primary'
-                  }`}
-                >
-                  {t.charAt(0).toUpperCase() + t.slice(1)}
-                </button>
-              ))}
+            <div className="w-full sm:w-auto">
+              <label className="text-xs font-semibold text-text-secondary tracking-tight block mb-1.5">
+                Type
+              </label>
+              <div className="flex rounded-xl overflow-hidden border border-dark-600 bg-dark-750 p-1">
+                {['expense', 'income'].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setForm((p) => ({ ...p, type: t }))}
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all capitalize ${
+                      form.type === t
+                        ? t === 'income'
+                          ? 'bg-income-500/20 text-income-400 border border-income-500/30'
+                          : 'bg-expense-500/20 text-expense-400 border border-expense-500/30'
+                        : 'text-text-muted hover:text-text-primary'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Icon */}
-            <Input
-              placeholder="Icon (emoji)"
-              value={form.icon}
-              onChange={(e) => setForm((p) => ({ ...p, icon: e.target.value }))}
-              className="w-24 flex-shrink-0 text-center"
-            />
+            <div className="w-full sm:w-28 flex-shrink-0">
+              <Input
+                label="Icon / Emoji"
+                placeholder="📦 or fa-car"
+                value={form.icon}
+                onChange={(e) => setForm((p) => ({ ...p, icon: e.target.value }))}
+                className="text-center"
+              />
+            </div>
 
             {/* Name */}
-            <Input
-              placeholder="Category name"
-              value={form.name}
-              onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-              className="flex-1"
-              required
-            />
+            <div className="flex-1 w-full">
+              <Input
+                label="Category Name"
+                placeholder="e.g. Groceries, Gym, Investments"
+                value={form.name}
+                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                required
+              />
+            </div>
 
-            <Button type="submit" loading={adding} className="flex-shrink-0">
-              Add
+            <Button type="submit" loading={adding} className="w-full sm:w-auto py-2.5 px-5 text-xs flex-shrink-0">
+              Save Category
             </Button>
           </form>
         </div>
       )}
 
-      {/* Category Lists */}
+      {/* Category Columns */}
       {loading ? (
         <div className="flex justify-center py-16">
-          <span className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+          <span className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {[
-            { label: 'Income',  data: income,  color: 'text-income-400',  bg: 'rgba(34,197,94,0.1)',  icon: 'arrow-trend-up' },
-            { label: 'Expense', data: expense, color: 'text-expense-400', bg: 'rgba(244,63,94,0.1)', icon: 'arrow-trend-down' },
-          ].map((section) => (
-            <div key={section.label} className="card">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                  style={{ background: section.bg }}>
-                  <i className={`fa-solid fa-${section.icon} text-xs ${section.color}`} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Income Categories */}
+          <div className="card">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
+                  <i className="fa-solid fa-arrow-down-left text-xs" />
                 </div>
-                <h2 className="text-sm font-semibold text-text-primary">{section.label}</h2>
-                <span className="ml-auto text-text-muted text-xs">{section.data.length} categories</span>
+                <div>
+                  <h2 className="text-sm font-bold text-text-primary">Income Categories</h2>
+                  <p className="text-[11px] text-text-muted">Inflow tags for compensation and returns</p>
+                </div>
               </div>
+              <span className="text-xs text-text-muted bg-dark-750 px-2 py-0.5 rounded-full border border-dark-600">
+                {income.length} categories
+              </span>
+            </div>
 
-              <div className="flex flex-col gap-1">
-                {section.data.map((cat) => (
-                  <div key={cat._id}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-dark-700 transition-colors group">
+            <div className="space-y-1.5">
+              {income.map((cat) => (
+                <div
+                  key={cat._id}
+                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-dark-750/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
                     <CategoryIcon icon={cat.icon} type={cat.type} size="sm" />
-                    <span className="text-text-primary text-sm font-medium flex-1">{cat.name}</span>
+                    <span className="text-sm font-medium text-text-primary">{cat.name}</span>
+                  </div>
 
+                  <div>
                     {cat.isDefault ? (
-                      <span className="text-text-muted text-xs px-2 py-0.5 bg-dark-600 rounded-full">
-                        default
+                      <span className="text-[10px] text-text-muted px-2 py-0.5 bg-dark-750 rounded-md border border-dark-600/50">
+                        Default
                       </span>
                     ) : (
                       <button
                         onClick={() => handleDelete(cat._id)}
-                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-600 hover:bg-expense-500/20 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center"
+                        title="Delete custom category"
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-700 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center"
                       >
                         <i className="fa-solid fa-trash text-xs" />
                       </button>
                     )}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Expense Categories */}
+          <div className="card">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400">
+                  <i className="fa-solid fa-arrow-up-right text-xs" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-bold text-text-primary">Expense Categories</h2>
+                  <p className="text-[11px] text-text-muted">Outflow tags for expenses and bills</p>
+                </div>
+              </div>
+              <span className="text-xs text-text-muted bg-dark-750 px-2 py-0.5 rounded-full border border-dark-600">
+                {expense.length} categories
+              </span>
+            </div>
+
+            <div className="space-y-1.5">
+              {expense.map((cat) => (
+                <div
+                  key={cat._id}
+                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-dark-750/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <CategoryIcon icon={cat.icon} type={cat.type} size="sm" />
+                    <span className="text-sm font-medium text-text-primary">{cat.name}</span>
+                  </div>
+
+                  <div>
+                    {cat.isDefault ? (
+                      <span className="text-[10px] text-text-muted px-2 py-0.5 bg-dark-750 rounded-md border border-dark-600/50">
+                        Default
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => handleDelete(cat._id)}
+                        title="Delete custom category"
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg bg-dark-700 hover:bg-expense-500/15 text-text-muted hover:text-expense-400 transition-all flex items-center justify-center"
+                      >
+                        <i className="fa-solid fa-trash text-xs" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

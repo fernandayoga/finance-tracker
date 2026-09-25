@@ -49,7 +49,10 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.category) { setError('Please select a category'); return; }
+    if (!form.category) {
+      setError('Please select a category for this transaction');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
@@ -65,57 +68,69 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-150">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-dark-950/80 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-md card z-10">
+      {/* Modal Dialog */}
+      <div className="relative w-full max-w-md card bg-dark-800 border-dark-600 shadow-2xl z-10 p-6">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-semibold text-text-primary">
-            {editData ? 'Edit Transaction' : 'Add Transaction'}
-          </h2>
-          <button onClick={onClose} className="text-text-muted hover:text-text-primary transition-colors">
-            <i className="fa-solid fa-xmark" />
+        <div className="flex items-center justify-between mb-5 pb-3 border-b border-dark-600/50">
+          <div className="flex items-center gap-2.5">
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+              form.type === 'income' ? 'bg-income-500/15 text-income-400' : 'bg-expense-500/15 text-expense-400'
+            }`}>
+              <i className={`fa-solid fa-${editData ? 'pen-to-square' : 'plus'} text-xs`} />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-text-primary tracking-tight">
+                {editData ? 'Edit Transaction' : 'Record Transaction'}
+              </h2>
+              <p className="text-[11px] text-text-muted">Fill in details to log your cashflow</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-dark-700 transition-colors"
+          >
+            <i className="fa-solid fa-xmark text-xs" />
           </button>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg text-expense-400 text-sm flex items-center gap-2"
-            style={{ background: 'rgba(244,63,94,0.08)', border: '1px solid rgba(244,63,94,0.15)' }}>
+          <div className="mb-4 p-3 rounded-xl text-expense-400 text-xs flex items-center gap-2 bg-expense-500/10 border border-expense-500/25">
             <i className="fa-solid fa-triangle-exclamation text-xs" />
-            {error}
+            <span>{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-          {/* Type toggle */}
+          {/* Type Segmented Toggle */}
           <div>
-            <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-2">
-              Type
-            </p>
-            <div className="grid grid-cols-2 gap-2 p-1 bg-dark-700 rounded-xl">
+            <label className="text-xs font-semibold text-text-secondary tracking-tight block mb-1.5">
+              Transaction Flow
+            </label>
+            <div className="grid grid-cols-2 gap-1.5 p-1 bg-dark-750 rounded-xl border border-dark-600/70">
               {['expense', 'income'].map((t) => (
                 <button
                   key={t}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, type: t, category: '' }))}
-                  className={`py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
+                  className={`py-2 rounded-lg text-xs font-semibold capitalize transition-all flex items-center justify-center gap-1.5 ${
                     form.type === t
                       ? t === 'income'
-                        ? 'bg-income-500 text-dark-900'
-                        : 'bg-expense-500 text-white'
-                      : 'text-text-muted hover:text-text-primary'
+                        ? 'bg-income-500/20 text-income-400 border border-income-500/30 shadow-sm'
+                        : 'bg-expense-500/20 text-expense-400 border border-expense-500/30 shadow-sm'
+                      : 'text-text-muted hover:text-text-secondary'
                   }`}
                 >
-                  <i className={`fa-solid fa-${t === 'income' ? 'arrow-down' : 'arrow-up'} mr-1.5 text-xs`} />
-                  {t}
+                  <i className={`fa-solid fa-${t === 'income' ? 'arrow-down-left' : 'arrow-up-right'} text-[10px]`} />
+                  <span>{t}</span>
                 </button>
               ))}
             </div>
@@ -123,7 +138,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
 
           {/* Amount */}
           <Input
-            label="Amount"
+            label="Amount (IDR)"
             name="amount"
             type="number"
             placeholder="0"
@@ -132,20 +147,22 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
             onChange={handleChange}
             min="1"
             required
+            className="tabular-nums font-semibold"
           />
 
           {/* Category */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
+            <label className="text-xs font-semibold text-text-secondary tracking-tight">
               Category
             </label>
             <select
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="w-full rounded-xl px-4 py-2.5 text-sm bg-dark-700 border border-dark-500 text-text-primary outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/60 hover:border-dark-400 transition-all"
+              required
+              className="w-full rounded-xl px-3.5 py-2.5 text-sm bg-dark-750/70 border border-dark-600/80 text-text-primary outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/60 hover:border-dark-500 transition-all cursor-pointer"
             >
-              <option value="">Select category</option>
+              <option value="" disabled>Choose a category</option>
               {filteredCategories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat.name}
@@ -156,7 +173,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
 
           {/* Date */}
           <Input
-            label="Date"
+            label="Transaction Date"
             name="date"
             type="date"
             icon="calendar"
@@ -167,26 +184,27 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
 
           {/* Note */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
-              Note <span className="normal-case font-normal text-text-muted">(optional)</span>
+            <label className="text-xs font-semibold text-text-secondary tracking-tight flex items-center justify-between">
+              <span>Description / Note</span>
+              <span className="text-[11px] font-normal text-text-muted">Optional</span>
             </label>
             <textarea
               name="note"
               value={form.note}
               onChange={handleChange}
-              placeholder="Add a note..."
+              placeholder="e.g. Starbucks Coffee, Monthly WiFi bill, Client invoice..."
               rows={2}
-              className="w-full rounded-xl px-4 py-2.5 text-sm bg-dark-700 border border-dark-500 text-text-primary outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/60 hover:border-dark-400 transition-all resize-none placeholder:text-text-muted"
+              className="w-full rounded-xl px-3.5 py-2.5 text-sm bg-dark-750/70 border border-dark-600/80 text-text-primary outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500/60 hover:border-dark-500 transition-all resize-none placeholder:text-text-muted/60"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2 mt-1">
-            <Button variant="secondary" className="flex-1" onClick={onClose} type="button">
+          <div className="flex gap-2.5 pt-2">
+            <Button variant="secondary" className="flex-1 py-2.5 text-xs" onClick={onClose} type="button">
               Cancel
             </Button>
-            <Button variant="primary" className="flex-1" type="submit" loading={loading}>
-              {editData ? 'Save Changes' : 'Add Transaction'}
+            <Button variant="primary" className="flex-1 py-2.5 text-xs" type="submit" loading={loading}>
+              {editData ? 'Save Changes' : 'Record Transaction'}
             </Button>
           </div>
 

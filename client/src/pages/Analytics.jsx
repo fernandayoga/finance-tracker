@@ -16,195 +16,213 @@ const Analytics = () => {
   if (loading)
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <span className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+        <div className="flex flex-col items-center gap-3">
+          <span className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-xs text-text-muted">Loading financial analytics...</p>
+        </div>
       </div>
     );
 
+  const categoryBarColors = [
+    "#10b981", // Emerald
+    "#06b6d4", // Cyan
+    "#8b5cf6", // Violet
+    "#f59e0b", // Amber
+    "#f43f5e", // Rose
+    "#3b82f6", // Blue
+    "#ec4899", // Pink
+    "#14b8a6", // Teal
+  ];
+
   return (
-    <div className="max-w-5xl mx-auto mt-8">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+    <div className="max-w-6xl mx-auto space-y-6">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">Analytics & Trends</h1>
+          <p className="text-xs text-text-muted mt-1">
+            Visualizing cashflow trends, spending categories, and performance
+          </p>
+        </div>
+
+        <button
+          onClick={() => exportToCSV(transactions)}
+          disabled={!transactions?.length}
+          className="btn-secondary inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold shadow-sm disabled:opacity-40"
+        >
+          <i className="fa-solid fa-file-csv text-income-400 text-sm" />
+          <span>Export CSV</span>
+        </button>
+      </div>
+
+      {/* Summary KPI Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Total Balance */}
+        <div className="stat-card">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-text-muted uppercase tracking-wider">All-Time Balance</span>
+            <div className="w-7 h-7 rounded-lg bg-dark-750 flex items-center justify-center text-primary-400">
+              <i className="fa-solid fa-wallet text-xs" />
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-text-primary tabular-nums">
+            {formatCurrency(summary.balance || 0)}
+          </p>
+        </div>
+
+        {/* Income This Month */}
+        <div className="stat-card">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Monthly Inflow</span>
+            <div className="w-7 h-7 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
+              <i className="fa-solid fa-arrow-down-left text-xs" />
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-income-400 tabular-nums">
+            +{formatCurrency(summary.thisMonth?.income || 0)}
+          </p>
+        </div>
+
+        {/* Expense This Month */}
+        <div className="stat-card">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Monthly Outflow</span>
+            <div className="w-7 h-7 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400">
+              <i className="fa-solid fa-arrow-up-right text-xs" />
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-expense-400 tabular-nums">
+            -{formatCurrency(summary.thisMonth?.expense || 0)}
+          </p>
+        </div>
+      </div>
+
+      {/* Visual Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 12-Month Area / Bar Chart (2 cols) */}
+        <div className="card lg:col-span-2 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-5">
             <div>
-              <h1 className="text-xl font-bold text-text-primary">Analytics</h1>
-              <p className="text-text-muted text-sm mt-0.5">
-                Your financial overview
+              <h2 className="text-sm font-bold text-text-primary tracking-tight">
+                Income vs Expense
+              </h2>
+              <p className="text-xs text-text-muted mt-0.5">
+                Comparative historical performance over the last 12 months
               </p>
             </div>
-            <button
-              onClick={() => exportToCSV(transactions)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-dark-700 border border-dark-500 text-text-secondary hover:text-text-primary hover:border-dark-400 transition-all"
-            >
-              <i className="fa-solid fa-file-csv text-income-400" />
-              Export CSV
-            </button>
-          </div>
-
-          {/* Summary row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            {[
-              {
-                label: "Total Balance",
-                value: summary.balance,
-                icon: "wallet",
-                color: "text-primary-400",
-                bg: "rgba(34,197,94,0.1)",
-                border: "rgba(34,197,94,0.2)",
-              },
-              {
-                label: "Income This Month",
-                value: summary.thisMonth?.income,
-                icon: "arrow-trend-up",
-                color: "text-income-400",
-                bg: "rgba(34,197,94,0.08)",
-                border: "rgba(34,197,94,0.15)",
-              },
-              {
-                label: "Expense This Month",
-                value: summary.thisMonth?.expense,
-                icon: "arrow-trend-down",
-                color: "text-expense-400",
-                bg: "rgba(244,63,94,0.08)",
-                border: "rgba(244,63,94,0.15)",
-              },
-            ].map((s) => (
-              <div
-                key={s.label}
-                className="stat-card"
-                style={{ background: s.bg, borderColor: s.border }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-text-secondary text-xs font-medium">
-                    {s.label}
-                  </p>
-                  <i className={`fa-solid fa-${s.icon} text-xs ${s.color}`} />
-                </div>
-                <p className={`text-xl font-bold ${s.color}`}>
-                  {formatCurrency(s.value || 0)}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Charts row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-            {/* Monthly Area Chart — 2/3 width */}
-            <div className="card lg:col-span-2">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-sm font-semibold text-text-primary">
-                    Income vs Expense
-                  </h2>
-                  <p className="text-text-muted text-xs mt-0.5">
-                    Last 12 months
-                  </p>
-                </div>
-                <div className="w-8 h-8 rounded-lg bg-dark-700 flex items-center justify-center">
-                  <i className="fa-solid fa-chart-area text-xs text-primary-400" />
-                </div>
-              </div>
-              <MonthlyChart data={monthly} />
-            </div>
-
-            {/* Pie Chart — 1/3 width */}
-            <div className="card">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-sm font-semibold text-text-primary">
-                    Expense by Category
-                  </h2>
-                  <p className="text-text-muted text-xs mt-0.5">This month</p>
-                </div>
-                <div className="w-8 h-8 rounded-lg bg-dark-700 flex items-center justify-center">
-                  <i className="fa-solid fa-chart-pie text-xs text-primary-400" />
-                </div>
-              </div>
-              <CategoryChart data={categories} />
+            <div className="w-8 h-8 rounded-lg bg-dark-750 border border-dark-600/60 flex items-center justify-center text-text-muted">
+              <i className="fa-solid fa-chart-column text-xs" />
             </div>
           </div>
+          <MonthlyChart data={monthly} />
+        </div>
 
-          {/* Bottom row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {/* Category breakdown list */}
-            <div className="card">
-              <h2 className="text-sm font-semibold text-text-primary mb-4">
+        {/* Expense by Category Donut Chart (1 col) */}
+        <div className="card flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-sm font-bold text-text-primary tracking-tight">
+                Category Share
+              </h2>
+              <p className="text-xs text-text-muted mt-0.5">
+                Current month distribution
+              </p>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-dark-750 border border-dark-600/60 flex items-center justify-center text-text-muted">
+              <i className="fa-solid fa-chart-pie text-xs" />
+            </div>
+          </div>
+          <CategoryChart data={categories} />
+        </div>
+      </div>
+
+      {/* Detailed Breakdown Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Top Spending Categories with Progress Bars */}
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-sm font-bold text-text-primary tracking-tight">
                 Top Spending Categories
               </h2>
-
-              {categories.length === 0 ? (
-                <p className="text-text-muted text-sm text-center py-8">
-                  No expense data this month
-                </p>
-              ) : (
-                <div className="flex flex-col gap-3">
-                  {categories.map((cat, i) => {
-                    const percent =
-                      totalExpense > 0
-                        ? ((cat.value / totalExpense) * 100).toFixed(1)
-                        : 0;
-
-                    const barColors = [
-                      "#22c55e",
-                      "#06b6d4",
-                      "#8b5cf6",
-                      "#f59e0b",
-                      "#f43f5e",
-                      "#3b82f6",
-                      "#ec4899",
-                      "#10b981",
-                    ];
-
-                    return (
-                      <div key={i}>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-dark-600">
-                              <i
-                                className={`fa-solid ${cat.icon} text-xs text-text-secondary`}
-                              />
-                            </div>
-                            <span className="text-text-primary text-sm font-medium">
-                              {cat.name}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <span className="text-text-muted text-xs">
-                              {percent}%
-                            </span>
-                            <span className="text-text-primary text-sm font-semibold">
-                              {formatCurrency(cat.value)}
-                            </span>
-                          </div>
-                        </div>
-                        {/* Progress bar */}
-                        <div className="h-1.5 bg-dark-600 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full transition-all duration-500"
-                            style={{
-                              width: `${percent}%`,
-                              backgroundColor: barColors[i % barColors.length],
-                            }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+              <p className="text-xs text-text-muted mt-0.5">
+                Categorized expenses ranked by highest total
+              </p>
             </div>
+            <span className="text-[11px] text-text-muted bg-dark-750 px-2 py-0.5 rounded-full border border-dark-600">
+              {categories.length} categories
+            </span>
+          </div>
 
-            {/* Insights */}
-            <div className="card">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-dark-700 flex items-center justify-center">
-                  <i className="fa-solid fa-lightbulb text-xs text-warning-400" />
-                </div>
-                <h2 className="text-sm font-semibold text-text-primary">
-                  Insights
-                </h2>
-              </div>
-              <InsightCard transactions={transactions} />
+          {categories.length === 0 ? (
+            <div className="text-center py-12 text-text-muted">
+              <i className="fa-solid fa-receipt text-2xl text-dark-500 mb-2" />
+              <p className="text-xs">No expense data recorded this month</p>
+            </div>
+          ) : (
+            <div className="space-y-4 pt-1">
+              {categories.map((cat, i) => {
+                const percent = totalExpense > 0 ? ((cat.value / totalExpense) * 100).toFixed(1) : 0;
+                const barColor = categoryBarColors[i % categoryBarColors.length];
+
+                return (
+                  <div key={i} className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: barColor }}
+                        />
+                        <span className="font-medium text-text-primary truncate">
+                          {cat.name}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 font-medium tabular-nums flex-shrink-0">
+                        <span className="text-text-muted">{percent}%</span>
+                        <span className="text-text-primary font-semibold">
+                          {formatCurrency(cat.value)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Clean Progress track */}
+                    <div className="h-1.5 bg-dark-750 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${percent}%`,
+                          backgroundColor: barColor,
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Automated Weekly Insights */}
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-sm font-bold text-text-primary tracking-tight">
+                Automated Insights
+              </h2>
+              <p className="text-xs text-text-muted mt-0.5">
+                Heuristic spending patterns and savings velocity
+              </p>
+            </div>
+            <div className="w-8 h-8 rounded-lg bg-dark-750 border border-dark-600/60 flex items-center justify-center text-primary-400">
+              <i className="fa-solid fa-lightbulb text-xs" />
             </div>
           </div>
+
+          <InsightCard transactions={transactions} />
+        </div>
+      </div>
+
     </div>
   );
 };

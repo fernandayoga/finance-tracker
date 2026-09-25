@@ -21,50 +21,44 @@ const Login = () => {
       await login(form.email, form.password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4 relative">
+      <div className="w-full max-w-sm relative z-10 space-y-6">
 
-      {/* Background glow */}
-      <div className="absolute top-[-20%] left-[30%] w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(34,197,94,0.07), transparent 65%)' }} />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(34,197,94,0.05), transparent 65%)' }} />
-
-      <div className="w-full max-w-sm relative z-10">
-
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 glow-green"
-            style={{ backgroundColor: '#22c55e' }}>
-            <i className="fa-solid fa-chart-line text-dark-900 text-lg" />
+        {/* Brand Logo & Title */}
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-dark-950 shadow-md shadow-primary-500/20 mb-2">
+            <i className="fa-solid fa-wallet text-xl" />
           </div>
-          <h1 className="text-2xl font-bold text-text-primary">Finance Tracker</h1>
-        
+          <h1 className="text-2xl font-extrabold text-text-primary tracking-tight">
+            Welcome back
+          </h1>
+          <p className="text-xs text-text-muted">
+            Enter your credentials to access your financial dashboard
+          </p>
         </div>
 
-        {/* Card */}
-        <div className="card">
-
+        {/* Form Card */}
+        <div className="card bg-dark-800/90 border-dark-600/80 shadow-2xl p-6 sm:p-7">
           {error && (
-            <div className="mb-4 p-3 rounded-lg text-expense-400 text-sm flex items-center gap-2"
-              style={{ background: 'rgba(244,63,94,0.08)', border: '1px solid rgba(244,63,94,0.15)' }}>
-              <i className="fa-solid fa-triangle-exclamation text-xs" />
-              {error}
+            <div className="mb-4 p-3 rounded-xl text-expense-400 text-xs flex items-center gap-2 bg-expense-500/10 border border-expense-500/25">
+              <i className="fa-solid fa-circle-exclamation text-xs" />
+              <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              label="Email"
+              label="Email Address"
               name="email"
               type="email"
-              placeholder="yourname@example.com"
+              placeholder="alex@example.com"
               icon="envelope"
               value={form.email}
               onChange={handleChange}
@@ -80,19 +74,26 @@ const Login = () => {
               onChange={handleChange}
               required
             />
-            <Button type="submit" loading={loading} className="w-full mt-1" size="lg">
+
+            <Button type="submit" loading={loading} className="w-full py-2.5 text-xs font-semibold shadow-md shadow-primary-500/10">
               Sign In
             </Button>
           </form>
 
-          <div className="mt-4 pt-4 border-t border-dark-600 text-center">
-            <p className="text-text-muted text-sm">
+          <div className="mt-5 pt-4 border-t border-dark-600/60 text-center">
+            <p className="text-xs text-text-muted">
               Don't have an account?{' '}
-              <Link to="/register" className="text-primary-400 hover:text-primary-300 font-semibold">
-                Sign up
+              <Link to="/register" className="text-primary-400 hover:text-primary-300 font-semibold transition-colors">
+                Create one now
               </Link>
             </p>
           </div>
+        </div>
+
+        {/* Security Trust Note */}
+        <div className="text-center flex items-center justify-center gap-1.5 text-[11px] text-text-muted">
+          <i className="fa-solid fa-shield-halved text-[10px] text-primary-400" />
+          <span>Encrypted Session • Privacy First</span>
         </div>
 
       </div>

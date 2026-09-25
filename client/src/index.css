@@ -1,194 +1,250 @@
 @import "tailwindcss";
 
-/* ================================
-   DARK GREEN THEME
-   ================================ */
+/* ================================================================
+   FINTECH DESIGN SYSTEM — REFINED DARK THEME
+   Inspired by modern financial tools (Linear, Stripe, Mercury)
+   ================================================================ */
+
 @theme {
-  /* Primary — Green */
-  --color-primary-300: #86efac;
-  --color-primary-400: #4ade80;
-  --color-primary-500: #22c55e;
-  --color-primary-600: #16a34a;
+  /* Primary Accent — Refined Emerald */
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
 
-  /* Income — sama dengan primary */
-  --color-income-400: #4ade80;
-  --color-income-500: #22c55e;
+  /* Financial Inflow — Emerald */
+  --color-income-300: #6ee7b7;
+  --color-income-400: #34d399;
+  --color-income-500: #10b981;
 
-  /* Expense — Red/Rose */
+  /* Financial Outflow — Crimson Rose */
+  --color-expense-300: #fda4af;
   --color-expense-400: #fb7185;
   --color-expense-500: #f43f5e;
 
-  /* Warning — Amber */
+  /* Warning / Caution — Amber */
   --color-warning-400: #fbbf24;
   --color-warning-500: #f59e0b;
 
-  /* Dark surfaces */
-  --color-dark-950: #0a0a0f;
-  --color-dark-900: #0f1117;
-  --color-dark-800: #161b26;
-  --color-dark-700: #1c2333;
-  --color-dark-600: #232d42;
-  --color-dark-500: #2d3a52;
-  --color-dark-400: #3d4f6e;
+  /* Surface Depth Palette */
+  --color-dark-950: #07090e;
+  --color-dark-900: #0b0e14;
+  --color-dark-850: #10141d;
+  --color-dark-800: #141924;
+  --color-dark-750: #181f2d;
+  --color-dark-700: #1d2537;
+  --color-dark-600: #263148;
+  --color-dark-500: #33415e;
+  --color-dark-400: #475a80;
 
-  /* Text */
+  /* Text & Contrast */
   --color-text-primary:   #f8fafc;
   --color-text-secondary: #94a3b8;
-  --color-text-muted:     #4b5d7a;
+  --color-text-muted:     #64748b;
 
+  /* Breakpoint */
   --breakpoint-xs: 480px;
 
-  --font-sans: 'DM Sans', system-ui, sans-serif;
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-
-   /* Naikkan semua ukuran font sekaligus */
-  --text-xs:   0.8rem;    /* default 0.75rem */
-  --text-sm:   0.95rem;   /* default 0.875rem */
-  --text-base: 1.05rem;   /* default 1rem */
-  --text-lg:   1.2rem;    /* default 1.125rem */
-  --text-xl:   1.35rem;   /* default 1.25rem */
-  --text-2xl:  1.6rem;    /* default 1.5rem */
+  /* Font scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
 }
 
-/* ================================
-   BASE
-   ================================ */
+/* ================================================================
+   BASE STYLES
+   ================================================================ */
 @layer base {
+  * {
+    border-color: var(--color-dark-600);
+  }
+
   body {
     background-color: var(--color-dark-900);
     font-family: var(--font-sans);
     color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
   }
 
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
+  /* Refined scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-dark-500);
+    background: var(--color-dark-600);
     border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark-500);
   }
 }
 
-/* ================================
-   COMPONENTS
-   ================================ */
+/* ================================================================
+   COMPONENT UTILITIES
+   ================================================================ */
 @layer components {
 
+  /* Primary Fintech Card */
   .card {
     background-color: var(--color-dark-800);
     border: 1px solid var(--color-dark-600);
-    border-radius: 0.875rem;
+    border-radius: 1rem;
     padding: 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
   }
 
+  /* Compact Card */
   .card-sm {
     background-color: var(--color-dark-800);
     border: 1px solid var(--color-dark-600);
     border-radius: 0.875rem;
     padding: 1rem;
+    transition: border-color 0.2s ease;
+  }
+  .card-sm:hover {
+    border-color: rgba(255, 255, 255, 0.12);
   }
 
-  /* Green glow — untuk elemen highlight */
-  .glow-green {
-    box-shadow: 0 0 24px rgba(34, 197, 94, 0.25);
+  /* Highlight Hero Panel */
+  .card-hero {
+    background: linear-gradient(180deg, #161c29 0%, #121622 100%);
+    border: 1px solid var(--color-dark-600);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.35);
   }
 
-  /* Gradient text hijau */
-  .gradient-text {
-    background: linear-gradient(135deg, #4ade80, #22c55e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Subtle border glow */
+  .glow-subtle {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
   }
 
-  /* Primary button hijau */
+  /* Button Primary — Refined Emerald */
   .btn-primary {
     background-color: var(--color-primary-500);
-    color: #0a0a0f;
+    color: #07090e;
     font-weight: 600;
-    transition: background-color 0.15s, transform 0.1s;
+    border-radius: 0.75rem;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
   }
   .btn-primary:hover {
     background-color: var(--color-primary-400);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
   }
   .btn-primary:active {
-    transform: scale(0.97);
+    transform: translateY(0);
   }
 
-  /* Sidebar nav item */
+  /* Button Secondary — Ghost Surface */
+  .btn-secondary {
+    background-color: var(--color-dark-700);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-dark-600);
+    font-weight: 500;
+    border-radius: 0.75rem;
+    transition: all 0.15s ease;
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-dark-600);
+    border-color: var(--color-dark-500);
+    color: #ffffff;
+  }
+
+  /* Navigation Item */
   .nav-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.55rem 0.875rem;
-    border-radius: 0.5rem;
-    font-size: 0.8rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.15s ease;
   }
   .nav-item:hover {
     background-color: var(--color-dark-700);
     color: var(--color-text-primary);
   }
   .nav-item.active {
-    background-color: var(--color-primary-500);
-    color: #0a0a0f;
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--color-primary-400);
+    border: 1px solid rgba(16, 185, 129, 0.24);
     font-weight: 600;
   }
   .nav-item.active i {
-    color: #0a0a0f;
+    color: var(--color-primary-400);
   }
 
-  /* Badge */
+  /* Badges */
   .badge-income {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.35rem;
     padding: 0.2rem 0.6rem;
     border-radius: 9999px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    background-color: rgba(34, 197, 94, 0.12);
-    color: #4ade80;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-income-400);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    font-variant-numeric: tabular-nums;
   }
 
   .badge-expense {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.35rem;
     padding: 0.2rem 0.6rem;
     border-radius: 9999px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    background-color: rgba(244, 63, 94, 0.12);
-    color: #fb7185;
-    border: 1px solid rgba(244, 63, 94, 0.2);
+    background-color: rgba(244, 63, 94, 0.1);
+    color: var(--color-expense-400);
+    border: 1px solid rgba(244, 63, 94, 0.22);
+    font-variant-numeric: tabular-nums;
   }
 
-  /* Stat card highlight */
+  /* Stat Card */
   .stat-card {
     background-color: var(--color-dark-800);
     border: 1px solid var(--color-dark-600);
-    border-radius: 0.875rem;
+    border-radius: 1rem;
     padding: 1.25rem 1.5rem;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s ease, transform 0.15s ease;
   }
   .stat-card:hover {
-    border-color: var(--color-dark-400);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
   }
 
-  /* Table row */
-  .table-row {
-    display: grid;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.15s;
-  }
-  .table-row:hover {
-    background-color: var(--color-dark-700);
+  /* Tabular numbers for financial metrics */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 }

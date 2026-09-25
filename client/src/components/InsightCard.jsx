@@ -41,21 +41,21 @@ const InsightCard = ({ transactions = [] }) => {
       const isUp    = diff > 0;
 
       result.push({
-        icon:   isUp ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down',
+        icon:   isUp ? 'arrow-trend-up' : 'arrow-trend-down',
         color:  isUp ? 'text-expense-400' : 'text-income-400',
-        bg:     isUp ? 'rgba(244,63,94,0.08)'  : 'rgba(34,197,94,0.08)',
-        border: isUp ? 'rgba(244,63,94,0.15)'  : 'rgba(34,197,94,0.15)',
+        badgeBg: isUp ? 'bg-expense-500/15' : 'bg-income-500/15',
+        title:  isUp ? 'Spending Increased' : 'Spending Decreased',
         text:   isUp
-          ? `Pengeluaran minggu ini naik ${percent}% dari minggu lalu`
-          : `Pengeluaran minggu ini turun ${percent}% dari minggu lalu 🎉`,
+          ? `Weekly spending is up by ${percent}% compared to last week.`
+          : `Weekly spending dropped by ${percent}% compared to last week. Good job!`,
       });
     } else if (thisExpense > 0) {
       result.push({
-        icon:   'fa-receipt',
+        icon:   'receipt',
         color:  'text-text-secondary',
-        bg:     'rgba(148,163,184,0.08)',
-        border: 'rgba(148,163,184,0.15)',
-        text:   `Pengeluaran minggu ini: ${fmt(thisExpense)}`,
+        badgeBg: 'bg-dark-700',
+        title:  'Weekly Expenses',
+        text:   `Total expenses recorded this week: ${fmt(thisExpense)}.`,
       });
     }
 
@@ -66,13 +66,13 @@ const InsightCard = ({ transactions = [] }) => {
       const isGood = saving >= 0;
 
       result.push({
-        icon:   isGood ? 'fa-piggy-bank' : 'fa-triangle-exclamation',
+        icon:   isGood ? 'piggy-bank' : 'triangle-exclamation',
         color:  isGood ? 'text-income-400' : 'text-warning-400',
-        bg:     isGood ? 'rgba(34,197,94,0.08)'  : 'rgba(251,191,36,0.08)',
-        border: isGood ? 'rgba(34,197,94,0.15)'  : 'rgba(251,191,36,0.15)',
+        badgeBg: isGood ? 'bg-income-500/15' : 'bg-warning-500/15',
+        title:  isGood ? 'Positive Savings' : 'Cashflow Warning',
         text:   isGood
-          ? `Saving rate minggu ini ${rate}% — good job! 💪`
-          : `Pengeluaran melebihi pemasukan minggu ini`,
+          ? `Your weekly savings rate is ${rate}%. Keep up the momentum!`
+          : `Current spending exceeds income recorded for this week.`,
       });
     }
 
@@ -81,7 +81,7 @@ const InsightCard = ({ transactions = [] }) => {
     thisWeekTx
       .filter(t => t.type === 'expense')
       .forEach(t => {
-        const name = t.category?.name || 'Lainnya';
+        const name = t.category?.name || 'Other';
         categoryMap[name] = (categoryMap[name] || 0) + t.amount;
       });
 
@@ -90,17 +90,17 @@ const InsightCard = ({ transactions = [] }) => {
 
     if (topCategory) {
       result.push({
-        icon:   'fa-fire',
+        icon:   'fire-flame-curved',
         color:  'text-warning-400',
-        bg:     'rgba(251,191,36,0.08)',
-        border: 'rgba(251,191,36,0.15)',
-        text:   `Pengeluaran terbesar minggu ini: ${fmt(topCategory[1])}`,
+        badgeBg: 'bg-warning-500/15',
+        title:  'Top Expense Category',
+        text:   `${topCategory[0]} is your highest spending category this week at ${fmt(topCategory[1])}.`,
       });
     }
 
     // ── Insight 4: Hari paling boros minggu ini
     const dayMap = {};
-    const dayNames = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     thisWeekTx
       .filter(t => t.type === 'expense')
       .forEach(t => {
@@ -108,25 +108,25 @@ const InsightCard = ({ transactions = [] }) => {
         dayMap[day] = (dayMap[day] || 0) + t.amount;
       });
 
-    const borostDay = Object.entries(dayMap).sort((a, b) => b[1] - a[1])[0];
-    if (borostDay) {
+    const highestDay = Object.entries(dayMap).sort((a, b) => b[1] - a[1])[0];
+    if (highestDay) {
       result.push({
-        icon:   'fa-calendar-day',
+        icon:   'calendar-day',
         color:  'text-primary-400',
-        bg:     'rgba(34,197,94,0.08)',
-        border: 'rgba(34,197,94,0.15)',
-        text:   `Hari paling boros minggu ini: ${borostDay[0]} (${fmt(borostDay[1])})`,
+        badgeBg: 'bg-primary-500/15',
+        title:  'Peak Spending Day',
+        text:   `${highestDay[0]} was your peak spending day with ${fmt(highestDay[1])}.`,
       });
     }
 
-    // ── Fallback kalau tidak ada transaksi minggu ini
+    // ── Fallback
     if (result.length === 0) {
       result.push({
-        icon:   'fa-info-circle',
-        color:  'text-text-secondary',
-        bg:     'rgba(148,163,184,0.08)',
-        border: 'rgba(148,163,184,0.15)',
-        text:   'Belum ada transaksi minggu ini. Yuk mulai catat! 📝',
+        icon:   'circle-info',
+        color:  'text-text-muted',
+        badgeBg: 'bg-dark-700',
+        title:  'Getting Started',
+        text:   'No transactions recorded this week. Add some transactions to unlock automated weekly financial insights.',
       });
     }
 
@@ -134,15 +134,19 @@ const InsightCard = ({ transactions = [] }) => {
   }, [transactions]);
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="space-y-2.5">
       {insights.map((ins, i) => (
-        <div key={i}
-          className="flex items-center gap-3 p-3.5 rounded-xl border"
-          style={{ background: ins.bg, borderColor: ins.border }}>
-          <div className="w-8 h-8 rounded-lg bg-dark-700 flex items-center justify-center flex-shrink-0">
-            <i className={`fa-solid ${ins.icon} text-xs ${ins.color}`} />
+        <div
+          key={i}
+          className="flex items-start gap-3 p-3.5 rounded-xl bg-dark-750/50 border border-dark-600/50 hover:border-dark-500/70 transition-colors"
+        >
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${ins.badgeBg} ${ins.color}`}>
+            <i className={`fa-solid fa-${ins.icon} text-xs`} />
           </div>
-          <p className="text-text-secondary text-sm">{ins.text}</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-text-primary mb-0.5">{ins.title}</p>
+            <p className="text-xs text-text-secondary leading-relaxed">{ins.text}</p>
+          </div>
         </div>
       ))}
     </div>
