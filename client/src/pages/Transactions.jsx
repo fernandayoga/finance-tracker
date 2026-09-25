@@ -200,7 +200,7 @@ const Transactions = () => {
             {transactions.map((tx) => (
               <div
                 key={tx._id}
-                className="grid grid-cols-1 sm:grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center p-3.5 sm:px-5 hover:bg-dark-750/40 transition-colors gap-2 sm:gap-4"
+                className="group grid grid-cols-1 sm:grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center p-3.5 sm:px-5 hover:bg-dark-750/50 transition-colors gap-2 sm:gap-4"
               >
                 {/* 1. Transaction Details (Icon + Note) */}
                 <div className="flex items-center gap-3.5 min-w-0">

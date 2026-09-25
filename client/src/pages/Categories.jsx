@@ -3,12 +3,11 @@ import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
 import api from '../services/api.js';
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
+import FlowBadge from '../components/ui/FlowBadge.jsx';
 import {
   Plus,
   X,
   AlertCircle,
-  ArrowDown,
-  ArrowUp,
   Trash2,
 } from 'lucide-react';
 
@@ -165,10 +164,8 @@ const Categories = () => {
           {/* Income Categories */}
           <div className="card">
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
-                  <ArrowDown size={14} strokeWidth={2.5} />
-                </div>
+              <div className="flex items-center gap-3">
+                <FlowBadge type="income" size="sm" />
                 <div>
                   <h2 className="text-sm font-bold text-text-primary">Income Categories</h2>
                   <p className="text-[11px] text-text-muted">Inflow tags for compensation and returns</p>
@@ -213,10 +210,8 @@ const Categories = () => {
           {/* Expense Categories */}
           <div className="card">
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-600/50">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400">
-                  <ArrowUp size={14} strokeWidth={2.5} />
-                </div>
+              <div className="flex items-center gap-3">
+                <FlowBadge type="expense" size="sm" />
                 <div>
                   <h2 className="text-sm font-bold text-text-primary">Expense Categories</h2>
                   <p className="text-[11px] text-text-muted">Outflow tags for expenses and bills</p>

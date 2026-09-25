@@ -5,6 +5,7 @@ import useAuth from "../hooks/useAuth.js";
 import TransactionModal from "../components/TransactionModal.jsx";
 import { formatCurrency, formatDate } from "../utils/format.js";
 import CategoryIcon from '../components/ui/CategoryIcon.jsx';
+import FlowBadge from '../components/ui/FlowBadge.jsx';
 import {
   Plus,
   Eye,
@@ -154,8 +155,9 @@ const Dashboard = () => {
             <div className="flex flex-wrap items-center gap-3">
               {thisMonthIncome > 0 && (
                 <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-xl bg-dark-750/90 border border-dark-600/70 text-xs shadow-sm">
-                  <div className="w-7 h-7 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
-                    <PiggyBank size={15} strokeWidth={2} />
+                  <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40 border border-emerald-400/40 ring-1 ring-inset ring-white/15 flex items-center justify-center text-emerald-300 shadow-[0_2px_12px_-2px_rgba(45,212,191,0.35)]">
+                    <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
+                    <PiggyBank size={16} strokeWidth={2.4} fill="currentColor" fillOpacity={0.22} className="relative z-10 drop-shadow-[0_2px_6px_rgba(45,212,191,0.6)]" />
                   </div>
                   <div>
                     <p className="text-[11px] text-text-muted font-medium">Monthly Savings</p>
@@ -197,12 +199,10 @@ const Dashboard = () => {
           {/* Sub Metrics Grid (Income, Expenses, Net Cash Flow) */}
           <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-dark-600/60">
             {/* Income Card */}
-            <div className="group p-4 rounded-xl bg-dark-750/50 hover:bg-dark-750/80 border border-dark-600/50 hover:border-income-500/40 transition-all duration-200">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-text-muted">Income this month</span>
-                <div className="w-7 h-7 rounded-lg bg-income-500/15 group-hover:bg-income-500/25 flex items-center justify-center text-income-400 transition-colors">
-                  <ArrowDown size={14} strokeWidth={2.5} />
-                </div>
+            <div className="group p-4 rounded-xl bg-dark-750/50 hover:bg-dark-750/90 border border-dark-600/50 hover:border-income-500/50 hover:shadow-lg hover:shadow-income-500/5 transition-all duration-300">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-semibold text-text-muted group-hover:text-text-secondary transition-colors">Income this month</span>
+                <FlowBadge type="income" size="md" />
               </div>
               <p className="text-lg sm:text-xl font-bold text-income-400 tabular-nums">
                 +{formatCurrency(thisMonthIncome)}
@@ -211,12 +211,10 @@ const Dashboard = () => {
             </div>
 
             {/* Expenses Card */}
-            <div className="group p-4 rounded-xl bg-dark-750/50 hover:bg-dark-750/80 border border-dark-600/50 hover:border-expense-500/40 transition-all duration-200">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-text-muted">Expenses this month</span>
-                <div className="w-7 h-7 rounded-lg bg-expense-500/15 group-hover:bg-expense-500/25 flex items-center justify-center text-expense-400 transition-colors">
-                  <ArrowUp size={14} strokeWidth={2.5} />
-                </div>
+            <div className="group p-4 rounded-xl bg-dark-750/50 hover:bg-dark-750/90 border border-dark-600/50 hover:border-expense-500/50 hover:shadow-lg hover:shadow-expense-500/5 transition-all duration-300">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-semibold text-text-muted group-hover:text-text-secondary transition-colors">Expenses this month</span>
+                <FlowBadge type="expense" size="md" />
               </div>
               <p className="text-lg sm:text-xl font-bold text-expense-400 tabular-nums">
                 -{formatCurrency(thisMonthExpense)}
@@ -225,20 +223,10 @@ const Dashboard = () => {
             </div>
 
             {/* Net Cash Flow Card */}
-            <div className="group p-4 rounded-xl bg-dark-750/50 hover:bg-dark-750/80 border border-dark-600/50 hover:border-primary-500/40 transition-all duration-200">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-text-muted">Net Cash Flow</span>
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
-                  netMonthly >= 0
-                    ? 'bg-income-500/15 text-income-400 group-hover:bg-income-500/25'
-                    : 'bg-expense-500/15 text-expense-400 group-hover:bg-expense-500/25'
-                }`}>
-                  {netMonthly >= 0 ? (
-                    <TrendingUp size={14} strokeWidth={2.5} />
-                  ) : (
-                    <TrendingDown size={14} strokeWidth={2.5} />
-                  )}
-                </div>
+            <div className="group p-4 rounded-xl bg-dark-750/50 hover:bg-dark-750/90 border border-dark-600/50 hover:border-primary-500/50 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-semibold text-text-muted group-hover:text-text-secondary transition-colors">Net Cash Flow</span>
+                <FlowBadge type="net" netPositive={netMonthly >= 0} size="md" />
               </div>
               <p className={`text-lg sm:text-xl font-bold tabular-nums ${
                 netMonthly >= 0 ? 'text-income-400' : 'text-expense-400'

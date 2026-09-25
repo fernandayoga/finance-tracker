@@ -5,11 +5,10 @@ import useAnalytics from "../hooks/useAnalytics.js";
 import useTransactions from "../hooks/useTransactions.js";
 import { exportToCSV } from "../utils/exportCSV.js";
 import { formatCurrency } from "../utils/format.js";
+import FlowBadge from "../components/ui/FlowBadge.jsx";
 import {
   Download,
   Wallet,
-  ArrowDown,
-  ArrowUp,
   BarChart3,
   PieChart,
   Receipt,
@@ -69,11 +68,12 @@ const Analytics = () => {
       {/* Summary KPI Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Total Balance */}
-        <div className="stat-card">
+        <div className="stat-card group hover:border-primary-500/40 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">All-Time Balance</span>
-            <div className="w-7 h-7 rounded-lg bg-dark-750 flex items-center justify-center text-primary-400">
-              <Wallet size={14} strokeWidth={2} />
+            <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-primary-400/25 via-primary-500/15 to-primary-950/40 border border-primary-400/40 ring-1 ring-inset ring-white/15 flex items-center justify-center text-primary-300 shadow-[0_4px_16px_-2px_rgba(99,102,241,0.4)] group-hover:scale-110 transition-transform duration-300">
+              <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
+              <Wallet size={15} strokeWidth={2.4} fill="currentColor" fillOpacity={0.22} className="relative z-10 drop-shadow-[0_2px_6px_rgba(99,102,241,0.6)]" />
             </div>
           </div>
           <p className="text-2xl font-bold text-text-primary tabular-nums">
@@ -82,12 +82,10 @@ const Analytics = () => {
         </div>
 
         {/* Income This Month */}
-        <div className="stat-card">
+        <div className="stat-card group hover:border-income-500/40 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Monthly Inflow</span>
-            <div className="w-7 h-7 rounded-lg bg-income-500/15 flex items-center justify-center text-income-400">
-              <ArrowDown size={14} strokeWidth={2.5} />
-            </div>
+            <FlowBadge type="income" size="sm" />
           </div>
           <p className="text-2xl font-bold text-income-400 tabular-nums">
             +{formatCurrency(summary.thisMonth?.income || 0)}
@@ -95,12 +93,10 @@ const Analytics = () => {
         </div>
 
         {/* Expense This Month */}
-        <div className="stat-card">
+        <div className="stat-card group hover:border-expense-500/40 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">Monthly Outflow</span>
-            <div className="w-7 h-7 rounded-lg bg-expense-500/15 flex items-center justify-center text-expense-400">
-              <ArrowUp size={14} strokeWidth={2.5} />
-            </div>
+            <FlowBadge type="expense" size="sm" />
           </div>
           <p className="text-2xl font-bold text-expense-400 tabular-nums">
             -{formatCurrency(summary.thisMonth?.expense || 0)}

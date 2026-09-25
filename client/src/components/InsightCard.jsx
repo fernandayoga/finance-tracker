@@ -44,8 +44,9 @@ const InsightCard = ({ transactions = [] }) => {
 
       result.push({
         Icon:   isUp ? TrendingUp : TrendingDown,
-        color:  isUp ? 'text-expense-400' : 'text-income-400',
-        badgeBg: isUp ? 'bg-expense-500/15' : 'bg-income-500/15',
+        badgeStyle: isUp
+          ? 'bg-gradient-to-br from-rose-500/25 via-pink-500/15 to-rose-950/40 border-rose-400/40 text-rose-300 shadow-[0_2px_10px_rgba(251,113,133,0.3)]'
+          : 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40 border-emerald-400/40 text-emerald-300 shadow-[0_2px_10px_rgba(45,212,191,0.3)]',
         title:  isUp ? 'Spending Increased' : 'Spending Decreased',
         text:   isUp
           ? `Weekly spending is up by ${percent}% compared to last week.`
@@ -54,8 +55,7 @@ const InsightCard = ({ transactions = [] }) => {
     } else if (thisExpense > 0) {
       result.push({
         Icon:   Receipt,
-        color:  'text-text-secondary',
-        badgeBg: 'bg-dark-700',
+        badgeStyle: 'bg-gradient-to-br from-indigo-500/25 via-purple-500/15 to-indigo-950/40 border-indigo-400/40 text-indigo-300 shadow-[0_2px_10px_rgba(99,102,241,0.3)]',
         title:  'Weekly Expenses',
         text:   `Total expenses recorded this week: ${fmt(thisExpense)}.`,
       });
@@ -69,8 +69,9 @@ const InsightCard = ({ transactions = [] }) => {
 
       result.push({
         Icon:   isGood ? PiggyBank : AlertTriangle,
-        color:  isGood ? 'text-income-400' : 'text-warning-400',
-        badgeBg: isGood ? 'bg-income-500/15' : 'bg-warning-500/15',
+        badgeStyle: isGood
+          ? 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40 border-emerald-400/40 text-emerald-300 shadow-[0_2px_10px_rgba(45,212,191,0.3)]'
+          : 'bg-gradient-to-br from-amber-400/25 via-orange-500/15 to-amber-950/40 border-amber-400/40 text-amber-300 shadow-[0_2px_10px_rgba(245,158,11,0.3)]',
         title:  isGood ? 'Positive Savings' : 'Cashflow Warning',
         text:   isGood
           ? `Your weekly savings rate is ${rate}%. Keep up the momentum!`
@@ -93,8 +94,7 @@ const InsightCard = ({ transactions = [] }) => {
     if (topCategory) {
       result.push({
         Icon:   Flame,
-        color:  'text-warning-400',
-        badgeBg: 'bg-warning-500/15',
+        badgeStyle: 'bg-gradient-to-br from-orange-500/25 via-rose-500/15 to-red-950/40 border-orange-400/40 text-orange-300 shadow-[0_2px_10px_rgba(249,115,22,0.3)]',
         title:  'Top Expense Category',
         text:   `${topCategory[0]} is your highest spending category this week at ${fmt(topCategory[1])}.`,
       });
@@ -114,8 +114,7 @@ const InsightCard = ({ transactions = [] }) => {
     if (highestDay) {
       result.push({
         Icon:   Calendar,
-        color:  'text-primary-400',
-        badgeBg: 'bg-primary-500/15',
+        badgeStyle: 'bg-gradient-to-br from-indigo-500/25 via-purple-500/15 to-indigo-950/40 border-indigo-400/40 text-indigo-300 shadow-[0_2px_10px_rgba(99,102,241,0.3)]',
         title:  'Peak Spending Day',
         text:   `${highestDay[0]} was your peak spending day with ${fmt(highestDay[1])}.`,
       });
@@ -125,8 +124,7 @@ const InsightCard = ({ transactions = [] }) => {
     if (result.length === 0) {
       result.push({
         Icon:   Info,
-        color:  'text-text-muted',
-        badgeBg: 'bg-dark-700',
+        badgeStyle: 'bg-gradient-to-br from-slate-600/25 via-dark-700 to-dark-850 border-slate-500/30 text-slate-300 shadow-sm',
         title:  'Getting Started',
         text:   'No transactions recorded this week. Add some transactions to unlock automated weekly financial insights.',
       });
@@ -140,10 +138,11 @@ const InsightCard = ({ transactions = [] }) => {
       {insights.map((ins, i) => (
         <div
           key={i}
-          className="flex items-start gap-3 p-3.5 rounded-xl bg-dark-750/50 border border-dark-600/50 hover:border-dark-500/70 transition-colors"
+          className="group flex items-start gap-3 p-3.5 rounded-xl bg-dark-750/50 border border-dark-600/50 hover:border-dark-500/70 transition-all duration-200"
         >
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${ins.badgeBg} ${ins.color}`}>
-            <ins.Icon size={15} strokeWidth={2} />
+          <div className={`relative w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 border ring-1 ring-inset ring-white/15 transition-transform duration-300 group-hover:scale-110 ${ins.badgeStyle}`}>
+            <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
+            <ins.Icon size={15} strokeWidth={2.4} fill="currentColor" fillOpacity={0.2} className="relative z-10" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-text-primary mb-0.5">{ins.title}</p>

@@ -82,10 +82,17 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
         {/* Header */}
         <div className="flex items-center justify-between mb-5 pb-3 border-b border-dark-600/50">
           <div className="flex items-center gap-2.5">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-              form.type === 'income' ? 'bg-income-500/15 text-income-400' : 'bg-expense-500/15 text-expense-400'
+            <div className={`relative w-9 h-9 rounded-xl flex items-center justify-center ring-1 ring-inset ring-white/15 transition-all duration-300 ${
+              form.type === 'income'
+                ? 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40 border border-emerald-400/40 text-emerald-300 shadow-[0_2px_12px_rgba(45,212,191,0.35)]'
+                : 'bg-gradient-to-br from-rose-500/25 via-pink-500/15 to-rose-950/40 border border-rose-400/40 text-rose-300 shadow-[0_2px_12px_rgba(251,113,133,0.35)]'
             }`}>
-              {editData ? <SquarePen size={15} strokeWidth={2} /> : <Plus size={16} strokeWidth={2.2} />}
+              <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
+              {editData ? (
+                <SquarePen size={16} strokeWidth={2.4} className="relative z-10" />
+              ) : (
+                <Plus size={17} strokeWidth={2.6} className="relative z-10" />
+              )}
             </div>
             <div>
               <h2 className="text-base font-bold text-text-primary tracking-tight">
@@ -122,15 +129,27 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
                   key={t}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, type: t, category: '' }))}
-                  className={`py-2 rounded-lg text-xs font-semibold capitalize transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  className={`relative py-2.5 rounded-xl text-xs font-semibold capitalize transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
                     form.type === t
                       ? t === 'income'
-                        ? 'bg-income-500/20 text-income-400 border border-income-500/30 shadow-sm'
-                        : 'bg-expense-500/20 text-expense-400 border border-expense-500/30 shadow-sm'
-                      : 'text-text-muted hover:text-text-secondary'
+                        ? 'bg-gradient-to-r from-emerald-500/25 via-teal-500/20 to-emerald-600/10 text-emerald-300 border border-emerald-400/40 shadow-[0_2px_12px_rgba(45,212,191,0.25)] ring-1 ring-inset ring-white/15'
+                        : 'bg-gradient-to-r from-rose-500/25 via-pink-500/20 to-rose-600/10 text-rose-300 border border-rose-400/40 shadow-[0_2px_12px_rgba(251,113,133,0.25)] ring-1 ring-inset ring-white/15'
+                      : 'text-text-muted hover:text-text-secondary hover:bg-dark-700/40'
                   }`}
                 >
-                  {t === 'income' ? <ArrowDown size={13} strokeWidth={2.5} /> : <ArrowUp size={13} strokeWidth={2.5} />}
+                  {t === 'income' ? (
+                    <ArrowDown
+                      size={14}
+                      strokeWidth={2.6}
+                      className={form.type === t ? 'drop-shadow-[0_2px_6px_rgba(45,212,191,0.6)]' : ''}
+                    />
+                  ) : (
+                    <ArrowUp
+                      size={14}
+                      strokeWidth={2.6}
+                      className={form.type === t ? 'drop-shadow-[0_2px_6px_rgba(251,113,133,0.6)]' : ''}
+                    />
+                  )}
                   <span>{t}</span>
                 </button>
               ))}
