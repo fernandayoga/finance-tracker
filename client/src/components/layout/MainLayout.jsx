@@ -13,7 +13,7 @@ const AppLayout = ({ children }) => {
       <MobileHeader />
 
       {/* Main content */}
-      <main className="lg:ml-64 pt-16 lg:pt-0 pb-24 lg:pb-12 px-4 sm:px-6 lg:px-8 py-6 min-h-screen transition-all">
+      <main className="lg:ml-64 pt-20 lg:pt-10 pb-24 lg:pb-16 px-4 sm:px-6 lg:px-10 min-h-screen transition-all">
         {children}
       </main>
 

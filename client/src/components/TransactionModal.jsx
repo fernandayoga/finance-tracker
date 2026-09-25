@@ -4,10 +4,10 @@ import Button from './ui/Button.jsx';
 import Input from './ui/Input.jsx';
 import { toInputDate } from '../utils/format.js';
 
-const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
+const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultType = 'expense' }) => {
   const { categories } = useCategories();
   const [form, setForm] = useState({
-    type: 'expense',
+    type: defaultType,
     amount: '',
     category: '',
     date: toInputDate(new Date()),
@@ -28,12 +28,12 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
       });
     } else {
       setForm({
-        type: 'expense', amount: '', category: '',
+        type: defaultType, amount: '', category: '',
         date: toInputDate(new Date()), note: '',
       });
     }
     setError('');
-  }, [editData, isOpen]);
+  }, [editData, isOpen, defaultType]);
 
   const filteredCategories = categories.filter((c) => c.type === form.type);
 
@@ -129,7 +129,7 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null }) => {
                       : 'text-text-muted hover:text-text-secondary'
                   }`}
                 >
-                  <i className={`fa-solid fa-${t === 'income' ? 'arrow-down-left' : 'arrow-up-right'} text-[10px]`} />
+                  <i className={`fa-solid fa-${t === 'income' ? 'arrow-down' : 'arrow-up'} text-[10px]`} />
                   <span>{t}</span>
                 </button>
               ))}
