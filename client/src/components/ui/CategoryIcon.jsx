@@ -103,296 +103,215 @@ const iconComponentMap = {
   investasi: { comp: TrendingUp, name: 'TrendingUp', duotone: false },
 };
 
-// Rich Category Theme Presets with Multi-Tone Radiant Gradients, Duotone Fill, and Glowing Halos
+// Category Theme Presets with Multi-Tone Gradients & Duotone Fills (Without glowing edge auras)
 const categoryThemeMap = {
-  // Transport & Vehicles -> Electric Sky Blue & Cobalt Cyan
+  // Transport & Vehicles -> Electric Sky Blue
   Car: {
-    bg: 'bg-gradient-to-br from-sky-400/25 via-blue-500/15 to-indigo-950/40',
-    border: 'border border-sky-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-sky-400/20 via-blue-500/10 to-dark-800',
+    border: 'border border-sky-400/30',
     color: 'text-sky-300',
-    ambient: 'bg-sky-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(56,189,248,0.4),0_0_14px_rgba(56,189,248,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(56,189,248,0.65)]',
-    motion: 'group-hover:translate-x-1 group-hover:scale-105',
+    motion: 'group-hover:translate-x-0.5',
     duotone: true,
   },
   Bus: {
-    bg: 'bg-gradient-to-br from-sky-400/25 via-blue-500/15 to-indigo-950/40',
-    border: 'border border-sky-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-sky-400/20 via-blue-500/10 to-dark-800',
+    border: 'border border-sky-400/30',
     color: 'text-sky-300',
-    ambient: 'bg-sky-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(56,189,248,0.4),0_0_14px_rgba(56,189,248,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(56,189,248,0.65)]',
     motion: 'group-hover:translate-x-0.5',
     duotone: true,
   },
   Plane: {
-    bg: 'bg-gradient-to-br from-sky-400/25 via-blue-500/15 to-indigo-950/40',
-    border: 'border border-sky-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-sky-400/20 via-blue-500/10 to-dark-800',
+    border: 'border border-sky-400/30',
     color: 'text-sky-300',
-    ambient: 'bg-sky-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(56,189,248,0.4),0_0_14px_rgba(56,189,248,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(56,189,248,0.65)]',
     motion: 'group-hover:-translate-y-0.5 group-hover:translate-x-0.5',
     duotone: true,
   },
 
-  // Food & Dining -> Warm Golden Amber & Tangerine
+  // Food & Dining -> Warm Golden Amber
   Utensils: {
-    bg: 'bg-gradient-to-br from-amber-400/25 via-orange-500/15 to-amber-950/40',
-    border: 'border border-amber-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-amber-400/20 via-orange-500/10 to-dark-800',
+    border: 'border border-amber-400/30',
     color: 'text-amber-300',
-    ambient: 'bg-amber-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(245,158,11,0.4),0_0_14px_rgba(245,158,11,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(245,158,11,0.65)]',
-    motion: 'group-hover:rotate-6 group-hover:scale-105',
+    motion: 'group-hover:rotate-6',
     duotone: true,
   },
   Coffee: {
-    bg: 'bg-gradient-to-br from-amber-400/25 via-orange-500/15 to-amber-950/40',
-    border: 'border border-amber-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-amber-400/20 via-orange-500/10 to-dark-800',
+    border: 'border border-amber-400/30',
     color: 'text-amber-300',
-    ambient: 'bg-amber-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(245,158,11,0.4),0_0_14px_rgba(245,158,11,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(245,158,11,0.65)]',
     motion: 'group-hover:-translate-y-0.5',
     duotone: true,
   },
 
-  // Shopping & Lifestyle -> Vibrant Magenta & Hot Rose
+  // Shopping & Lifestyle -> Vibrant Rose & Magenta
   ShoppingBag: {
-    bg: 'bg-gradient-to-br from-pink-400/25 via-rose-500/15 to-fuchsia-950/40',
-    border: 'border border-pink-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-pink-400/20 via-rose-500/10 to-dark-800',
+    border: 'border border-pink-400/30',
     color: 'text-pink-300',
-    ambient: 'bg-pink-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(244,63,94,0.4),0_0_14px_rgba(244,63,94,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(244,63,94,0.65)]',
-    motion: 'group-hover:-translate-y-0.5 group-hover:scale-105',
+    motion: 'group-hover:-translate-y-0.5',
     duotone: true,
   },
   ShoppingCart: {
-    bg: 'bg-gradient-to-br from-pink-400/25 via-rose-500/15 to-fuchsia-950/40',
-    border: 'border border-pink-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-pink-400/20 via-rose-500/10 to-dark-800',
+    border: 'border border-pink-400/30',
     color: 'text-pink-300',
-    ambient: 'bg-pink-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(244,63,94,0.4),0_0_14px_rgba(244,63,94,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(244,63,94,0.65)]',
     motion: 'group-hover:translate-x-0.5',
     duotone: true,
   },
   Shirt: {
-    bg: 'bg-gradient-to-br from-pink-400/25 via-rose-500/15 to-fuchsia-950/40',
-    border: 'border border-pink-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-pink-400/20 via-rose-500/10 to-dark-800',
+    border: 'border border-pink-400/30',
     color: 'text-pink-300',
-    ambient: 'bg-pink-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(244,63,94,0.4),0_0_14px_rgba(244,63,94,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(244,63,94,0.65)]',
     motion: 'group-hover:scale-105',
     duotone: true,
   },
 
-  // Bills, Invoices, Utilities -> Electric Indigo & Cyber Violet
+  // Bills, Invoices, Utilities -> Electric Indigo
   Receipt: {
-    bg: 'bg-gradient-to-br from-indigo-400/25 via-purple-500/15 to-indigo-950/40',
-    border: 'border border-indigo-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-indigo-400/20 via-purple-500/10 to-dark-800',
+    border: 'border border-indigo-400/30',
     color: 'text-indigo-300',
-    ambient: 'bg-indigo-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(99,102,241,0.4),0_0_14px_rgba(99,102,241,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(99,102,241,0.65)]',
     motion: 'group-hover:-translate-y-0.5',
     duotone: true,
   },
   Wifi: {
-    bg: 'bg-gradient-to-br from-indigo-400/25 via-purple-500/15 to-indigo-950/40',
-    border: 'border border-indigo-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-indigo-400/20 via-purple-500/10 to-dark-800',
+    border: 'border border-indigo-400/30',
     color: 'text-indigo-300',
-    ambient: 'bg-indigo-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(99,102,241,0.4),0_0_14px_rgba(99,102,241,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(99,102,241,0.65)]',
     motion: 'group-hover:scale-105',
     duotone: false,
   },
   Phone: {
-    bg: 'bg-gradient-to-br from-indigo-400/25 via-purple-500/15 to-indigo-950/40',
-    border: 'border border-indigo-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-indigo-400/20 via-purple-500/10 to-dark-800',
+    border: 'border border-indigo-400/30',
     color: 'text-indigo-300',
-    ambient: 'bg-indigo-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(99,102,241,0.4),0_0_14px_rgba(99,102,241,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(99,102,241,0.65)]',
     motion: 'group-hover:rotate-6',
     duotone: true,
   },
 
-  // Health & Medical -> Radiant Coral & Ruby Pulse
+  // Health & Medical -> Radiant Coral & Ruby
   HeartPulse: {
-    bg: 'bg-gradient-to-br from-rose-500/25 via-red-500/15 to-rose-950/40',
-    border: 'border border-rose-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-rose-500/20 via-red-500/10 to-dark-800',
+    border: 'border border-rose-400/30',
     color: 'text-rose-300',
-    ambient: 'bg-rose-500/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(244,63,94,0.4),0_0_14px_rgba(244,63,94,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(244,63,94,0.65)]',
-    motion: 'group-hover:scale-115',
+    motion: 'group-hover:scale-105',
     duotone: true,
   },
 
-  // Entertainment & Gaming -> Royal Purple & Electric Fuchsia
+  // Entertainment & Gaming -> Royal Purple
   Gamepad2: {
-    bg: 'bg-gradient-to-br from-purple-400/25 via-violet-500/15 to-purple-950/40',
-    border: 'border border-purple-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-purple-400/20 via-violet-500/10 to-dark-800',
+    border: 'border border-purple-400/30',
     color: 'text-purple-300',
-    ambient: 'bg-purple-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(168,85,247,0.4),0_0_14px_rgba(168,85,247,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(168,85,247,0.65)]',
-    motion: 'group-hover:scale-105 group-hover:rotate-3',
+    motion: 'group-hover:rotate-3',
     duotone: true,
   },
   Film: {
-    bg: 'bg-gradient-to-br from-purple-400/25 via-violet-500/15 to-purple-950/40',
-    border: 'border border-purple-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-purple-400/20 via-violet-500/10 to-dark-800',
+    border: 'border border-purple-400/30',
     color: 'text-purple-300',
-    ambient: 'bg-purple-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(168,85,247,0.4),0_0_14px_rgba(168,85,247,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(168,85,247,0.65)]',
     motion: 'group-hover:scale-105',
     duotone: true,
   },
   Music: {
-    bg: 'bg-gradient-to-br from-purple-400/25 via-violet-500/15 to-purple-950/40',
-    border: 'border border-purple-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-purple-400/20 via-violet-500/10 to-dark-800',
+    border: 'border border-purple-400/30',
     color: 'text-purple-300',
-    ambient: 'bg-purple-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(168,85,247,0.4),0_0_14px_rgba(168,85,247,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(168,85,247,0.65)]',
     motion: 'group-hover:-translate-y-0.5',
     duotone: true,
   },
 
-  // Education & Books -> Ocean Teal & Clean Cyan
+  // Education & Books -> Clean Teal
   BookOpen: {
-    bg: 'bg-gradient-to-br from-teal-400/25 via-cyan-500/15 to-teal-950/40',
-    border: 'border border-teal-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-teal-400/20 via-cyan-500/10 to-dark-800',
+    border: 'border border-teal-400/30',
     color: 'text-teal-300',
-    ambient: 'bg-teal-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(20,184,166,0.4),0_0_14px_rgba(20,184,166,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(20,184,166,0.65)]',
     motion: 'group-hover:scale-105',
     duotone: true,
   },
   GraduationCap: {
-    bg: 'bg-gradient-to-br from-teal-400/25 via-cyan-500/15 to-teal-950/40',
-    border: 'border border-teal-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-teal-400/20 via-cyan-500/10 to-dark-800',
+    border: 'border border-teal-400/30',
     color: 'text-teal-300',
-    ambient: 'bg-teal-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(20,184,166,0.4),0_0_14px_rgba(20,184,166,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(20,184,166,0.65)]',
     motion: 'group-hover:-translate-y-0.5',
     duotone: true,
   },
 
-  // Income / Money / Salary -> Luminous Soft Mint & Emerald
+  // Income / Money / Salary -> Soft Mint & Emerald
   Banknote: {
-    bg: 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40',
-    border: 'border border-emerald-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-dark-800',
+    border: 'border border-emerald-400/30',
     color: 'text-emerald-300',
-    ambient: 'bg-emerald-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(45,212,191,0.4),0_0_14px_rgba(45,212,191,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(45,212,191,0.65)]',
     motion: 'group-hover:scale-105',
     duotone: true,
   },
   Laptop: {
-    bg: 'bg-gradient-to-br from-emerald-400/25 via-cyan-500/15 to-teal-950/40',
-    border: 'border border-emerald-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-emerald-400/20 via-cyan-500/10 to-dark-800',
+    border: 'border border-emerald-400/30',
     color: 'text-emerald-300',
-    ambient: 'bg-emerald-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(45,212,191,0.4),0_0_14px_rgba(45,212,191,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(45,212,191,0.65)]',
     motion: 'group-hover:-translate-y-0.5',
     duotone: true,
   },
   TrendingUp: {
-    bg: 'bg-gradient-to-br from-cyan-400/25 via-emerald-500/15 to-teal-950/40',
-    border: 'border border-cyan-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-cyan-400/20 via-emerald-500/10 to-dark-800',
+    border: 'border border-cyan-400/30',
     color: 'text-cyan-300',
-    ambient: 'bg-cyan-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(6,182,212,0.4),0_0_14px_rgba(6,182,212,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(6,182,212,0.65)]',
     motion: 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5',
     duotone: false,
   },
   Gift: {
-    bg: 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40',
-    border: 'border border-emerald-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-dark-800',
+    border: 'border border-emerald-400/30',
     color: 'text-emerald-300',
-    ambient: 'bg-emerald-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(45,212,191,0.4),0_0_14px_rgba(45,212,191,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(45,212,191,0.65)]',
-    motion: 'group-hover:scale-110',
+    motion: 'group-hover:scale-105',
     duotone: true,
   },
   PiggyBank: {
-    bg: 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40',
-    border: 'border border-emerald-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-dark-800',
+    border: 'border border-emerald-400/30',
     color: 'text-emerald-300',
-    ambient: 'bg-emerald-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(45,212,191,0.4),0_0_14px_rgba(45,212,191,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(45,212,191,0.65)]',
     motion: 'group-hover:scale-105',
     duotone: true,
   },
   PlusCircle: {
-    bg: 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40',
-    border: 'border border-emerald-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-dark-800',
+    border: 'border border-emerald-400/30',
     color: 'text-emerald-300',
-    ambient: 'bg-emerald-400/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(45,212,191,0.4),0_0_14px_rgba(45,212,191,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(45,212,191,0.65)]',
-    motion: 'group-hover:scale-105 group-hover:rotate-45',
+    motion: 'group-hover:scale-105',
     duotone: true,
   },
 
-  // Other Expense Fallback -> Ruby Rose & Crimson Depth
+  // Other Expense Fallback -> Ruby Rose
   MinusCircle: {
-    bg: 'bg-gradient-to-br from-rose-500/25 via-pink-500/15 to-rose-950/40',
-    border: 'border border-rose-400/40 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-dark-800',
+    border: 'border border-rose-400/30',
     color: 'text-rose-300',
-    ambient: 'bg-rose-500/20',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(251,113,133,0.4),0_0_14px_rgba(251,113,133,0.18)]',
-    dropShadow: 'drop-shadow-[0_2px_8px_rgba(251,113,133,0.65)]',
-    motion: 'group-hover:scale-105 group-hover:rotate-[-6deg]',
+    motion: 'group-hover:scale-105',
     duotone: true,
   },
   Tag: {
-    bg: 'bg-gradient-to-br from-slate-600/30 via-dark-700/80 to-dark-850',
-    border: 'border border-slate-500/35 ring-1 ring-inset ring-white/15',
+    bg: 'bg-gradient-to-br from-slate-600/25 via-dark-750 to-dark-850',
+    border: 'border border-slate-500/30',
     color: 'text-slate-300',
-    ambient: 'bg-slate-400/15',
-    glow: 'shadow-[0_4px_16px_-2px_rgba(0,0,0,0.4)]',
-    dropShadow: 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]',
     motion: 'group-hover:scale-105',
     duotone: true,
   },
 };
 
 const defaultExpenseTheme = {
-  bg: 'bg-gradient-to-br from-rose-500/25 via-pink-500/15 to-rose-950/40',
-  border: 'border border-rose-400/40 ring-1 ring-inset ring-white/15',
+  bg: 'bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-dark-800',
+  border: 'border border-rose-400/30',
   color: 'text-rose-300',
-  ambient: 'bg-rose-500/20',
-  glow: 'shadow-[0_4px_16px_-2px_rgba(251,113,133,0.4),0_0_14px_rgba(251,113,133,0.18)]',
-  dropShadow: 'drop-shadow-[0_2px_8px_rgba(251,113,133,0.65)]',
-  motion: 'group-hover:scale-105 group-hover:rotate-[-6deg]',
+  motion: 'group-hover:scale-105',
   duotone: true,
 };
 
 const defaultIncomeTheme = {
-  bg: 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40',
-  border: 'border border-emerald-400/40 ring-1 ring-inset ring-white/15',
+  bg: 'bg-gradient-to-br from-emerald-400/20 via-teal-500/10 to-dark-800',
+  border: 'border border-emerald-400/30',
   color: 'text-emerald-300',
-  ambient: 'bg-emerald-400/20',
-  glow: 'shadow-[0_4px_16px_-2px_rgba(45,212,191,0.4),0_0_14px_rgba(45,212,191,0.18)]',
-  dropShadow: 'drop-shadow-[0_2px_8px_rgba(45,212,191,0.65)]',
-  motion: 'group-hover:scale-105 group-hover:rotate-45',
+  motion: 'group-hover:scale-105',
   duotone: true,
 };
 
@@ -400,15 +319,15 @@ const CategoryIcon = ({ icon = 'fa-tag', type, size = 'md', className = '' }) =>
   const containerSizes = {
     xs: 'w-6 h-6 rounded-lg',
     sm: 'w-8 h-8 rounded-xl',
-    md: 'w-10 h-10 rounded-xl',
-    lg: 'w-12 h-12 rounded-2xl',
+    md: 'w-9.5 h-9.5 rounded-xl',
+    lg: 'w-11 h-11 rounded-2xl',
   };
 
   const iconSizes = {
     xs: 12,
     sm: 15,
     md: 18,
-    lg: 22,
+    lg: 20,
   };
 
   // Determine icon component, theme and duotone capabilities
@@ -450,21 +369,13 @@ const CategoryIcon = ({ icon = 'fa-tag', type, size = 'md', className = '' }) =>
 
   return (
     <div
-      className={`relative flex items-center justify-center flex-shrink-0 transition-all duration-300 ease-out group-hover:scale-110 group-hover:-translate-y-0.5 ${containerSizes[size]} ${theme.bg} ${theme.border} ${theme.glow} ${className}`}
+      className={`relative flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105 ${containerSizes[size]} ${theme.bg} ${theme.border} shadow-xs ${className}`}
     >
-      {/* Ambient backlight glow aura */}
-      <span
-        className={`absolute -inset-0.5 rounded-xl ${theme.ambient} blur-sm opacity-50 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
-      />
-
-      {/* Radiant inner specular top glass highlight */}
-      <span className="absolute inset-x-2 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
-
       {/* Render emoji or Lucide component */}
       {isEmoji ? (
         <span
-          className="relative z-10 leading-none select-none drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
-          style={{ fontSize: size === 'sm' ? '14px' : size === 'lg' ? '22px' : '17px' }}
+          className="relative z-10 leading-none select-none transition-transform duration-200 group-hover:scale-105"
+          style={{ fontSize: size === 'sm' ? '14px' : size === 'lg' ? '20px' : '16px' }}
         >
           {icon}
         </span>
@@ -474,7 +385,7 @@ const CategoryIcon = ({ icon = 'fa-tag', type, size = 'md', className = '' }) =>
           strokeWidth={2.4}
           fill="currentColor"
           fillOpacity={isDuotone ? 0.22 : 0}
-          className={`relative z-10 ${theme.color} ${theme.dropShadow} transition-all duration-300 ${theme.motion || 'group-hover:scale-105'}`}
+          className={`relative z-10 ${theme.color} transition-transform duration-200 ${theme.motion || 'group-hover:scale-105'}`}
         />
       )}
     </div>

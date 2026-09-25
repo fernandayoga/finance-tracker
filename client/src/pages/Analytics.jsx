@@ -71,9 +71,8 @@ const Analytics = () => {
         <div className="stat-card group hover:border-primary-500/40 transition-all duration-300">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-text-muted uppercase tracking-wider">All-Time Balance</span>
-            <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-primary-400/25 via-primary-500/15 to-primary-950/40 border border-primary-400/40 ring-1 ring-inset ring-white/15 flex items-center justify-center text-primary-300 shadow-[0_4px_16px_-2px_rgba(99,102,241,0.4)] group-hover:scale-110 transition-transform duration-300">
-              <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
-              <Wallet size={15} strokeWidth={2.4} fill="currentColor" fillOpacity={0.22} className="relative z-10 drop-shadow-[0_2px_6px_rgba(99,102,241,0.6)]" />
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-400/20 via-primary-500/10 to-dark-800 border border-primary-400/30 flex items-center justify-center text-primary-300 shadow-xs group-hover:scale-105 transition-transform duration-200">
+              <Wallet size={15} strokeWidth={2.4} fill="currentColor" fillOpacity={0.22} className="relative z-10" />
             </div>
           </div>
           <p className="text-2xl font-bold text-text-primary tabular-nums">

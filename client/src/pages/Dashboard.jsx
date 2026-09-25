@@ -155,9 +155,8 @@ const Dashboard = () => {
             <div className="flex flex-wrap items-center gap-3">
               {thisMonthIncome > 0 && (
                 <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-xl bg-dark-750/90 border border-dark-600/70 text-xs shadow-sm">
-                  <div className="relative w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40 border border-emerald-400/40 ring-1 ring-inset ring-white/15 flex items-center justify-center text-emerald-300 shadow-[0_2px_12px_-2px_rgba(45,212,191,0.35)]">
-                    <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
-                    <PiggyBank size={16} strokeWidth={2.4} fill="currentColor" fillOpacity={0.22} className="relative z-10 drop-shadow-[0_2px_6px_rgba(45,212,191,0.6)]" />
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-dark-800 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shadow-xs">
+                    <PiggyBank size={16} strokeWidth={2.4} fill="currentColor" fillOpacity={0.22} />
                   </div>
                   <div>
                     <p className="text-[11px] text-text-muted font-medium">Monthly Savings</p>

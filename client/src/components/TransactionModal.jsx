@@ -82,16 +82,15 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
         {/* Header */}
         <div className="flex items-center justify-between mb-5 pb-3 border-b border-dark-600/50">
           <div className="flex items-center gap-2.5">
-            <div className={`relative w-9 h-9 rounded-xl flex items-center justify-center ring-1 ring-inset ring-white/15 transition-all duration-300 ${
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200 shadow-xs ${
               form.type === 'income'
-                ? 'bg-gradient-to-br from-emerald-400/25 via-teal-500/15 to-emerald-950/40 border border-emerald-400/40 text-emerald-300 shadow-[0_2px_12px_rgba(45,212,191,0.35)]'
-                : 'bg-gradient-to-br from-rose-500/25 via-pink-500/15 to-rose-950/40 border border-rose-400/40 text-rose-300 shadow-[0_2px_12px_rgba(251,113,133,0.35)]'
+                ? 'bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-dark-800 border border-emerald-500/30 text-emerald-300'
+                : 'bg-gradient-to-br from-rose-500/20 via-pink-500/10 to-dark-800 border border-rose-500/30 text-rose-300'
             }`}>
-              <span className="absolute inset-x-1.5 top-0.5 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full blur-[0.5px] pointer-events-none" />
               {editData ? (
-                <SquarePen size={16} strokeWidth={2.4} className="relative z-10" />
+                <SquarePen size={16} strokeWidth={2.4} />
               ) : (
-                <Plus size={17} strokeWidth={2.6} className="relative z-10" />
+                <Plus size={17} strokeWidth={2.4} />
               )}
             </div>
             <div>
@@ -129,26 +128,18 @@ const TransactionModal = ({ isOpen, onClose, onSubmit, editData = null, defaultT
                   key={t}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, type: t, category: '' }))}
-                  className={`relative py-2.5 rounded-xl text-xs font-semibold capitalize transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+                  className={`py-2 rounded-xl text-xs font-semibold capitalize transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
                     form.type === t
                       ? t === 'income'
-                        ? 'bg-gradient-to-r from-emerald-500/25 via-teal-500/20 to-emerald-600/10 text-emerald-300 border border-emerald-400/40 shadow-[0_2px_12px_rgba(45,212,191,0.25)] ring-1 ring-inset ring-white/15'
-                        : 'bg-gradient-to-r from-rose-500/25 via-pink-500/20 to-rose-600/10 text-rose-300 border border-rose-400/40 shadow-[0_2px_12px_rgba(251,113,133,0.25)] ring-1 ring-inset ring-white/15'
+                        ? 'bg-gradient-to-r from-emerald-500/20 via-teal-500/15 to-emerald-600/10 text-emerald-300 border border-emerald-500/30 shadow-xs'
+                        : 'bg-gradient-to-r from-rose-500/20 via-pink-500/15 to-rose-600/10 text-rose-300 border border-rose-500/30 shadow-xs'
                       : 'text-text-muted hover:text-text-secondary hover:bg-dark-700/40'
                   }`}
                 >
                   {t === 'income' ? (
-                    <ArrowDown
-                      size={14}
-                      strokeWidth={2.6}
-                      className={form.type === t ? 'drop-shadow-[0_2px_6px_rgba(45,212,191,0.6)]' : ''}
-                    />
+                    <ArrowDown size={14} strokeWidth={2.4} />
                   ) : (
-                    <ArrowUp
-                      size={14}
-                      strokeWidth={2.6}
-                      className={form.type === t ? 'drop-shadow-[0_2px_6px_rgba(251,113,133,0.6)]' : ''}
-                    />
+                    <ArrowUp size={14} strokeWidth={2.4} />
                   )}
                   <span>{t}</span>
                 </button>
