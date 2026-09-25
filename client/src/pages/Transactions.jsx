@@ -11,10 +11,15 @@ import {
   Pen,
   Trash2,
   FilterX,
+  Search,
+  Calendar,
+  ArrowDown,
+  ArrowUp,
 } from 'lucide-react';
 
 const Transactions = () => {
   const [filters, setFilters] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
@@ -49,8 +54,16 @@ const Transactions = () => {
   };
 
   const hasActiveFilters = Boolean(
-    filters.type || filters.startDate || filters.endDate
+    filters.type || filters.startDate || filters.endDate || searchQuery
   );
+
+  const displayedTransactions = transactions.filter((tx) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    const note = (tx.note || '').toLowerCase();
+    const catName = (tx.category?.name || '').toLowerCase();
+    return note.includes(q) || catName.includes(q);
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -60,7 +73,11 @@ const Transactions = () => {
         <div>
           <h1 className="text-2xl font-bold text-text-primary tracking-tight">Transactions</h1>
           <p className="text-xs text-text-muted mt-1">
-            {loading ? "Loading records..." : `${transactions.length} total transaction${transactions.length === 1 ? '' : 's'} recorded`}
+            {loading ? "Loading records..." : (
+              searchQuery || hasActiveFilters
+                ? `Showing ${displayedTransactions.length} of ${transactions.length} transactions`
+                : `${transactions.length} total transaction${transactions.length === 1 ? '' : 's'} recorded`
+            )}
           </p>
         </div>
 
@@ -76,69 +93,119 @@ const Transactions = () => {
         </button>
       </div>
 
-      {/* Filter Toolbar */}
-      <div className="card-sm flex items-center justify-between gap-3 flex-wrap bg-dark-800/90 border-dark-600/80">
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap flex-1">
-          <div className="flex items-center gap-2 text-text-muted text-xs font-medium mr-1">
-            <Filter size={13} strokeWidth={2} />
-            <span className="hidden sm:inline">Filter:</span>
+      {/* Fluid Floating Filter & Control Toolbar */}
+      <div className="bg-dark-800/80 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-dark-600/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+        {/* Left Side: Type Pills & Date Range */}
+        <div className="flex items-center gap-2.5 flex-wrap flex-1">
+          {/* Segmented Type Toggle Pills */}
+          <div className="flex items-center bg-dark-900/70 p-1 rounded-xl border border-dark-600/50">
+            <button
+              type="button"
+              onClick={() => setFilters((p) => ({ ...p, type: undefined }))}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                !filters.type
+                  ? 'bg-dark-700 text-text-primary shadow-xs'
+                  : 'text-text-muted hover:text-text-secondary'
+              }`}
+            >
+              All Types
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilters((p) => ({ ...p, type: 'income' }))}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                filters.type === 'income'
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-xs'
+                  : 'text-text-muted hover:text-emerald-400'
+              }`}
+            >
+              <ArrowDown size={12} strokeWidth={2.4} />
+              <span>Income</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilters((p) => ({ ...p, type: 'expense' }))}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer ${
+                filters.type === 'expense'
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30 shadow-xs'
+                  : 'text-text-muted hover:text-rose-400'
+              }`}
+            >
+              <ArrowUp size={12} strokeWidth={2.4} />
+              <span>Expense</span>
+            </button>
           </div>
 
-          {/* Type Filter */}
-          <select
-            value={filters.type || ""}
-            className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-3 py-2 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
-            onChange={(e) =>
-              setFilters((p) => ({ ...p, type: e.target.value || undefined }))
-            }
-          >
-            <option value="">All Types</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-
-          {/* Date Range Start */}
-          <div className="flex items-center gap-1.5 text-xs text-text-muted">
-            <span className="text-[11px] hidden sm:inline">From:</span>
+          {/* Integrated Date Range Pill */}
+          <div className="flex items-center gap-1.5 bg-dark-900/70 px-3 py-1.5 rounded-xl border border-dark-600/50 text-xs">
+            <Calendar size={13} strokeWidth={2} className="text-text-muted flex-shrink-0" />
             <input
               type="date"
+              aria-label="Start date"
               value={filters.startDate || ""}
-              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
-              onChange={(e) =>
-                setFilters((p) => ({
-                  ...p,
-                  startDate: e.target.value || undefined,
-                }))
-              }
+              onChange={(e) => setFilters((p) => ({ ...p, startDate: e.target.value || undefined }))}
+              className="bg-transparent text-xs text-text-primary outline-none cursor-pointer [color-scheme:dark] w-28"
             />
-          </div>
-
-          {/* Date Range End */}
-          <div className="flex items-center gap-1.5 text-xs text-text-muted">
-            <span className="text-[11px] hidden sm:inline">To:</span>
+            <span className="text-text-muted text-xs select-none">→</span>
             <input
               type="date"
+              aria-label="End date"
               value={filters.endDate || ""}
-              className="bg-dark-750 border border-dark-600/80 text-text-primary text-xs rounded-xl px-2.5 py-1.5 outline-none focus:border-primary-500/60 focus:ring-1 focus:ring-primary-500/30 transition-all cursor-pointer"
-              onChange={(e) =>
-                setFilters((p) => ({
-                  ...p,
-                  endDate: e.target.value || undefined,
-                }))
-              }
+              onChange={(e) => setFilters((p) => ({ ...p, endDate: e.target.value || undefined }))}
+              className="bg-transparent text-xs text-text-primary outline-none cursor-pointer [color-scheme:dark] w-28"
             />
+            {(filters.startDate || filters.endDate) && (
+              <button
+                type="button"
+                onClick={() => setFilters((p) => ({ ...p, startDate: undefined, endDate: undefined }))}
+                className="text-text-muted hover:text-expense-400 transition-colors p-0.5 cursor-pointer"
+                title="Clear date range"
+              >
+                <X size={12} strokeWidth={2} />
+              </button>
+            )}
           </div>
         </div>
 
-        {hasActiveFilters && (
-          <button
-            onClick={() => setFilters({})}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-expense-400 hover:bg-expense-500/10 transition-colors cursor-pointer"
-          >
-            <X size={13} strokeWidth={2} />
-            <span>Reset Filters</span>
-          </button>
-        )}
+        {/* Right Side: Live Search & Reset */}
+        <div className="flex items-center gap-2">
+          {/* Live Search Bar */}
+          <div className="relative flex-1 sm:w-56">
+            <Search size={13} strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+            <input
+              type="text"
+              placeholder="Search notes / category..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-dark-900/70 border border-dark-600/50 rounded-xl pl-8.5 pr-7 py-1.5 text-xs text-text-primary placeholder:text-text-muted outline-none focus:border-primary-500/50 transition-all"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary cursor-pointer"
+              >
+                <X size={12} strokeWidth={2} />
+              </button>
+            )}
+          </div>
+
+          {/* Reset Filters Pill */}
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={() => {
+                setFilters({});
+                setSearchQuery('');
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-expense-400 bg-expense-500/10 hover:bg-expense-500/20 border border-expense-500/25 transition-all cursor-pointer flex-shrink-0"
+              title="Reset all filters"
+            >
+              <RotateCcw size={12} strokeWidth={2.2} />
+              <span className="hidden sm:inline">Reset</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Transactions Table / List Container */}
@@ -166,7 +233,7 @@ const Transactions = () => {
               </div>
             ))}
           </div>
-        ) : transactions.length === 0 ? (
+        ) : displayedTransactions.length === 0 ? (
           <div className="text-center py-16 px-4">
             <div className="w-12 h-12 rounded-2xl bg-dark-750 border border-dark-600 flex items-center justify-center mx-auto mb-3 text-text-muted">
               <FilterX size={22} strokeWidth={1.8} />
@@ -174,12 +241,16 @@ const Transactions = () => {
             <h3 className="text-sm font-semibold text-text-primary">No transactions found</h3>
             <p className="text-xs text-text-muted max-w-sm mx-auto mt-1 mb-4">
               {hasActiveFilters
-                ? "No records match your selected filters. Try broadening your date range or reset filters."
+                ? "No records match your selected filters or search query. Try broadening your criteria or reset filters."
                 : "You haven't recorded any transactions yet. Click below to add your first one."}
             </p>
             {hasActiveFilters ? (
               <button
-                onClick={() => setFilters({})}
+                type="button"
+                onClick={() => {
+                  setFilters({});
+                  setSearchQuery('');
+                }}
                 className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold cursor-pointer"
               >
                 <RotateCcw size={12} strokeWidth={2} />
@@ -197,7 +268,7 @@ const Transactions = () => {
           </div>
         ) : (
           <div className="divide-y divide-dark-600/40">
-            {transactions.map((tx) => (
+            {displayedTransactions.map((tx) => (
               <div
                 key={tx._id}
                 className="group grid grid-cols-1 sm:grid-cols-[2fr_1fr_1fr_1.2fr_70px] items-center p-3.5 sm:px-5 hover:bg-dark-750/50 transition-colors gap-2 sm:gap-4"
